@@ -1,0 +1,15 @@
+# Optional separate HTTPS host for Missing AI's /mcp and /api endpoints.
+# Static frontend stays on GitHub Pages. Render free instances can sleep.
+services:
+  - type: web
+    name: missing-ai-mcp
+    runtime: node
+    plan: free
+    region: frankfurt
+    branch: main
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
