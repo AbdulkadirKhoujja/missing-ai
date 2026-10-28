@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#070b16">
+<meta name="description" content="Missing AI finds source requirements that an AI response may have overlooked. Compare documents, URLs and AI outputs with clear evidence.">
+<title>Missing AI — Find what AI missed.</title>
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./styles.css">
+</head><body>
+<header class="topbar"><a class="brand" href="./" aria-label="Missing AI home"><span class="brandmark">M<span class="dot">•</span></span><span>missing<span class="accent">ai</span></span></a><nav><a href="#how">How it works</a><a href="#checker">Checker</a><a href="#integrations">Integrations</a><a href="https://github.com/AbdulkadirKhoujja/missing-ai" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav></header>
+<main>
+<section class="hero"><div class="eyebrow"><span class="pulse"></span> OPEN SOURCE · FREE TO USE · EARLY RELEASE</div><h1>AI gave you an answer.<br><em>What did it miss?</em></h1><p class="hero-text">Compare an AI response against the original requirements. Surface overlooked instructions, missing context and gaps worth checking — with a link back to the evidence.</p><div class="hero-actions"><a class="primary" href="#checker">Check an AI response <span>↗</span></a><a class="secondary" href="#how">See how it works ↓</a></div><div class="proof"><span><b>01</b> Original source</span><span class="dash"></span><span><b>02</b> AI output</span><span class="dash"></span><span><b>03</b> Gap report</span></div></section>
+<section id="checker" class="workspace"><div class="section-top"><div><div class="mini-title">THE CHECKER</div><h2>Nothing gets overlooked<br>without a second look.</h2></div><span class="version">LEXICAL ENGINE / V0.1</span></div>
+<div class="workspace-grid"><div class="editor-stack">
+<div class="panel"><div class="panel-title"><span class="step">01</span><h3>Original requirements</h3><span class="hint">What AI was supposed to follow</span></div>
+<div class="urlrow"><input id="source-url" type="url" placeholder="https://example.com/requirements" aria-label="Source webpage URL"><button id="load-url" type="button" class="smallbtn">Load URL</button></div>
+<textarea id="source-text" spellcheck="false" placeholder="Or paste the original assignment, brief, requirements or checklist here…
+
+- Must verify signed webhooks
+- Include a cancellation flow
+- Provide an accessible mobile interface"></textarea><div class="panel-foot"><small id="source-length">0 characters</small><small id="url-status" role="status">Only publicly accessible text/HTML pages can be loaded.</small></div></div>
+<div class="panel"><div class="panel-title"><span class="step">02</span><h3>AI result</h3><span class="hint">What the AI produced or claimed</span></div><textarea id="output-text" spellcheck="false" placeholder="Paste ChatGPT, Claude, Codex or any other AI-generated response here…"></textarea><div class="panel-foot"><small id="output-length">0 characters</small><button type="button" id="example-btn" class="textbtn">Try a sample ↗</button></div></div>
+<div class="actionbar"><p>Free, no login. Pasted text is checked locally in your browser. Loading a URL requests a separate service.</p><button id="check-btn" class="primary submit" type="button">Find what AI missed <span>↗</span></button></div>
+</div><aside class="result-panel" id="results" aria-live="polite"><div class="result-empty"><div class="scan-icon">⌕</div><div class="mini-title">AWAITING INPUT</div><h3>See the gaps,<br>not just the answer.</h3><p>Your analysis will appear here. We highlight source requirements that aren't clearly reflected in the AI output.</p><div class="sample-card"><span>EXAMPLE FINDING</span><strong>Missing from output?</strong><p>“Must verify signed webhooks”</p><small>Source line 1 · Needs your review</small></div></div></aside></div></section>
+<section id="how" class="explain"><div class="mini-title">BUILT FOR THE MOMENT AFTER AI ANSWERS</div><h2>Trust is earned through evidence.</h2><div class="feature-grid"><article><div class="feature-no">01 / SOURCE</div><h3>Start with what mattered</h3><p>Paste requirements, checklists or public webpage text. Source lines remain visible alongside each finding.</p></article><article><div class="feature-no">02 / COMPARE</div><h3>Find potential omissions</h3><p>A transparent lexical pass shows which requirements are clearly repeated, likely mentioned or need human review.</p></article><article><div class="feature-no">03 / VERIFY</div><h3>Keep your judgement</h3><p>Missing AI never claims an implementation is absent just because its wording differs. Confirm the important gaps yourself.</p></article></div></section>
+<section id="integrations" class="integrations"><div><div class="mini-title">USE IT WHERE YOU ALREADY WORK</div><h2>One checker.<br>Across your AI tools.</h2><p>ChatGPT and Claude connectors use the same open-source engine through a remote MCP endpoint. Custom installation requires the separately hosted service.</p><a href="https://github.com/AbdulkadirKhoujja/missing-ai#connectors" class="secondary">Connector setup on GitHub ↗</a></div><div class="integration-card"><div>ChatGPT <span>REMOTE MCP</span></div><div>Claude <span>REMOTE MCP</span></div><div>Web app <span>GITHUB PAGES</span></div></div></section>
+<section class="disclaimer"><strong>Important:</strong> This initial release uses lexical comparison, not semantic verification. It can flag paraphrased requirements as possible omissions, cannot assess code or documents it hasn't received, and cannot replace your own review. Do not paste secrets, confidential client information or sensitive personal data.</section>
+</main><footer><div class="brand">M<span class="dot">•</span> missing<span class="accent">ai</span></div><p>Find what AI missed. Built in the open.</p><a href="https://github.com/AbdulkadirKhoujja/missing-ai">Source & licence ↗</a></footer>
+<script src="./config.js"></script><script type="module" src="./app.js"></script>
+</body></html>
