@@ -1,0 +1,14 @@
+# Example additional Caddy site block, not a replacement for Orchestryn's Caddyfile.
+# BEFORE enabling: configure DNS for missing-ai-api.orchestryn.com to resolve to
+# the existing Hetzner host and confirm free disk/CPU/RAM, TLS and firewall.
+# Never expose the container port 3101 publicly.
+missing-ai-api.orchestryn.com {
+    encode zstd gzip
+    @missingai path /health /api/check /api/fetch /mcp
+    handle @missingai {
+        reverse_proxy 127.0.0.1:3101
+    }
+    handle {
+        respond "Not found" 404
+    }
+}

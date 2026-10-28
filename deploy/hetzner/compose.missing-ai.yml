@@ -1,0 +1,39 @@
+# Standalone Compose project. Never pass this as an overlay to Orchestryn's compose.
+# Run from Missing AI repo: docker compose -f deploy/hetzner/compose.missing-ai.yml up -d --build
+name: missing-ai
+services:
+  api:
+    build:
+      context: ../..
+      dockerfile: deploy/hetzner/Dockerfile
+    image: missing-ai-api:local
+    container_name: missing-ai-api
+    ports:
+      - "127.0.0.1:3101:3101"
+    environment:
+      NODE_ENV: production
+      PORT: "3101"
+      # Only explicit HTTPS browser origins. The app defaults to GitHub Pages.
+      ALLOWED_ORIGINS: https://abdulkadirkhoujja.github.io
+    read_only: true
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,size=32m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 100
+    mem_limit: 256m
+    cpus: 0.5
+    networks:
+      - missing_ai
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
+networks:
+  missing_ai:
+    driver: bridge
+    internal: false # Public HTTPS webpage fetching needs egress; no Orchestryn network attached.
