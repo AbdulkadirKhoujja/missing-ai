@@ -14,7 +14,8 @@
     "benchmark:candidate": "node scripts/evaluate-coverage.mjs --candidate",
     "benchmark:candidate:json": "node scripts/evaluate-coverage.mjs --candidate --json",
     "benchmark:challenge": "node scripts/evaluate-coverage.mjs --challenge",
-    "benchmark:candidate:challenge": "node scripts/evaluate-coverage.mjs --candidate --challenge"
+    "benchmark:candidate:challenge": "node scripts/evaluate-coverage.mjs --candidate --challenge",
+    "benchmark:semantic": "node scripts/score-semantic-benchmark.mjs"
   },
   "description": "Source-backed AI omission and requirement coverage checker"
 }
