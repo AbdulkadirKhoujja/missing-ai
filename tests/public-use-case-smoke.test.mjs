@@ -58,3 +58,17 @@ test("lexical-v1 flags every case; results are not independent semantic scores",
  assert.ok(covered.every(r=>r.lexical.findings[0].status==="needs_review"));
  for(const part of [a,b])assert.ok(part.limitations.some(x=>/not independently|not a representative/i.test(x)));
 });
+
+test("draft website shows six categories and twelve inspectable case details without calling them accurate",()=>{
+ const page=readFileSync(new URL("../site/benchmarks/index.html",import.meta.url),"utf8");
+ const home=readFileSync(new URL("../site/index.html",import.meta.url),"utf8");
+ assert.match(page,/id="six-use-case-smoke"/);
+ assert.equal((page.match(/<details>/g)||[]).length,12);
+ assert.match(page,/Missed source obligation/);
+ assert.match(page,/not independently verified errors/);
+ assert.match(page,/deployed source revision could not be independently established/);
+ assert.match(page,/observed-part-a\.json/);
+ assert.match(page,/observed-part-b\.json/);
+ for(const word of ["WRITING","RESEARCH","ADVICE","EDUCATION","BUSINESS","CODING"])assert.ok(home.includes(word));
+ assert.match(home,/benchmarks\/#six-use-case-smoke/);
+});
