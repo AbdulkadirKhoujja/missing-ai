@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "annotation_status": "later_authored_synthetic_challenge_not_blind_not_independent",
+  "scope": "answer_coverage_not_implementation_truth",
+  "cases": [
+    {
+      "id": "C001",
+      "domain": "payments",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must require a signature check for incoming Stripe callbacks.",
+      "ai_output": "All incoming payment notifications are authenticated against the Stripe signing key before acknowledgement."
+    },
+    {
+      "id": "C002",
+      "domain": "payments",
+      "kind": "contradiction",
+      "gold": "omitted",
+      "source_text": "- Must support issuing refunds after a rejected payment.",
+      "ai_output": "Rejected payments show an explanatory banner, but money cannot be returned from this workflow."
+    },
+    {
+      "id": "C003",
+      "domain": "payments",
+      "kind": "ambiguous",
+      "gold": "uncertain",
+      "source_text": "- Must ensure no payment is captured without customer consent.",
+      "ai_output": "Payment safety is central to our design."
+    },
+    {
+      "id": "C004",
+      "domain": "bookings",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must avoid accepting two bookings for one seat.",
+      "ai_output": "The database blocks competing reservations against the same capacity allocation."
+    },
+    {
+      "id": "C005",
+      "domain": "bookings",
+      "kind": "negation",
+      "gold": "omitted",
+      "source_text": "- Must send confirmation emails after workshop registration.",
+      "ai_output": "Registered participants see a success screen but receive no messages."
+    },
+    {
+      "id": "C006",
+      "domain": "bookings",
+      "kind": "contradiction",
+      "gold": "omitted",
+      "source_text": "- Must expire unpaid booking holds after thirty minutes.",
+      "ai_output": "The hold duration is unlimited, including when checkout is abandoned."
+    },
+    {
+      "id": "C007",
+      "domain": "accounts",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must let a user delete their profile.",
+      "ai_output": "The account settings have a permanent profile removal action."
+    },
+    {
+      "id": "C008",
+      "domain": "accounts",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must require a second factor to sign into accounts.",
+      "ai_output": "Only an email and password are needed at login."
+    },
+    {
+      "id": "C009",
+      "domain": "accounts",
+      "kind": "ambiguous",
+      "gold": "uncertain",
+      "source_text": "- Must lock accounts after five failed authentication attempts.",
+      "ai_output": "User logins are protected with modern security controls."
+    },
+    {
+      "id": "C010",
+      "domain": "accessibility",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must allow screen-reader users to identify required fields.",
+      "ai_output": "Required inputs include an accessible label and their required state is announced."
+    },
+    {
+      "id": "C011",
+      "domain": "accessibility",
+      "kind": "contradiction",
+      "gold": "omitted",
+      "source_text": "- Must preserve visible focus rings on clickable controls.",
+      "ai_output": "The CSS sets outline: none for every interactive element."
+    },
+    {
+      "id": "C012",
+      "domain": "accessibility",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must provide captions for all instructional videos.",
+      "ai_output": "The demonstration clips are silent and have no subtitle tracks."
+    },
+    {
+      "id": "C013",
+      "domain": "research",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must include the source link for every research statistic.",
+      "ai_output": "Every statistic is followed by a hyperlink to its originating dataset."
+    },
+    {
+      "id": "C014",
+      "domain": "research",
+      "kind": "contradiction",
+      "gold": "omitted",
+      "source_text": "- Must distinguish evidence from speculation in the report.",
+      "ai_output": "The report presents the author's guesses as established findings."
+    },
+    {
+      "id": "C015",
+      "domain": "research",
+      "kind": "ambiguous",
+      "gold": "uncertain",
+      "source_text": "- Must independently validate the survey sample size.",
+      "ai_output": "The figures were checked where possible."
+    },
+    {
+      "id": "C016",
+      "domain": "writing",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must conclude the letter by thanking the recipient.",
+      "ai_output": "The closing paragraph expresses gratitude to the person reading it."
+    },
+    {
+      "id": "C017",
+      "domain": "writing",
+      "kind": "contradiction",
+      "gold": "omitted",
+      "source_text": "- Must avoid making unsupported promises about delivery dates.",
+      "ai_output": "The email guarantees a release on Friday even though the schedule has not been confirmed."
+    },
+    {
+      "id": "C018",
+      "domain": "writing",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must include the applicant's LinkedIn profile in the introduction.",
+      "ai_output": "The applicant's experience and portfolio are described, but no social profile appears."
+    },
+    {
+      "id": "C019",
+      "domain": "everyday",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must not include shellfish in the recipe.",
+      "ai_output": "Every ingredient is free of shrimp, prawns, and other crustaceans."
+    },
+    {
+      "id": "C020",
+      "domain": "everyday",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must reserve thirty minutes for a walking break.",
+      "ai_output": "The schedule consists of back-to-back seated meetings with no time between them."
+    },
+    {
+      "id": "C021",
+      "domain": "everyday",
+      "kind": "ambiguous",
+      "gold": "uncertain",
+      "source_text": "- Must make the weekly meal plan nutritionally balanced.",
+      "ai_output": "Here are seven meals I selected for the week."
+    },
+    {
+      "id": "C022",
+      "domain": "source_urls",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must consult the linked course rubric before planning the project.",
+      "ai_output": "I read the assessment criteria at the provided webpage before drafting the schedule."
+    },
+    {
+      "id": "C023",
+      "domain": "source_urls",
+      "kind": "contradiction",
+      "gold": "omitted",
+      "source_text": "- Must cite the latest version of the regulator's policy.",
+      "ai_output": "The report explicitly refers to an older superseded policy."
+    },
+    {
+      "id": "C024",
+      "domain": "source_urls",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must include the downloadable annex referenced on the page.",
+      "ai_output": "The response summarises the page itself but does not examine the attached annex."
+    },
+    {
+      "id": "C025",
+      "domain": "documents",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must remove rows with repeated transaction identifiers.",
+      "ai_output": "Duplicate transaction entries were eliminated from the exported workbook."
+    },
+    {
+      "id": "C026",
+      "domain": "documents",
+      "kind": "contradiction",
+      "gold": "omitted",
+      "source_text": "- Must retain zero-prefixed customer identifiers when exporting CSV.",
+      "ai_output": "CSV conversion changed 00123 into 123."
+    },
+    {
+      "id": "C027",
+      "domain": "documents",
+      "kind": "ambiguous",
+      "gold": "uncertain",
+      "source_text": "- Must reconcile the opening cash balance to the closing ledger.",
+      "ai_output": "I completed the spreadsheet and saved the file."
+    },
+    {
+      "id": "C028",
+      "domain": "safety",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must refuse inbound requests targeting the server's loopback interface.",
+      "ai_output": "Connections to 127.0.0.1 are blocked by the fetch filter."
+    },
+    {
+      "id": "C029",
+      "domain": "safety",
+      "kind": "contradiction",
+      "gold": "omitted",
+      "source_text": "- Must avoid exposing API tokens in debug output.",
+      "ai_output": "The debug console prints raw bearer credentials for troubleshooting."
+    },
+    {
+      "id": "C030",
+      "domain": "safety",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must require approval before deleting an organisation's records.",
+      "ai_output": "Administrators can immediately purge every record without a confirmation step."
+    }
+  ]
+}
