@@ -6,7 +6,7 @@ const directive=/\b(?:must|shall|required|requires?|need(?:s)? to|should|have to
 const imperative=/^(?:include|check|test|verify|validate|provide|allow|support|prevent|publish|ensure|make sure|run|avoid|keep|retain|remove|delete|use|fix|review|start|implement|record|log|restrict|reject|document|compare|send|create|export|ignore)\b/i;
 // "Issue" is also a common noun ("issue number", "issue tracker");
 // recognise only explicit document/payment issuance actions here, not every "Issue ..." bullet.
-const issuanceImperative=/^issue\\s+(?:(?:a|an|the|all|each|every)\\s+)?(?:(?:payment|training|completion|customer|tax|credit)\\s+)?(?:receipts?|refunds?|invoices?|certificates?|permits?|notices?|statements?|credit\\s+notes?)\\b/i;
+const issuanceImperative=/^issue\s+(?:(?:a|an|the|all|each|every)\s+)?(?:(?:payment|training|completion|customer|tax|credit)\s+)?(?:receipts?|refunds?|invoices?|certificates?|permits?|notices?|statements?|credit\s+notes?)\b/i;
 const isImperative=text=>imperative.test(text)||issuanceImperative.test(text);
 const footers=/^(?:further reading|related guides|useful resources|additional resources|updates to this page|change history|changelog|references|about this page)$/i;
 const bullet=/^\s*(?:[-*•]\s+|\d{1,3}[.)]\s+|\[[ xX]\]\s*)/;
