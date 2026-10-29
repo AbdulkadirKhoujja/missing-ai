@@ -18,7 +18,7 @@ test("sitemap extraction refuses duplicates, mismatched origins or incomplete UR
  const xml='<urlset><loc>'+Array.from({length:7},(_,i)=>base+"page-"+i).join('</loc><loc>')+'</loc></urlset>';
  assert.equal(extractSitemapUrls(xml).length,7);
  assert.throws(()=>extractSitemapUrls(xml.replace("page-6","page-5")),/seven unique/);
- assert.throws(()=>extractSitemapUrls(xml.replace("page-3","https://evil.example.com/test")),/URL mismatch/);
+ assert.throws(()=>extractSitemapUrls(xml.replace(base+"page-3","https://evil.example.com/test")),/URL mismatch/);
 });
 test("proof validation precedes any remote notification",async()=>{
  const calls=[];
