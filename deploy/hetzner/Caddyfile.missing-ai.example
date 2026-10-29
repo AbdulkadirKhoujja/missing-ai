@@ -6,7 +6,10 @@ missing-ai-api.orchestryn.com {
     encode zstd gzip
     @missingai path /health /api/check /api/fetch /mcp
     handle @missingai {
-        reverse_proxy 127.0.0.1:3101
+        reverse_proxy 127.0.0.1:3101 {
+            # Never pass through a browser-supplied forwarded IP.
+            header_up X-Forwarded-For {remote_host}
+        }
     }
     handle {
         respond "Not found" 404
