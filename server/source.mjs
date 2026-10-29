@@ -62,6 +62,34 @@ export function pinnedIPv4Lookup(address) {
   };
 }
 
+// Discover links embedded in page content, but NEVER fetch them automatically.
+// All URLs are merely untrusted, non-authoritative review suggestions.
+export function extractPublicLinks(html,baseUrl,max=40){
+ const main=String(html||"").match(/<main\b[^>]*>([\s\S]*?)<\/main>/i);
+ const content=main?main[1]:String(html||"");
+ const candidates=[],seen=new Set();
+ const tags=/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi;
+ let count=0;
+ for(const match of content.matchAll(tags)){
+  if(++count>800)break;
+  const attr=match[1].match(/\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i);
+  if(!attr)continue;
+  const href=(attr[1]??attr[2]??attr[3]??"").replace(/&amp;/gi,"&").trim();
+  if(!href||href.startsWith("#"))continue;
+  const label=htmlToText(match[2]).replace(/\s+/g," ").trim().slice(0,160);
+  if(label.length<4)continue;
+  let resolved;
+  try{resolved=validatePublicUrl(new URL(href,baseUrl).href);}catch{continue;}
+  const url=resolved.href;
+  if(url===new URL(baseUrl).href||seen.has(url))continue;
+  seen.add(url);
+  const relevant=/\b(?:requirements?|rubric|assessment|criteria|accessibility|testing|audit|wcag|statement|assisti(?:ve|ng)|research|guidance|service standard|policy|documentation|specification|standards?|design|technical)\b/i.test(label);
+  candidates.push({url,label,source:"page_link_unreviewed",score:relevant?2:1,index:count});
+ }
+ candidates.sort((a,b)=>b.score-a.score||a.index-b.index);
+ return candidates.slice(0,Math.max(0,Math.min(max,80))).map(({url,label,source})=>({url,label,source}));
+}
+
 export async function fetchPublicSource(input,remaining=3) {
   const url=validatePublicUrl(input),address=await resolvePublicAddress(url.hostname);
   return new Promise((resolve,reject)=>{
@@ -80,7 +108,7 @@ export async function fetchPublicSource(input,remaining=3) {
         const raw=Buffer.concat(chunks).toString("utf8");
         const text=ct.startsWith("text/plain")?raw.slice(0,30000):htmlToText(raw);
         if(!text.trim())return reject(new Error("No readable page text was found."));
-        resolve({url:url.href,text,content_type:ct});
+        resolve({url:url.href,text,content_type:ct,links:ct.startsWith("text/html")?extractPublicLinks(raw,url.href):[]});
       });
     });
     req.on("timeout",()=>req.destroy(new Error("Page fetch timed out.")));
