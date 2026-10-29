@@ -116,3 +116,9 @@ The public API blocks non-HTTPS and local/private URL targets, pins resolved add
 ## License
 
 [MIT](LICENSE) © 2026 Abdul Khoujja. No endorsement by ChatGPT/OpenAI, Claude/Anthropic or GOV.UK is implied. Their names refer only to compatible AI-host workflows.
+
+## Public benchmarks and safe open source
+
+See the [public benchmark page](https://abdulkadirkhoujja.github.io/missing-ai/benchmarks/) for reproducible **author-labelled synthetic** checker results and links to read-only daily GitHub Actions receipts. These numbers are **not independently verified accuracy rates**. The semantic host/duplicate benchmark still requires independent human adjudication; the [review gate](https://github.com/AbdulkadirKhoujja/missing-ai/issues/29) remains open.
+
+Outside developers and users are welcome to improve Missing AI within the [OPEN / REVIEW / CLOSED disclosure boundaries](docs/OPEN_SOURCE_BOUNDARIES.md). Production credentials, real client material, private infrastructure, unreported vulnerabilities, live network configurations and sensitive test data must stay outside public repositories and reports. See [daily operations](docs/DAILY_OPERATIONS.md). CODEOWNERS is an ownership hint; enforce required approvals with GitHub branch protection settings.
