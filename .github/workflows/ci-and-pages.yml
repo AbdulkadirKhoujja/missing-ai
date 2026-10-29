@@ -24,6 +24,10 @@ jobs:
         run: npm run benchmark
       - name: Measure candidate coverage separately (not deployed)
         run: npm run benchmark:candidate
+      - name: Challenge suite on v1 baseline
+        run: npm run benchmark:challenge
+      - name: Challenge suite on v2 candidate
+        run: npm run benchmark:candidate:challenge
       - name: Assemble static website
         run: |
           mkdir -p _site/shared
