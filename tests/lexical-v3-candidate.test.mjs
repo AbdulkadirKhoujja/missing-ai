@@ -54,3 +54,15 @@ test("guardrail: realistic covered paraphrases should be flagged less aggressive
  console.log("V3_PARAPHRASE_STATUS "+JSON.stringify(outputs));
  assert.ok(outputs.filter(x=>x!=="needs_review").length>=2,"candidate should handle at least two held-out paraphrases");
 });
+
+test("guardrail: future deadlines and restricted roles cannot quietly count as coverage",()=>{
+ const cases=[
+  ["- Must finish the accessibility audit before public beta.",
+   "The accessibility audit is scheduled after public beta."],
+  ["- Must allow users to delete their account.",
+   "Only administrators can delete user accounts from settings."],
+ ];
+ for(const [src,out] of cases){
+  assert.equal(checkMissingV3(src,out).findings[0].status,"needs_review",src);
+ }
+});
