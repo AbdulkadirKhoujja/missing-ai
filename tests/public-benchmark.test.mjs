@@ -32,7 +32,7 @@ test("public daily summary cannot claim semantic accuracy or deployment of candi
  assert.match(s,/lexical-v1 published checker/);
  assert.match(s,/lexical-v2 EXPERIMENTAL candidate/);
  assert.match(s,/not code correctness, semantic truth, or real-world accuracy/i);
- assert.match(s,/issue\/29/);
+ assert.match(s,/issues\/29/);
  assert.doesNotMatch(s,/100% accurate|independently verified accuracy|lexical-v2 production/i);
 });
 test("invalid benchmark release revision is rejected",()=>{
