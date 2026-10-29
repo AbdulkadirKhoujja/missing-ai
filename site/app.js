@@ -25,3 +25,33 @@ if(!api){status.textContent="URL loading isn't configured yet. Paste the page co
 button.disabled=true;status.textContent="Loading public webpage…";
 try{const res=await fetch(api+"/api/fetch",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({url:el("source-url").value})});const body=await res.json();if(!res.ok||!body.ok)throw new Error(body.error||"Source unavailable");source.value=body.text;source.dispatchEvent(new Event("input"));status.textContent="Loaded "+body.url+". Review the extracted text before checking.";}catch(err){status.textContent="Could not load URL: "+err.message+". Paste text instead.";}finally{button.disabled=false;}
 });
+
+const exampleJump=el("example-jump");
+if(exampleJump)exampleJump.addEventListener("click",()=>{
+  source.value="- Must provide payment receipts.\n- Allow customers to cancel bookings.";
+  output.value="Payment receipts have not been implemented. Customers can cancel bookings from their dashboard.";
+  source.dispatchEvent(new Event("input"));
+  el("check-btn").click();
+  el("checker").scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
+});
+const copyPrompt=el("copy-mcp-prompt");
+if(copyPrompt)copyPrompt.addEventListener("click",async()=>{
+  const message=[
+    "Use the connected Missing AI prepare_bundle and validate_bundle tools for this review.",
+    "Read only the public HTTPS URLs I select and compare them with my supplied AI answer.",
+    "Group only genuinely equivalent requirements while preserving all original source references.",
+    "Distinguish mandatory, recommended, conditional and contextual guidance.",
+    "For covered or contradicted claims, quote the answer verbatim with exact character offsets.",
+    "Do not claim independent implementation or semantic verification.",
+    "",
+    "Selected public source URLs: [paste up to three public URLs]",
+    "AI answer: [paste an answer with no confidential or personal data]"
+  ].join("\n");
+  const status=el("copy-prompt-status");
+  try{
+    await navigator.clipboard.writeText(message);
+    status.textContent="Prompt copied. Use only non-sensitive public-source material in the controlled beta.";
+  }catch{
+    status.textContent="Copy unavailable. Open the example workflow in the GitHub documentation instead.";
+  }
+});
