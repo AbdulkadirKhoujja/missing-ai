@@ -1,0 +1,385 @@
+{
+  "schema": "missing-ai-six-use-case-live-smoke-part-v1",
+  "group": "A",
+  "observed_at_utc": "2026-10-29T18:44:36.270Z",
+  "live_mcp_deployment_sha": "NOT_ESTABLISHED",
+  "repo_main_sha_for_context": "7ca259161e0ffef48a4f4fff547a133e218eea44",
+  "comparison_type": "two independently distinct engines: host-assisted connected MCP and check_missing lexical tool; tool schema not independent ground truth",
+  "human_ground_truth": "NONE",
+  "limitations": [
+    "Proposed semantic labels authored by ChatGPT and not independently scored.",
+    "A successful validator checks only extracted IDs and exact quote offsets, not original-source completeness or meaning.",
+    "Project-authored fixtures are not a representative sample or a sealed holdout."
+  ],
+  "rows": [
+    {
+      "id": "W01",
+      "category": "Writing & editing",
+      "fixture": {
+        "source_text": "- Include the meeting date and location in the invitation.",
+        "ai_output": "The invitation says the meeting is on Tuesday at 10 am.",
+        "synthetic_explicit_bullets": 1
+      },
+      "author_proposed_judgment": "not_clearly_mentioned",
+      "reason": "The answer mentions a meeting time but does not state a location; the combined requirement is only partially addressed.",
+      "prepare": {
+        "status": "success",
+        "protocol": "evidence-review-v1",
+        "count": 1,
+        "requirements": [
+          {
+            "id": "R01",
+            "text": "Include the meeting date and location in the invitation.",
+            "line": 1
+          }
+        ]
+      },
+      "validate": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "claimed_covered": 0,
+          "contradicted": 0,
+          "not_clearly_mentioned": 1,
+          "cannot_determine": 0
+        },
+        "validation": {
+          "all_requirement_ids_present": true,
+          "all_supplied_quotes_exact": true,
+          "semantic_accuracy_verified": false,
+          "implementation_verified": false
+        },
+        "evidence": []
+      },
+      "lexical": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "text_found": 0,
+          "likely_mentioned": 0,
+          "needs_review": 1
+        },
+        "findings": [
+          {
+            "id": "R01",
+            "text": "Include the meeting date and location in the invitation.",
+            "line": 1,
+            "status": "needs_review",
+            "coverage": 50,
+            "matched_terms": [
+              "meeting",
+              "invitation"
+            ],
+            "unmatched_terms": [
+              "date",
+              "location"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "W02",
+      "category": "Writing & editing",
+      "fixture": {
+        "source_text": "- Ask the recipient to reply to the email.",
+        "ai_output": "Please get back to me by Friday.",
+        "synthetic_explicit_bullets": 1
+      },
+      "author_proposed_judgment": "claimed_covered",
+      "reason": "The answer requests a reply in different words without demonstrating an actual sent email.",
+      "prepare": {
+        "status": "success",
+        "protocol": "evidence-review-v1",
+        "count": 0,
+        "requirements": []
+      },
+      "validate": {
+        "status": "not_attempted_extraction_incomplete"
+      },
+      "lexical": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "text_found": 0,
+          "likely_mentioned": 0,
+          "needs_review": 1
+        },
+        "findings": [
+          {
+            "id": "R01",
+            "text": "Ask the recipient to reply to the email.",
+            "line": 1,
+            "status": "needs_review",
+            "coverage": 0,
+            "matched_terms": [],
+            "unmatched_terms": [
+              "ask",
+              "recipient",
+              "reply",
+              "email"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "R01",
+      "category": "Research & information",
+      "fixture": {
+        "source_text": "- Provide the publication year and source link for the report.",
+        "ai_output": "The report was published in 2024.",
+        "synthetic_explicit_bullets": 1
+      },
+      "author_proposed_judgment": "not_clearly_mentioned",
+      "reason": "The answer gives a year but contains no source link required by the combined instruction.",
+      "prepare": {
+        "status": "success",
+        "protocol": "evidence-review-v1",
+        "count": 1,
+        "requirements": [
+          {
+            "id": "R01",
+            "text": "Provide the publication year and source link for the report.",
+            "line": 1
+          }
+        ]
+      },
+      "validate": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "claimed_covered": 0,
+          "contradicted": 0,
+          "not_clearly_mentioned": 1,
+          "cannot_determine": 0
+        },
+        "validation": {
+          "all_requirement_ids_present": true,
+          "all_supplied_quotes_exact": true,
+          "semantic_accuracy_verified": false,
+          "implementation_verified": false
+        },
+        "evidence": []
+      },
+      "lexical": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "text_found": 0,
+          "likely_mentioned": 0,
+          "needs_review": 1
+        },
+        "findings": [
+          {
+            "id": "R01",
+            "text": "Provide the publication year and source link for the report.",
+            "line": 1,
+            "status": "needs_review",
+            "coverage": 20,
+            "matched_terms": [
+              "report"
+            ],
+            "unmatched_terms": [
+              "publication",
+              "year",
+              "source",
+              "link"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "R02",
+      "category": "Research & information",
+      "fixture": {
+        "source_text": "- Distinguish correlation from proven causation in the summary.",
+        "ai_output": "The variables move together, but this does not prove that one causes the other.",
+        "synthetic_explicit_bullets": 1
+      },
+      "author_proposed_judgment": "claimed_covered",
+      "reason": "The answer explicitly differentiates observed association from causal proof; the claim itself was not independently verified.",
+      "prepare": {
+        "status": "success",
+        "protocol": "evidence-review-v1",
+        "count": 0,
+        "requirements": []
+      },
+      "validate": {
+        "status": "not_attempted_extraction_incomplete"
+      },
+      "lexical": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "text_found": 0,
+          "likely_mentioned": 0,
+          "needs_review": 1
+        },
+        "findings": [
+          {
+            "id": "R01",
+            "text": "Distinguish correlation from proven causation in the summary.",
+            "line": 1,
+            "status": "needs_review",
+            "coverage": 0,
+            "matched_terms": [],
+            "unmatched_terms": [
+              "distinguish",
+              "correlation",
+              "proven",
+              "causation",
+              "summary"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "P01",
+      "category": "Advice & planning",
+      "fixture": {
+        "source_text": "- Keep the total itinerary cost below £50.",
+        "ai_output": "Museum £30 and dinner £25. The total is £55.",
+        "synthetic_explicit_bullets": 1
+      },
+      "author_proposed_judgment": "contradicted",
+      "reason": "The answer states a total exceeding the strict fictional £50 budget.",
+      "prepare": {
+        "status": "success",
+        "protocol": "evidence-review-v1",
+        "count": 1,
+        "requirements": [
+          {
+            "id": "R01",
+            "text": "Keep the total itinerary cost below £50.",
+            "line": 1
+          }
+        ]
+      },
+      "validate": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "claimed_covered": 0,
+          "contradicted": 1,
+          "not_clearly_mentioned": 0,
+          "cannot_determine": 0
+        },
+        "validation": {
+          "all_requirement_ids_present": true,
+          "all_supplied_quotes_exact": true,
+          "semantic_accuracy_verified": false,
+          "implementation_verified": false
+        },
+        "evidence": [
+          {
+            "quote": "The total is £55.",
+            "start": 27,
+            "end": 44,
+            "verified_in_answer": true
+          }
+        ]
+      },
+      "lexical": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "text_found": 0,
+          "likely_mentioned": 0,
+          "needs_review": 1
+        },
+        "findings": [
+          {
+            "id": "R01",
+            "text": "Keep the total itinerary cost below £50.",
+            "line": 1,
+            "status": "needs_review",
+            "coverage": 20,
+            "matched_terms": [
+              "total"
+            ],
+            "unmatched_terms": [
+              "keep",
+              "itinerary",
+              "cost",
+              "below"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "P02",
+      "category": "Advice & planning",
+      "fixture": {
+        "source_text": "- Avoid appointments after 18:00.",
+        "ai_output": "The dentist appointment is at 19:00.",
+        "synthetic_explicit_bullets": 1
+      },
+      "author_proposed_judgment": "contradicted",
+      "reason": "A 19:00 appointment violates the fictional no-appointments-after-18:00 constraint.",
+      "prepare": {
+        "status": "success",
+        "protocol": "evidence-review-v1",
+        "count": 1,
+        "requirements": [
+          {
+            "id": "R01",
+            "text": "Avoid appointments after 18:00.",
+            "line": 1
+          }
+        ]
+      },
+      "validate": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "claimed_covered": 0,
+          "contradicted": 1,
+          "not_clearly_mentioned": 0,
+          "cannot_determine": 0
+        },
+        "validation": {
+          "all_requirement_ids_present": true,
+          "all_supplied_quotes_exact": true,
+          "semantic_accuracy_verified": false,
+          "implementation_verified": false
+        },
+        "evidence": [
+          {
+            "quote": "The dentist appointment is at 19:00.",
+            "start": 0,
+            "end": 36,
+            "verified_in_answer": true
+          }
+        ]
+      },
+      "lexical": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "text_found": 0,
+          "likely_mentioned": 0,
+          "needs_review": 1
+        },
+        "findings": [
+          {
+            "id": "R01",
+            "text": "Avoid appointments after 18:00.",
+            "line": 1,
+            "status": "needs_review",
+            "coverage": 0,
+            "matched_terms": [],
+            "unmatched_terms": [
+              "avoid",
+              "appointments",
+              "after"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
