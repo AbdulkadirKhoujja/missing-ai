@@ -10,7 +10,9 @@
     "start": "node server/index.mjs",
     "test": "node --test tests/*.test.mjs",
     "benchmark": "node scripts/evaluate-coverage.mjs",
-    "benchmark:json": "node scripts/evaluate-coverage.mjs --json"
+    "benchmark:json": "node scripts/evaluate-coverage.mjs --json",
+    "benchmark:candidate": "node scripts/evaluate-coverage.mjs --candidate",
+    "benchmark:candidate:json": "node scripts/evaluate-coverage.mjs --candidate --json"
   },
   "description": "Source-backed AI omission and requirement coverage checker"
 }
