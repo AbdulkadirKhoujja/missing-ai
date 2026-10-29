@@ -8,6 +8,14 @@ let latest=null;
 }));
 function node(tag,text,className){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e}
 function warning(message){results.replaceChildren();const wrap=node("div",undefined,"results-view");wrap.append(node("div","CHECK NOT COMPLETED","mini-title"),node("h3",message),node("p","Try pasting a shorter, complete set of requirements and the AI output.","result-note"));results.append(wrap);}
+function textReport(report){
+ const lines=["Missing AI — lexical report", "", "Matches are based on overlapping terms, not semantic proof. A flagged item may actually be satisfied.", "", `Needs review: ${report.summary.needs_review}; likely mentioned: ${report.summary.likely_mentioned}; text found: ${report.summary.text_found}`, ""];
+ for(const finding of report.findings){
+  lines.push(`${finding.id} · Source line ${finding.line ?? "unknown"} · ${finding.status}`,finding.text,"");
+ }
+ lines.push(report.limitations);
+ return lines.join("\n");
+}
 function present(report){results.replaceChildren();const wrap=node("div",undefined,"results-view");
 wrap.append(node("div","YOUR GAP REPORT","mini-title"),node("h3",report.summary.needs_review+" item(s) need a second look"),node("p","Matches are based on overlapping terms, not semantic proof. A flagged item may actually be satisfied.","result-note"));
 const counts=node("div",undefined,"result-counts");for(const [key,label] of [["needs_review","Review"],["likely_mentioned","Mentioned"],["text_found","Exact"]]){const block=node("div",undefined,"count");block.append(node("strong",String(report.summary[key])),node("span",label));counts.append(block);}wrap.append(counts);
@@ -15,6 +23,10 @@ for(const f of report.findings){const item=node("article",undefined,"finding "+f
 if(!report.findings.length)wrap.append(node("p","No checklist-style requirements were extracted. Try a source with bullets or explicit instructions.","result-note"));
 const caveat=node("p",report.limitations,"result-note");wrap.append(caveat);
 const copy=node("button","Copy report as JSON","copy-btn");copy.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(JSON.stringify(report,null,2));copy.textContent="Copied ✓"}catch{copy.textContent="Copy failed — browser permission required"}});wrap.append(copy);
+const textCopy=node("button","Copy report as text","copy-btn");textCopy.type="button";
+const copyStatus=node("p","","result-note");copyStatus.setAttribute("role","status");
+textCopy.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(textReport(report));copyStatus.textContent="Text report copied."}catch{copyStatus.textContent="Could not copy text report. Check clipboard permission and try again."}});
+wrap.append(textCopy,copyStatus);
 results.append(wrap);
 }
 el("check-btn").addEventListener("click",()=>{try{latest=checkMissing(source.value,output.value);present(latest);results.scrollIntoView({behavior:"smooth",block:"nearest"});}catch(e){warning(e.message);}});
