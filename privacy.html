@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070b16">
+<title>Data handling — Missing AI</title><meta name="description" content="How the Missing AI browser checker and optional beta connector handle text and public URLs.">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg"><link rel="stylesheet" href="./styles.css"></head>
+<body><header class="topbar"><a class="brand" href="./" aria-label="Missing AI home"><span class="brandmark">M<span class="dot">•</span></span><span>missing<span class="accent">ai</span></span></a><nav><a href="./#checker">Try it free</a><a href="./#faq">Questions</a><a href="https://github.com/AbdulkadirKhoujja/missing-ai" rel="noopener noreferrer">Source code ↗</a></nav></header>
+<main class="privacy-main"><div class="mini-title">PUBLIC BETA · DATA HANDLING</div><h1>Know what leaves your browser.</h1>
+<p><strong>Updated 29 October 2026.</strong> This is a practical explanation of current product behaviour, not an independently audited legal privacy notice. No account is required to try the free website.</p>
+<h2>1. Paste and compare in the web checker</h2>
+<p>When you paste requirements and an AI answer into the free browser checker and click the check button, the text is compared locally by JavaScript in that browser session. The website does not intentionally submit that pasted text to the Missing AI backend for this check. It is not saved to a Missing AI account. Your own browser, device, clipboard and extensions remain outside Missing AI's control.</p>
+<h2>2. Import a public URL</h2>
+<p>When you press <strong>Load URL</strong>, your selected URL is submitted to a separately hosted Missing AI fetch service. That service requests readable public HTTPS webpage content and returns the extracted text to your browser. The web checker does not automatically follow every link to other documents. Only public HTML/plain-text URLs are supported; private networks, login-required pages and PDF files are not supported by this importer.</p>
+<h2>3. Use the optional ChatGPT or Claude MCP connector</h2>
+<p>When a connected AI host calls Missing AI's remote MCP tools, the relevant source text, selected public source URLs and AI answers may be transmitted to the remote service. The host platform has its own data handling terms, and infrastructure providers may generate access or operational logs. The beta does not provide an independently audited retention period, encrypted-at-rest assurance, or confidential-data guarantee.</p>
+<h2>4. Retention, analytics and limitations</h2>
+<p>The open-source application code has no user registration, paid plans, saved checking history or built-in third-party visitor analytics. The fact that the application does not intentionally persist checked text is <strong>not</strong> a guarantee that hosting, application logs, reverse proxies, network intermediaries or the AI host store nothing. No independent privacy audit has been completed.</p>
+<h2>5. What not to submit</h2>
+<p>Do not paste credentials, private client documents, medical or financial information, personal identifiers, private repositories or other confidential source material into the public beta site, URL importer or remote MCP. For sensitive work, assess and self-host the open-source code in infrastructure under your control.</p>
+<h2>6. Questions and rights</h2>
+<p>For non-sensitive questions, open a <a href="https://github.com/AbdulkadirKhoujja/missing-ai/issues/new/choose">GitHub issue</a>. Issues are public: do not include confidential details or identifiable personal data. For security disclosures, follow the <a href="https://github.com/AbdulkadirKhoujja/missing-ai/blob/main/SECURITY.md">security policy</a>. A private privacy-contact process and audited deletion/retention procedures must be established before broader remote-service promotion.</p>
+<p><a href="./">← Return to the free checker</a></p></main>
+<footer><div class="brand">M<span class="dot">•</span> missing<span class="accent">ai</span></div><p>Free, open source, early beta.</p><div class="footer-links"><a href="./">Home</a><a href="https://github.com/AbdulkadirKhoujja/missing-ai">GitHub</a></div></footer></body></html>
