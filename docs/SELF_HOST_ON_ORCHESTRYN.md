@@ -52,12 +52,22 @@ Merge with CI proof; verify GitHub Pages homepage, browser-side check, URL impor
 
 **Connectors:** Add the same `https://missing-ai-api.orchestryn.com/mcp` endpoint as a remote custom MCP connector in supported ChatGPT and Claude accounts. Installation in each application and any public directory listing require separate real client-side validation/approval. Anonymous remote MCP is for a controlled beta only; add robust authentication, edge rate limits, abuse monitoring and a privacy assessment before promoting it broadly.
 
+## Updating the running sidecar
+
+Once a new revision has passed CI, use the reviewed, immutable old and new Git SHAs. Do not run the first-install script against an existing container.
+
+```bash
+sudo bash /opt/missing-ai/deploy/hetzner/upgrade-local.sh <OLD_SHA> <NEW_SHA>
+```
+
+This script is intentionally committed in the updated release and should be read and reviewed before first use. It checks both the current Missing AI container and the existing four Orchestryn services, changes **only** the Missing AI Compose project, verifies the new local health, and retains a tagged copy of the previous image for rollback. It does not edit Caddy, DNS, Orchestryn Compose, secrets, tasks, or user data. For the initial upgrade from the October 28 pinned v0.1 deployment, consult the exact commands and reviewed SHA in the handoff.
+
 ## Security and reliability boundaries
 
 - Resource limits are set in the independent Compose service; monitor for contention with Orchestryn and stop this sidecar first if needed.
 - The service has no Docker socket, no privileged mode, no shared volume, no Orchestryn secrets, a non-root user and read-only root filesystem.
 - URL retrieval blocks non-HTTPS schemes, obvious private-IP targets and private DNS destinations, pins the resolved public IP during TLS fetches, enforces redirect revalidation, timeouts and size limits. Continue security testing: URL-fetching is sensitive functionality and should be considered experimental until a dedicated review.
-- The backend's basic in-memory rate limiter currently keys to socket address. Behind a reverse proxy, forwarded user IP handling and edge abuse protection **must be reviewed and fixed before broad public use** to avoid treating all users as one IP or trusting spoofed headers.
+- The in-memory rate limiter keys by the request's verified loopback Caddy peer + a Caddy-overwritten `X-Forwarded-For` client IP. Only a loopback peer may supply that identity; remote users cannot set it directly. Preserve the exact `header_up X-Forwarded-For {remote_host}` line in the sample Caddy vhost, and do not expose the Node backend to the public network. This is a beta-only rate limiter, not distributed abuse protection; add edge quotas and monitoring before scaling.
 - Source web pages are untrusted input; never execute or adopt their embedded instructions.
 - The current service intentionally uses no AI provider, persistent storage or usage telemetry. The hosting provider and Caddy may still log metadata. Do not send private assignments, credentials or sensitive personal data to the public endpoint.
 - Always deploy this as its **own Compose project**. The Orchestryn `deploy/compose.yml` is a *replacement* stack and must not be changed or combined for this feature.

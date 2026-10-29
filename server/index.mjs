@@ -1,4 +1,5 @@
 import http from "node:http";
+import net from "node:net";
 import {pathToFileURL} from "node:url";
 import {checkMissing} from "../shared/checker.mjs";
 import {fetchPublicSource} from "./source.mjs";
@@ -8,7 +9,17 @@ const allowed=new Set(["https://abdulkadirkhoujja.github.io","https://chatgpt.co
 const rates=new Map();
 function json(res,status,value,headers={}){res.writeHead(status,{"content-type":"application/json; charset=utf-8","cache-control":"no-store",...headers});res.end(JSON.stringify(value));}
 function readBody(req){return new Promise((resolve,reject)=>{let bytes=0,parts=[];req.on("data",d=>{bytes+=d.length;if(bytes>100000){reject(new Error("Request too large."));req.destroy();return;}parts.push(d);});req.on("end",()=>{try{resolve(JSON.parse(Buffer.concat(parts).toString("utf8")))}catch{reject(new Error("Invalid JSON."));}});req.on("error",reject);});}
-function limited(req){const ip=(req.socket.remoteAddress||"unknown"),now=Date.now();let v=rates.get(ip);if(!v||now-v.since>3600000){v={since:now,count:0};rates.set(ip,v);}v.count++;if(rates.size>3000){for(const [k,a] of rates)if(now-a.since>3600000)rates.delete(k);}return v.count>120;}
+// Only the loopback-bound Caddy upstream is trusted for client identity.
+// The Caddy vhost explicitly OVERRIDES X-Forwarded-For with {remote_host}.
+export function clientId(req) {
+ const peer=req.socket.remoteAddress||"unknown";
+ if(peer==="127.0.0.1"||peer==="::1"||peer==="::ffff:127.0.0.1") {
+   const forwarded=String(req.headers["x-forwarded-for"]||"").split(",")[0].trim();
+   if(net.isIP(forwarded))return forwarded;
+ }
+ return peer;
+}
+function limited(req){const ip=clientId(req),now=Date.now();let v=rates.get(ip);if(!v||now-v.since>3600000){v={since:now,count:0};rates.set(ip,v);}v.count++;if(rates.size>3000){for(const [k,a] of rates)if(now-a.since>3600000)rates.delete(k);}return v.count>120;}
 const tools=[
  {name:"check_missing",description:"Compare original requirements to AI output and identify requirements needing review, with source-line provenance and lexical limitations. Does not prove correctness or actual missing implementation.",inputSchema:{type:"object",properties:{source_text:{type:"string",description:"Original requirements, pasted text (up to 30k characters). Omit when source_url is provided."},source_url:{type:"string",description:"Optional publicly accessible HTTPS requirements page. No login pages."},ai_output:{type:"string",description:"AI-generated answer or claimed result (up to 30k characters)."}},required:["ai_output"]}},
  {name:"fetch_source",description:"Retrieve readable text from one public HTTPS HTML/plain-text webpage for requirement checking. Blocks private IP ranges, credentials and non-HTTPS URLs.",inputSchema:{type:"object",properties:{url:{type:"string",description:"Public HTTPS source URL"}},required:["url"]}}
