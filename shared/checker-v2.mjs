@@ -80,7 +80,9 @@ function clauses(output){
   return lines.map(line=>{
     const idx=output.indexOf(line,start);
     start=(idx<0?start:idx)+line.length;
-    return {text:line.trim(),start:idx<0?0:idx,end:(idx<0?0:idx)+line.length,tokens:new Set(concepts(line))};
+    const trimmed=line.trim();
+    const offset=idx<0?0:idx+line.indexOf(trimmed);
+    return {text:trimmed,start:offset,end:offset+trimmed.length,tokens:new Set(concepts(trimmed))};
   }).filter(x=>x.text.length>0);
 }
 function evidenceFor(words,segments){
