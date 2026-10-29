@@ -52,6 +52,16 @@ Merge with CI proof; verify GitHub Pages homepage, browser-side check, URL impor
 
 **Connectors:** Add the same `https://missing-ai-api.orchestryn.com/mcp` endpoint as a remote custom MCP connector in supported ChatGPT and Claude accounts. Installation in each application and any public directory listing require separate real client-side validation/approval. Anonymous remote MCP is for a controlled beta only; add robust authentication, edge rate limits, abuse monitoring and a privacy assessment before promoting it broadly.
 
+## Updating the running sidecar
+
+Once a new revision has passed CI, use the reviewed, immutable old and new Git SHAs. Do not run the first-install script against an existing container.
+
+```bash
+sudo bash /opt/missing-ai/deploy/hetzner/upgrade-local.sh <OLD_SHA> <NEW_SHA>
+```
+
+This script is intentionally committed in the updated release and should be read and reviewed before first use. It checks both the current Missing AI container and the existing four Orchestryn services, changes **only** the Missing AI Compose project, verifies the new local health, and retains a tagged copy of the previous image for rollback. It does not edit Caddy, DNS, Orchestryn Compose, secrets, tasks, or user data. For the initial upgrade from the October 28 pinned v0.1 deployment, consult the exact commands and reviewed SHA in the handoff.
+
 ## Security and reliability boundaries
 
 - Resource limits are set in the independent Compose service; monitor for contention with Orchestryn and stop this sidecar first if needed.
