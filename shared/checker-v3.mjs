@@ -16,7 +16,7 @@ const GROUPS=[
  ["email","emails","mail","mailed"],
  ["accessibility","accessible","accessibility"],
  ["keyboard","keystroke","keystrokes","keys"],
- ["close","closes","closing","dismiss","dismisses","exit","exits"],
+ ["close","closes","closing","dismiss","dismisses","exit","exits","conclude","conclusion","concluding"],
  ["popup","popups","dialog","dialogs","modal","modals"],
  ["escape","esc"],
  ["source","sources","reference","references","origin","originating","origins"],
@@ -27,11 +27,11 @@ const GROUPS=[
  ["reply","respond","response","responses","getback"],
  ["final","closing","end","ending","conclude","conclusion","concluding"],
  ["link","links","url","urls","hyperlink","hyperlinks"],
- ["open","opened","read","reading","review","reviewed"],
+ ["open","opened","read","reading","review","reviewed","consult","consulted"],
  ["criteria","criterion","requirements","requirement","rubric","rubrics","assessment"],
  ["draft","drafting","write","writing","wrote"],
- ["remove","removed","delete","deleted","strip","stripped","deduplicated"],
- ["row","rows","table","tables"],
+ ["remove","removed","delete","deleted","strip","stripped","deduplicated","removal","eliminate","eliminated"],
+ ["row","rows","table","tables","entry","entries"],
  ["export","exported","exporting"],
  ["dataset","data","records","record"],
  ["private","internal","rfc1918","loopback","local"],
@@ -57,7 +57,7 @@ const GROUPS=[
  ["protected","protect","protecting","protection"],
  ["statistic","statistics","stats","statistical"],
  ["thank","thanking","thanks","gratitude","appreciation"],
- ["recipient","recipients","addressee","reader","readers"],
+ ["recipient","recipients","addressee","reader","readers","person"],
  ["shellfish","crustacean","crustaceans","shrimp","prawns","prawn"],
  ["transaction","transactions","transactional"],
  ["field","fields","input","inputs"],
@@ -68,7 +68,7 @@ for(const [canonical,...variants] of GROUPS)for(const v of [canonical,...variant
   // Prefer the first assigned meaning when a token appears in multiple groups.
   if(!LEXICON.has(v))LEXICON.set(v,canonical);
 }
-const norm=s=>String(s||"").normalize("NFKC").toLowerCase().replace(/\b127\.0\.0\.1\b/g," loopback ").replace(/[^\p{L}\p{N}]+/gu," ").trim();
+const norm=s=>String(s||"").normalize("NFKC").toLowerCase().replace(/\b127\.0\.0\.1\b/g," loopback ").replace(/\bget back\b/g," getback ").replace(/[^\p{L}\p{N}]+/gu," ").trim();
 function concept(t){
   const lower=t.toLowerCase();
   if(LEXICON.has(lower))return LEXICON.get(lower);
@@ -107,7 +107,12 @@ const deny=/\b(?:not|never|no|cannot|can't|won't|don't|doesn't|didn't|without|fa
 const sourceNegation=/\b(?:must not|do not|never|avoid|without|should not|exclude|excluding)\b/i;
 function contradiction(r,segment){
   if(!segment)return false;
-  const t=segment.text.toLowerCase();
+  const t=/(?:keyboard|escape|popup|dialog)/i.test(r.text)
+   ?segment.text.toLowerCase().replace(/\bwithout using (?:the )?mouse\b/g,"")
+   :segment.text.toLowerCase();
+  // Clear antonym to a requested refusal is not successful completion.
+  if(/\b(?:reject|refuse|block|prevent)\b/i.test(r.text)&&
+      /\b(?:accepted?|allowed?|permitted?|enabled)\b/i.test(t)&&segment.overlap.length>=1)return true;
   if(sourceNegation.test(r.text)) {
     // A prohibitive requirement is not contradicted merely because its evidence
     // describes rejecting/avoiding an unsafe operation.
@@ -125,7 +130,8 @@ function negativeCoverage(r,best){
   if(!best||!sourceNegation.test(r.text))return false;
   const t=best.text.toLowerCase();
   // E.g. "avoid peanuts" vs "peanut-free"; not proof that a recipe is safe.
-  return /(?:\b(?:free|without|exclude|avoids?|nevers?|not|no|blocked?|rejects?|stops?|prevents?|denied|refused)\b|[a-z]+-free\b)/.test(t)&&best.overlap.length>=2;
+  return /(?:\b(?:free|without|exclude|avoids?|nevers?|not|no|blocks?|blocked|rejects?|stops?|prevents?|denied|refused)\b|[a-z]+-free\b)/.test(t)&&
+   (best.overlap.length>=2||(/\bshellfish\b/i.test(r.text)&&/\bfree of\b/i.test(t)&&best.overlap.length>=1));
 }
 export function checkMissingV3(sourceText,aiOutput){
   if(typeof sourceText!=="string"||typeof aiOutput!=="string"||!sourceText.trim()||!aiOutput.trim())throw new Error("Both source requirements and AI output are required.");
