@@ -5,7 +5,7 @@
 
 ## What was evaluated
 
-Two **author-labelled, synthetic, non-independent** suites. We are testing **answer wording coverage** rather than proof of software implementation, factual truth or regulatory compliance.
+Two **author-labelled, synthetic, non-independent** suites. These cases are not independently adjudicated. We are testing **answer wording coverage** rather than proof of software implementation, factual truth or regulatory compliance.
 
 - Reference: 60 cases across 10 domains, 20 covered / 30 omitted / 10 uncertain.
 - Supplementary challenge (created after the candidate code): 30 cases, 10 covered / 15 omitted / 5 uncertain. This is **not** a blind independent holdout.
