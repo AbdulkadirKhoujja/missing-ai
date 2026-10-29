@@ -8,7 +8,7 @@ test("MCP tool listing and check via JSON-RPC",async()=>{
  const post=body=>fetch(url,{method:"POST",headers:{accept:"application/json, text/event-stream","content-type":"application/json"},body:JSON.stringify(body)}).then(r=>r.json());
  const init=await post({jsonrpc:"2.0",id:1,method:"initialize",params:{protocolVersion:"2025-06-18"}});
  assert.equal(init.result.serverInfo.name,"missing-ai");
- const list=await post({jsonrpc:"2.0",id:2,method:"tools/list"});assert.deepEqual(list.result.tools.map(t=>t.name),["check_missing","fetch_source","prepare_review","validate_review"]);
+ const list=await post({jsonrpc:"2.0",id:2,method:"tools/list"});assert.deepEqual(list.result.tools.map(t=>t.name),["check_missing","fetch_source","prepare_review","validate_review","prepare_bundle","validate_bundle"]);
  const call=await post({jsonrpc:"2.0",id:3,method:"tools/call",params:{name:"check_missing",arguments:{source_text:"- Must verify signed webhooks",ai_output:"Added homepage."}}});
  assert.equal(call.result.structuredContent.summary.needs_review,1);
  }finally{server.close();}
