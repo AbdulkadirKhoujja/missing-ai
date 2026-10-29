@@ -40,6 +40,12 @@ The public site, API and MCP currently use **lexical-v1**. This is a cautious fi
 - [Experiment 001](docs/phase2-experiment-001.md) records false alarms of **8/10 covered challenge cases (80%)** for the candidate. It is **not promoted** despite improvements on the reference suite.
 - Both datasets are author-labelled rather than blind, human-adjudicated real-world measurements. Do not advertise their figures as representative accuracy.
 
+## Evidence-first host semantic review (Phase 2 candidate)
+
+The codebase now includes two additional **MCP-candidate** tools, `prepare_review` and `validate_review`. These must undergo isolated deployment and live tool discovery before being called available on the public server. Read the [workflow specification](docs/evidence-first-review.md).
+
+ChatGPT or Claude (the host model) interprets answer meaning. Missing AI **only validates exact answer quotations, requirement IDs, input limits and structural completeness**, never semantic accuracy or whether work was actually implemented. The existing `check_missing` and `fetch_source` tools remain backward compatible, and the static web checker stays local lexical-v1. No new external model API, API key, telemetry or automatic submission of browser-pasted text is added.
+
 ## Local development (Node.js 22+)
 
 ```bash
