@@ -3,7 +3,7 @@
 # No modifications to Blue, Green, Orchestryn, Caddy or DNS.
 set -Eeuo pipefail
 umask 077
-sha="\${1:-}"
+sha="${1:-}"
 repo=/opt/missing-ai
 root=/opt/missing-ai-amber
 baseline=92af431428f7035467b088165c96797500a7939b
