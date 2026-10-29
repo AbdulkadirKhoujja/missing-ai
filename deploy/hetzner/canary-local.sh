@@ -38,6 +38,10 @@ if docker container inspect "$name" >/dev/null 2>&1; then
   echo "CANARY_REFUSED: test container name already exists" >&2
   exit 78
 fi
+if docker image inspect "$tag" >/dev/null 2>&1; then
+  echo "CANARY_REFUSED: test image tag already exists" >&2
+  exit 78
+fi
 tmp="$(mktemp -d)"
 started=0
 cleanup() {
