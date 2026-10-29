@@ -186,6 +186,22 @@
       "title": "Common assistive technology support reiterated",
       "source_excerpt": "You must also make sure your service works with common assistive technologies",
       "strength": "mandatory"
+    },
+    {
+      "id": "A13",
+      "source_id": "G1",
+      "source_ref": "S01:R12",
+      "title": "Recruitment agency listed as an example",
+      "source_excerpt": "a recruitment agency to help you find participants",
+      "strength": "context_only"
+    },
+    {
+      "id": "A14",
+      "source_id": "G1",
+      "source_ref": "S01:R13",
+      "title": "Expenses listed as optional recruitment-support example",
+      "source_excerpt": "expenses to help participants take part in research",
+      "strength": "context_only"
     }
   ],
   "scenarios": [
@@ -712,6 +728,32 @@
         "rationale": "Automated scans don't establish working with common assistive technologies."
       },
       "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C034",
+      "requirement_id": "A13",
+      "answer": "We recruited participants through our own user panel.",
+      "challenge": "example not a requirement",
+      "proposed": {
+        "judgment": "cannot_determine",
+        "strength": "context_only",
+        "evidence": [],
+        "rationale": "An external recruitment agency is only an example of an optional expense."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C035",
+      "requirement_id": "A14",
+      "answer": "Research participants joined remotely without paid taxis.",
+      "challenge": "example not a requirement",
+      "proposed": {
+        "judgment": "cannot_determine",
+        "strength": "context_only",
+        "evidence": [],
+        "rationale": "A taxi expense is not itself mandatory for every research session."
+      },
+      "review_state": "seed_unadjudicated"
     }
   ],
   "pairs": [
@@ -888,6 +930,17 @@
       "proposed": {
         "equivalent": false,
         "rationale": "Service Standard's general conditional requirements and specific user-testing obligation are not equivalent."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D017",
+      "left": "A13",
+      "right": "A14",
+      "challenge": "two different examples",
+      "proposed": {
+        "equivalent": false,
+        "rationale": "Different illustrative costs are neither obligatory nor equivalent."
       },
       "review_state": "seed_unadjudicated"
     }
