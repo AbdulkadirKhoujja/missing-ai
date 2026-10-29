@@ -52,7 +52,7 @@ test("structured data matches the visible free web tool and real guide content",
  }
 });
 test("every authored site page is mirrored for the root development server",()=>{
- for(const p of [...pages,"styles.css","sitemap.xml","feed.xml","robots.txt",key+".txt"]){
+ for(const p of [...pages,"styles.css","sitemap.xml","feed.xml","robots.txt","llms.txt",key+".txt"]){
   assert.ok(existsSync(new URL("site/"+p,root)),p);
   assert.equal(read("site/"+p),read(p),"mirror mismatch "+p);
  }
@@ -85,5 +85,13 @@ test("GitHub Pages copies static guides, sitemap, RSS and proof key",()=>{
  const workflow=read(".github/workflows/ci-and-pages.yml");
  assert.match(workflow,/mkdir -p _site\/shared _site\/guides/);
  assert.match(workflow,/cp site\/guides\/\*\.html _site\/guides\//);
- for(const s of ["site/sitemap.xml","site/robots.txt","site/feed.xml","site/"+key+".txt"])assert.ok(workflow.includes(s),s);
+ for(const s of ["site/sitemap.xml","site/robots.txt","site/feed.xml","site/llms.txt","site/"+key+".txt"])assert.ok(workflow.includes(s),s);
+});
+
+test("optional AI discovery file is transparent and makes no unsupported marketing claims",()=>{
+ const doc=read("site/llms.txt");
+ assert.match(doc,/optional human-readable discovery file/i);
+ assert.match(doc,/no indexing, ranking, chatbot-training, or citation guarantee/i);
+ assert.match(doc,/wording-based heuristics/i);
+ assert.match(doc,/not an officially listed plugin/i);
 });

@@ -1,0 +1,28 @@
+# Missing AI
+
+> Missing AI is a free MIT-licensed open-source checker for potential omissions in AI-generated answers. The public browser tool compares pasted requirements and answers using wording-based heuristics. Optional ChatGPT and Claude custom MCP beta tools support host-proposed semantic reviews with mechanical validation of exact answer quotes and source-reference accounting.
+
+Canonical website: https://abdulkadirkhoujja.github.io/missing-ai/
+Source repository: https://github.com/AbdulkadirKhoujja/missing-ai
+License: https://github.com/AbdulkadirKhoujja/missing-ai/blob/main/LICENSE
+Full guide index: https://abdulkadirkhoujja.github.io/missing-ai/guides/
+Data-handling limitations: https://abdulkadirkhoujja.github.io/missing-ai/privacy.html
+
+## Core concepts
+
+- Compare an AI answer with the original requirements or brief.
+- A source line highlighted by the web tool is a **candidate for human review**, not a verified semantic omission.
+- A host AI can classify claims as covered, contradicted, not clearly mentioned or indeterminate; those semantic judgments are not independently verified by the server.
+- The MCP validators check whether quotation offsets match the original supplied AI answer and whether every extracted source requirement reference is assessed.
+- No tool verifies actual code implementation, grading, factual truth, legal compliance or WCAG accessibility conformance.
+- Public URL import is limited to readable public HTTPS HTML/plain-text pages. Do not submit secrets, private assignments, client files, personal identifiers or sensitive information.
+- The public remote MCP is a controlled unauthenticated beta, not an officially listed plugin or a general-use privacy-certified production service.
+
+## Original guides
+
+- [How to check an AI answer against its instructions](https://abdulkadirkhoujja.github.io/missing-ai/guides/how-to-check-ai-answer.html)
+- [Check AI-assisted assignments against a rubric](https://abdulkadirkhoujja.github.io/missing-ai/guides/check-ai-assignment-against-rubric.html)
+- [Requirements coverage checklist for coding assistants](https://abdulkadirkhoujja.github.io/missing-ai/guides/requirements-coverage-checklist.html)
+- [Evidence of a claim versus implementation verification](https://abdulkadirkhoujja.github.io/missing-ai/guides/ai-answer-evidence-vs-verification.html)
+
+This optional human-readable discovery file is not a standard recognised by all search engines, and its publication makes no indexing, ranking, chatbot-training, or citation guarantee. Authoritative facts remain the visible pages and source code.

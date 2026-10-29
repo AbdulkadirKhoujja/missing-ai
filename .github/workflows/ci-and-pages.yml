@@ -31,7 +31,7 @@ jobs:
       - name: Assemble static website
         run: |
           mkdir -p _site/shared _site/guides
-          cp site/index.html site/privacy.html site/styles.css site/app.js site/config.js site/favicon.svg site/robots.txt site/sitemap.xml site/feed.xml site/0278792dd20355fb9998929be016b69950b85baa.txt _site/
+          cp site/index.html site/privacy.html site/styles.css site/app.js site/config.js site/favicon.svg site/robots.txt site/sitemap.xml site/feed.xml site/llms.txt site/0278792dd20355fb9998929be016b69950b85baa.txt _site/
           cp site/guides/*.html _site/guides/
           cp shared/checker.mjs _site/shared/checker.mjs
           touch _site/.nojekyll
