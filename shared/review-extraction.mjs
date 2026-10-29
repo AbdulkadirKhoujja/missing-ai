@@ -3,7 +3,7 @@
 // The host must still review contextual/conditional requirements and omissions.
 const normalize=s=>String(s||"").normalize("NFKC").toLowerCase().replace(/[^\p{L}\p{N}]+/gu," ").trim();
 const directive=/\b(?:must|shall|required|requires?|need(?:s)? to|should|have to)\b/i;
-const imperative=/^(?:include|check|test|verify|validate|provide|allow|support|prevent|publish|ensure|make sure|run|avoid|keep|retain|remove|delete|use|fix|review|start|implement|record|log|restrict|reject|document|compare|send|create|export)\b/i;
+const imperative=/^(?:include|check|test|verify|validate|provide|allow|support|prevent|publish|ensure|make sure|run|avoid|keep|retain|remove|delete|use|fix|review|start|implement|record|log|restrict|reject|document|compare|send|create|export|ignore)\b/i;
 const footers=/^(?:further reading|related guides|useful resources|additional resources|updates to this page|change history|changelog|references|about this page)$/i;
 const bullet=/^\s*(?:[-*•]\s+|\d{1,3}[.)]\s+|\[[ xX]\]\s*)/;
 const choice=/\b(?:either|one of|any one of|at least one of)\s*:?\s*$/i;
