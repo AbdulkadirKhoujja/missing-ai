@@ -6,7 +6,7 @@ const key="0278792dd20355fb9998929be016b69950b85baa";
 test("first introduction of notifier sends each sitemap URL once",()=>{
  const urls=notificationUrls(["scripts/notify-indexnow.mjs","site/index.html"]);
  assert.equal(urls.length,8);
- assert.equal(new Set(urls).size,7);
+ assert.equal(new Set(urls).size,8);
  assert.ok(urls.includes(base+"guides/"));
 });
 test("routine edits notify only their changed canonical pages",()=>{
@@ -17,7 +17,7 @@ test("routine edits notify only their changed canonical pages",()=>{
 test("sitemap extraction refuses duplicates, mismatched origins or incomplete URLs",()=>{
  const xml='<urlset><loc>'+Array.from({length:8},(_,i)=>base+"page-"+i).join('</loc><loc>')+'</loc></urlset>';
  assert.equal(extractSitemapUrls(xml).length,8);
- assert.throws(()=>extractSitemapUrls(xml.replace("page-7","page-6")),/eight unique/);
+ assert.throws(()=>extractSitemapUrls(xml.replace("page-7","page-6")),/8 unique/);
  assert.throws(()=>extractSitemapUrls(xml.replace(base+"page-3","https://evil.example.com/test")),/URL mismatch/);
 });
 test("proof validation precedes any remote notification",async()=>{
