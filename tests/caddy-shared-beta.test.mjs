@@ -33,6 +33,6 @@ test("script rejects unexpected Caddyfile and rolls back on failed live checks",
 });
 
 test("staged temporary Caddyfile must not be parsed as JSON",()=>{
- assert.match(script,/caddy validate --config "\\$staged" --adapter caddyfile/);
- assert.doesNotMatch(script,/caddy validate --config "\\$staged" >\\/dev\\/null/);
+ assert.ok(script.includes('caddy validate --config "$staged" --adapter caddyfile'));
+ assert.ok(!script.includes('caddy validate --config "$staged" >/dev/null'));
 });
