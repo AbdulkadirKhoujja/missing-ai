@@ -126,6 +126,17 @@ function contradiction(r,segment){
   const negatives=ts.map((word,i)=>({word,i})).filter(x=>/^(not|never|no|cannot|without|failed|fails|missing|omitted|omits|excluded|skipped|disabled|unavailable|unimplemented|dont|doesnt|didnt|cant|wont)$/.test(x.word));
   return positive.some(p=>negatives.some(n=>Math.abs(n.i-p.i)<=5));
 }
+function contextMismatch(requirement,evidence){
+ if(!evidence)return false;
+ const src=requirement.text.toLowerCase(),claim=evidence.text.toLowerCase();
+ // An after-public-beta plan does not satisfy an explicit before-public-beta deadline.
+ if(/\bbefore\b/.test(src)&&/\bafter\b/.test(claim)&&
+   /\b(?:beta|launch|release|deadline)\b/.test(src+" "+claim))return true;
+ // An administrator-only function does not necessarily give ordinary users the requested capability.
+ if(/\b(?:users|customers)\b/.test(src)&&
+   /\bonly\s+(?:staff|admins?|administrators?)\b/.test(claim))return true;
+ return false;
+}
 function negativeCoverage(r,best){
   if(!best||!sourceNegation.test(r.text))return false;
   const t=best.text.toLowerCase();
@@ -147,7 +158,7 @@ export function checkMissingV3(sourceText,aiOutput){
     const opposed=contradiction(r,selected);
     const negative=negativeCoverage(r,selected);
     const likely=(coverage>=0.59&&hits.length>=2)||negative;
-    const status=opposed?"needs_review":exact?"text_found":likely?"likely_mentioned":"needs_review";
+    const status=(opposed||contextMismatch(r,selected))?"needs_review":exact?"text_found":likely?"likely_mentioned":"needs_review";
     const evidence=selected?{text:selected.text,start:selected.start,end:selected.end}:null;
     return {...r,status,coverage:Math.round(coverage*100),
       matched_terms:words.filter(w=>hits.includes(w)).slice(0,8),
