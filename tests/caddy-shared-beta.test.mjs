@@ -21,7 +21,7 @@ test("script rejects unexpected Caddyfile and rolls back on failed live checks",
  "CADDY_CURRENT_MUST_MATCH",
  "CADDY_BACKUP=$backup",
  "MISSING_AI_CADDY_ROLLBACK_BEGIN",
- "caddy validate --config \"$staged\"",
+ "caddy validate --config \"$staged\" --adapter caddyfile",
  "systemctl reload caddy",
  "MISSING_AI_PUBLIC_HTTPS_HEALTH_PASS",
  "MISSING_AI_PUBLIC_API_CHECK_PASS",
@@ -30,4 +30,9 @@ test("script rejects unexpected Caddyfile and rolls back on failed live checks",
  "MISSING_AI_BROWSER_CORS_PASS"
  ])assert.ok(script.includes(x),x);
  assert.doesNotMatch(script,/docker\s+(stop|restart|rm)|docker compose|git checkout|systemctl\s+(restart|stop)\s+caddy/);
+});
+
+test("staged temporary Caddyfile must not be parsed as JSON",()=>{
+ assert.ok(script.includes('caddy validate --config "$staged" --adapter caddyfile'));
+ assert.ok(!script.includes('caddy validate --config "$staged" >/dev/null'));
 });

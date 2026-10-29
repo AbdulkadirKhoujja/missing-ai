@@ -78,7 +78,8 @@ api.orchestryn.com {
 CADDY
 chmod 0644 "$staged"
 chown root:root "$staged"
-caddy validate --config "$staged" >/dev/null
+# Staged file lacks the canonical Caddyfile basename; Caddy otherwise assumes JSON.
+caddy validate --config "$staged" --adapter caddyfile >/dev/null
 echo CADDY_CANDIDATE_VALID
 
 changed=1
