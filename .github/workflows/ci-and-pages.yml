@@ -30,8 +30,9 @@ jobs:
         run: npm run benchmark:candidate:challenge
       - name: Assemble static website
         run: |
-          mkdir -p _site/shared
-          cp site/index.html site/privacy.html site/styles.css site/app.js site/config.js site/favicon.svg _site/
+          mkdir -p _site/shared _site/guides
+          cp site/index.html site/privacy.html site/styles.css site/app.js site/config.js site/favicon.svg site/robots.txt site/sitemap.xml _site/
+          cp site/guides/*.html _site/guides/
           cp shared/checker.mjs _site/shared/checker.mjs
           touch _site/.nojekyll
       - name: Upload GitHub Pages artifact
