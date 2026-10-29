@@ -129,7 +129,7 @@ test("six everyday AI jobs: all twelve previously observed imperative instructio
  const packet=prepareEvidenceReview(sources.join("\n"),
   "This is a synthetic answer with no implementation evidence.");
  assert.equal(packet.requirements.length,12);
- assert.equal(packet.limitations.includes("independently verified"),true);
+ assert.match(packet.limitations,/does not verify code, facts, compliance/i);
 });
 test("imperative additions do not elevate common nouns, headings, links or examples",()=>{
  const source=[
