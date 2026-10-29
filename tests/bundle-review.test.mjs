@@ -92,3 +92,34 @@ test("cannot_determine may omit citations, but no implementation result is certi
  assert.equal(result.summary.cannot_determine,1);
  assert.equal(result.groups[0].grouping_semantically_verified,false);
 });
+
+test("two-source receipt requirement is extracted and cannot be silently omitted from validation",()=>{
+ const source1="- Validate webhook signatures before marking paid bookings confirmed.\n- Allow customers to cancel bookings.";
+ const source2="- Issue payment receipts for completed payments.\n- Include a support contact in receipts.";
+ const inputs=[{source_text:source1},{source_text:source2}];
+ const ai="Stripe events are checked using the signing secret. Customers can withdraw bookings from their dashboard. Payment receipts have not been implemented.";
+ const packet=prepareBundleReview(inputs,ai);
+ assert.equal(packet.totals.candidate_requirements,4);
+ assert.deepEqual(packet.sources.flatMap(s=>s.requirements.map(r=>r.ref)),[
+  "S01:R01","S01:R02","S02:R01","S02:R02"
+ ]);
+ assert.equal(packet.sources[1].requirements[0].text,"Issue payment receipts for completed payments.");
+ assert.equal(packet.sources[1].requirements[0].line,1);
+ const q1="Stripe events are checked using the signing secret.";
+ const q2="Customers can withdraw bookings from their dashboard.";
+ const q3="Payment receipts have not been implemented.";
+ const reviewed=[
+  {title:"Signed webhook ordering before paid confirmation",refs:["S01:R01"],obligation:"mandatory",judgment:"cannot_determine",reason:"The answer describes signature checks but not their timing relative to paid confirmation.",evidence:[]},
+  {title:"Customers can cancel their bookings",refs:["S01:R02"],obligation:"mandatory",judgment:"claimed_covered",reason:"The answer claims a dashboard withdrawal action.",evidence:[{quote:q2,start:ai.indexOf(q2)}]},
+  {title:"Issue receipts after completed payments",refs:["S02:R01"],obligation:"mandatory",judgment:"contradicted",reason:"The answer explicitly denies implemented payment receipts.",evidence:[{quote:q3,start:ai.indexOf(q3)}]},
+  {title:"Include customer support contact in receipts",refs:["S02:R02"],obligation:"mandatory",judgment:"not_clearly_mentioned",reason:"The answer does not specify contact information on a receipt.",evidence:[]}
+ ];
+ assert.throws(()=>validateBundleReview(inputs,ai,reviewed.slice(0,3)),/Missing: S02:R02/);
+ const valid=validateBundleReview(inputs,ai,reviewed);
+ assert.equal(valid.summary.candidate_requirements,4);
+ assert.equal(valid.summary.contradicted,1);
+ assert.equal(valid.validation.all_source_requirements_accounted_for,true);
+ assert.equal(valid.validation.implementation_verified,false);
+ assert.equal(valid.groups[2].evidence[0].start,ai.indexOf(q3));
+ assert.match(valid.report_markdown,/Issue receipts after completed payments/);
+});
