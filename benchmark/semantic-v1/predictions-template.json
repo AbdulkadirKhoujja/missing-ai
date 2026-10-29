@@ -1,0 +1,339 @@
+{
+  "schema": "missing-ai-semantic-predictions-v1",
+  "host": "REPLACE_WITH_HOST_AND_MODEL",
+  "instructions": "Fill ALL entries. Claimed covered/contradicted judgments require 1-3 verbatim answer quotes with zero-based starts. Do not reuse author seed labels. Use only the blind pack. This template cannot be scored until all placeholders are replaced.",
+  "scenario_predictions": [
+    {
+      "case_id": "C001",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C002",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C003",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C004",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C005",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C006",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C007",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C008",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C009",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C010",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C011",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C012",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C013",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C014",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C015",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C016",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C017",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C018",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C019",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C020",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C021",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C022",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C023",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C024",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C025",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C026",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C027",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C028",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C029",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C030",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C031",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C032",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C033",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C034",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "C035",
+      "judgment": null,
+      "strength": null,
+      "reason": "",
+      "evidence": []
+    }
+  ],
+  "pair_predictions": [
+    {
+      "pair_id": "D001",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D002",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D003",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D004",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D005",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D006",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D007",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D008",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D009",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D010",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D011",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D012",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D013",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D014",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D015",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D016",
+      "equivalent": null,
+      "reason": ""
+    },
+    {
+      "pair_id": "D017",
+      "equivalent": null,
+      "reason": ""
+    }
+  ]
+}
