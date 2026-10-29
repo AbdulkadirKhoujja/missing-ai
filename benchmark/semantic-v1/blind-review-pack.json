@@ -146,6 +146,20 @@
       "source_ref": "S02:R09",
       "title": "Common assistive technology support reiterated",
       "source_excerpt": "You must also make sure your service works with common assistive technologies"
+    },
+    {
+      "id": "A13",
+      "source_id": "G1",
+      "source_ref": "S01:R12",
+      "title": "Recruitment agency listed as an example",
+      "source_excerpt": "a recruitment agency to help you find participants"
+    },
+    {
+      "id": "A14",
+      "source_id": "G1",
+      "source_ref": "S01:R13",
+      "title": "Expenses listed as optional recruitment-support example",
+      "source_excerpt": "expenses to help participants take part in research"
     }
   ],
   "scenarios": [
@@ -346,6 +360,18 @@
       "requirement_id": "T08",
       "answer": "We ran automated accessibility checks, but have not assessed operation with assistive technologies.",
       "challenge": "checking is not operation"
+    },
+    {
+      "id": "C034",
+      "requirement_id": "A13",
+      "answer": "We recruited participants through our own user panel.",
+      "challenge": "example not a requirement"
+    },
+    {
+      "id": "C035",
+      "requirement_id": "A14",
+      "answer": "Research participants joined remotely without paid taxis.",
+      "challenge": "example not a requirement"
     }
   ],
   "pairs": [
@@ -444,6 +470,12 @@
       "left": "T01",
       "right": "T06",
       "challenge": "applicability vs child"
+    },
+    {
+      "id": "D017",
+      "left": "A13",
+      "right": "A14",
+      "challenge": "two different examples"
     }
   ]
 }
