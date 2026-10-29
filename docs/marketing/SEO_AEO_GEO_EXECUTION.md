@@ -26,6 +26,12 @@
 
 These are **content topics**, not measured search keywords. Search rankings, keyword difficulty, impression volumes and actual demand remain unverified.
 
+## Live publication evidence (29 October 2026)
+
+The GitHub Pages post-merge action passed. A fresh independent HTTP content read returned all **seven** intended pages with distinct titles and canonical URLs, and read both the 7-URL sitemap and 4-item RSS feed. The project-path public IndexNow proof file returned the exact expected 40-character key. **These are crawlability checks, not evidence of Google/Bing indexing or search traffic.**
+
+A first direct IndexNow URL-fetch attempt through a browser retrieval connector returned `invalid_redirect_url`, with no confirmed search-engine receipt. The next release adds `scripts/notify-indexnow.mjs` as an **after-Pages-deploy** GitHub Actions job: it checks the live key before making one JSON POST for the changed canonical URLs and logs an actual HTTP 200/202 receipt or an explicit failure. A first-time script addition sends the newly published set once; future changes notify only modified HTML pages. Do not count a queued CI run as an accepted notification.
+
 ## Indexing, AEO and GEO: what is real
 
 Google's current Search Central guidance says AI Overviews/AI Mode use normal indexing and helpful-content eligibility, **not a special required GEO schema or llms.txt file**. Technical metadata can aid understanding, but does not guarantee rankings or citations. Avoid synthetic backlink exchanges, keyword stuffing, spam directories, fake testimonials and mass AI-written thin pages.
