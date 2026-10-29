@@ -61,3 +61,17 @@
 .guide-index li{list-style:none}
 .guide-index a{text-decoration:none!important}
 @media(max-width:700px){.guide-preview,.guide-index{grid-template-columns:1fr}.guides-teaser,.guide-main{padding-left:19px;padding-right:19px}.guide-main h1{font-size:38px}.guide-main p,.guide-main li{font-size:15px}.guide-example,.guide-cta{padding:18px}.guide-preview strong{font-size:18px}}
+
+/* Public, reproducible benchmark scorecard */
+.benchmark-results{margin:35px 0 46px}
+.benchmark-results>p{color:var(--soft);line-height:1.75}
+.benchmark-table-wrap{overflow:auto;border:1px solid #394965;border-radius:14px;background:#111c2d;max-width:100%}
+.benchmark-table{width:100%;min-width:710px;border-collapse:collapse;text-align:left}
+.benchmark-table caption{caption-side:top;padding:14px 18px;text-align:left;font-size:12px;color:#d2dded}
+.benchmark-table th,.benchmark-table td{border-top:1px solid #35435a;padding:14px 15px;vertical-align:top;white-space:normal;font-size:13px;line-height:1.5}
+.benchmark-table thead th{color:#dce8ff;background:#1b293d;font-weight:700}
+.benchmark-table tbody th{font-weight:600;color:var(--ink)}
+.benchmark-table tbody tr:nth-child(even){background:#18263a}
+.benchmark-table tbody a,.benchmark-results a{color:var(--green);text-decoration:underline;text-underline-offset:3px}
+.benchmark-table-wrap:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+.benchmark-meta{font-size:12px;overflow-wrap:anywhere}
