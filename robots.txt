@@ -1,2 +1,6 @@
+# This file is published at /missing-ai/robots.txt under the shared github.io host.
+# Search-engine robots rules normally apply only at the HOST ROOT, not project subpaths.
+# It is useful as documentation, but do not claim it controls root-level crawling.
 User-agent: *
-Allow: /
+Allow: /missing-ai/
+Sitemap: https://abdulkadirkhoujja.github.io/missing-ai/sitemap.xml
