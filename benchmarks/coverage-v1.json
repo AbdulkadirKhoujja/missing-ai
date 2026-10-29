@@ -1,0 +1,492 @@
+{
+  "schema_version": 1,
+  "scope": "answer_coverage_not_implementation_truth",
+  "annotation_status": "authored_synthetic_labels_not_independently_human_adjudicated",
+  "label_definitions": {
+    "covered": "The supplied answer explicitly states or clearly paraphrases the requested behaviour; it does not prove implementation.",
+    "omitted": "The answer lacks the requested behaviour or explicitly contradicts/refuses it.",
+    "uncertain": "The answer is too broad or vague to establish whether the specific requirement is addressed; external proof may still be needed."
+  },
+  "cases": [
+    {
+      "id": "B001",
+      "domain": "payments",
+      "kind": "exact",
+      "gold": "covered",
+      "source_text": "- Must verify signed payment webhook events.",
+      "ai_output": "Must verify signed payment webhook events."
+    },
+    {
+      "id": "B002",
+      "domain": "payments",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must verify Stripe webhook signatures before confirming paid bookings.",
+      "ai_output": "I validate incoming Stripe events with constructEvent and the signing secret before granting paid access."
+    },
+    {
+      "id": "B003",
+      "domain": "payments",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must verify Stripe webhook signatures before confirming paid bookings.",
+      "ai_output": "The payment confirmation screen now displays a receipt."
+    },
+    {
+      "id": "B004",
+      "domain": "payments",
+      "kind": "negation",
+      "gold": "omitted",
+      "source_text": "- Must verify webhook signatures before processing payments.",
+      "ai_output": "I did not verify webhook signatures before processing payments."
+    },
+    {
+      "id": "B005",
+      "domain": "payments",
+      "kind": "ambiguous",
+      "gold": "uncertain",
+      "source_text": "- Must verify Stripe webhook signatures.",
+      "ai_output": "Payment handling was improved across the board."
+    },
+    {
+      "id": "B006",
+      "domain": "payments",
+      "kind": "lexical_trap",
+      "gold": "omitted",
+      "source_text": "- Must refund a payment when a booking is cancelled.",
+      "ai_output": "I built a cancellation button and added payment receipts, but no refund flow."
+    },
+    {
+      "id": "B007",
+      "domain": "bookings",
+      "kind": "exact",
+      "gold": "covered",
+      "source_text": "- Must prevent duplicate workshop reservations.",
+      "ai_output": "Must prevent duplicate workshop reservations."
+    },
+    {
+      "id": "B008",
+      "domain": "bookings",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must stop the same workshop slot being booked twice.",
+      "ai_output": "Transactions and unique constraints reject overlapping reservations for the same workshop."
+    },
+    {
+      "id": "B009",
+      "domain": "bookings",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must prevent a second reservation for a full workshop.",
+      "ai_output": "I created workshop detail pages and added category filters."
+    },
+    {
+      "id": "B010",
+      "domain": "bookings",
+      "kind": "negation",
+      "gold": "omitted",
+      "source_text": "- Must prevent duplicate booking submissions.",
+      "ai_output": "Duplicate booking submissions are not blocked."
+    },
+    {
+      "id": "B011",
+      "domain": "bookings",
+      "kind": "ambiguous",
+      "gold": "uncertain",
+      "source_text": "- Must protect against double booking under concurrency.",
+      "ai_output": "The booking process is reliable and streamlined."
+    },
+    {
+      "id": "B012",
+      "domain": "bookings",
+      "kind": "lexical_trap",
+      "gold": "omitted",
+      "source_text": "- Must prevent customers from booking more seats than are available.",
+      "ai_output": "Available seats appear on the event page; capacity enforcement is not implemented."
+    },
+    {
+      "id": "B013",
+      "domain": "accounts",
+      "kind": "exact",
+      "gold": "covered",
+      "source_text": "- Must let users cancel reservations from their account.",
+      "ai_output": "Must let users cancel reservations from their account."
+    },
+    {
+      "id": "B014",
+      "domain": "accounts",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must allow customers to cancel a reservation.",
+      "ai_output": "Users can withdraw their bookings from the dashboard."
+    },
+    {
+      "id": "B015",
+      "domain": "accounts",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must send a cancellation email after the booking is cancelled.",
+      "ai_output": "I added an account page to view upcoming bookings."
+    },
+    {
+      "id": "B016",
+      "domain": "accounts",
+      "kind": "negation",
+      "gold": "omitted",
+      "source_text": "- Must allow users to export their personal data.",
+      "ai_output": "Users cannot export their personal data in this release."
+    },
+    {
+      "id": "B017",
+      "domain": "accounts",
+      "kind": "ambiguous",
+      "gold": "uncertain",
+      "source_text": "- Must delete accounts within 30 days of a request.",
+      "ai_output": "User account management is supported."
+    },
+    {
+      "id": "B018",
+      "domain": "accounts",
+      "kind": "lexical_trap",
+      "gold": "omitted",
+      "source_text": "- Must use email verification on account creation.",
+      "ai_output": "A verification email template exists but is not sent during registration."
+    },
+    {
+      "id": "B019",
+      "domain": "accessibility",
+      "kind": "exact",
+      "gold": "covered",
+      "source_text": "- Must provide keyboard navigation for the dialog.",
+      "ai_output": "Must provide keyboard navigation for the dialog."
+    },
+    {
+      "id": "B020",
+      "domain": "accessibility",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must let keyboard users close the popup with Escape.",
+      "ai_output": "Pressing Esc dismisses the modal without using the mouse."
+    },
+    {
+      "id": "B021",
+      "domain": "accessibility",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must label every form control for screen readers.",
+      "ai_output": "The interface has responsive styling and loading animations."
+    },
+    {
+      "id": "B022",
+      "domain": "accessibility",
+      "kind": "negation",
+      "gold": "omitted",
+      "source_text": "- Must give images alternative text.",
+      "ai_output": "Image alt text has not been added yet."
+    },
+    {
+      "id": "B023",
+      "domain": "accessibility",
+      "kind": "ambiguous",
+      "gold": "uncertain",
+      "source_text": "- Must meet WCAG 2.2 AA for registration forms.",
+      "ai_output": "Accessibility improvements are planned."
+    },
+    {
+      "id": "B024",
+      "domain": "accessibility",
+      "kind": "lexical_trap",
+      "gold": "omitted",
+      "source_text": "- Must include a visible focus indicator on buttons.",
+      "ai_output": "Buttons are clickable using a keyboard, but focus outlines were removed."
+    },
+    {
+      "id": "B025",
+      "domain": "research",
+      "kind": "exact",
+      "gold": "covered",
+      "source_text": "- Must cite two peer-reviewed studies on air quality.",
+      "ai_output": "Must cite two peer-reviewed studies on air quality."
+    },
+    {
+      "id": "B026",
+      "domain": "research",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must include the publication year for every cited source.",
+      "ai_output": "Each bibliography entry lists its release date, including the year."
+    },
+    {
+      "id": "B027",
+      "domain": "research",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must compare at least three independent sources.",
+      "ai_output": "The summary references a single official statistics report."
+    },
+    {
+      "id": "B028",
+      "domain": "research",
+      "kind": "negation",
+      "gold": "omitted",
+      "source_text": "- Must distinguish correlation from causation.",
+      "ai_output": "The analysis treats a correlation as proof of a causal relationship."
+    },
+    {
+      "id": "B029",
+      "domain": "research",
+      "kind": "ambiguous",
+      "gold": "uncertain",
+      "source_text": "- Must verify all numerical claims against primary sources.",
+      "ai_output": "All research has been thoroughly checked."
+    },
+    {
+      "id": "B030",
+      "domain": "research",
+      "kind": "lexical_trap",
+      "gold": "omitted",
+      "source_text": "- Must include links to the original data sources.",
+      "ai_output": "I summarised the data and wrote source names but supplied no URLs."
+    },
+    {
+      "id": "B031",
+      "domain": "writing",
+      "kind": "exact",
+      "gold": "covered",
+      "source_text": "- Must keep the email under 150 words.",
+      "ai_output": "Must keep the email under 150 words."
+    },
+    {
+      "id": "B032",
+      "domain": "writing",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must close the message by requesting a reply.",
+      "ai_output": "The final sentence asks the reader to get back to me."
+    },
+    {
+      "id": "B033",
+      "domain": "writing",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must include the meeting date and location in the invitation.",
+      "ai_output": "You're invited! We look forward to seeing you."
+    },
+    {
+      "id": "B034",
+      "domain": "writing",
+      "kind": "negation",
+      "gold": "omitted",
+      "source_text": "- Must avoid mentioning the client's confidential project.",
+      "ai_output": "The email names the client's confidential project."
+    },
+    {
+      "id": "B035",
+      "domain": "writing",
+      "kind": "ambiguous",
+      "gold": "uncertain",
+      "source_text": "- Must use a professional but warm tone.",
+      "ai_output": "Here is a draft with the right tone."
+    },
+    {
+      "id": "B036",
+      "domain": "writing",
+      "kind": "lexical_trap",
+      "gold": "omitted",
+      "source_text": "- Must include an unsubscribe link in the newsletter.",
+      "ai_output": "The newsletter discusses subscribing, but omits an unsubscribe link."
+    },
+    {
+      "id": "B037",
+      "domain": "everyday",
+      "kind": "exact",
+      "gold": "covered",
+      "source_text": "- Must remind me to bring a reusable water bottle.",
+      "ai_output": "Must remind me to bring a reusable water bottle."
+    },
+    {
+      "id": "B038",
+      "domain": "everyday",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must avoid peanuts in the lunch recipe.",
+      "ai_output": "Use an entirely peanut-free ingredient list."
+    },
+    {
+      "id": "B039",
+      "domain": "everyday",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must plan a vegetarian dinner for four people.",
+      "ai_output": "Dinner for four includes roast chicken."
+    },
+    {
+      "id": "B040",
+      "domain": "everyday",
+      "kind": "negation",
+      "gold": "omitted",
+      "source_text": "- Must keep the shopping list dairy-free.",
+      "ai_output": "The shopping list includes milk and cheese."
+    },
+    {
+      "id": "B041",
+      "domain": "everyday",
+      "kind": "ambiguous",
+      "gold": "uncertain",
+      "source_text": "- Must fit the trip into a £200 budget.",
+      "ai_output": "This is a cost-effective itinerary."
+    },
+    {
+      "id": "B042",
+      "domain": "everyday",
+      "kind": "lexical_trap",
+      "gold": "omitted",
+      "source_text": "- Must include a step for preheating the oven.",
+      "ai_output": "Bake for twenty minutes, but the instructions never mention preheating."
+    },
+    {
+      "id": "B043",
+      "domain": "source_urls",
+      "kind": "exact",
+      "gold": "covered",
+      "source_text": "- Must cite the original assignment URL.",
+      "ai_output": "Must cite the original assignment URL."
+    },
+    {
+      "id": "B044",
+      "domain": "source_urls",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must open the linked acceptance criteria before drafting.",
+      "ai_output": "I read the acceptance requirements on the linked page before writing."
+    },
+    {
+      "id": "B045",
+      "domain": "source_urls",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must check the grading rubric linked from the assignment page.",
+      "ai_output": "I reviewed the assignment overview but did not open the grading rubric."
+    },
+    {
+      "id": "B046",
+      "domain": "source_urls",
+      "kind": "negation",
+      "gold": "omitted",
+      "source_text": "- Must compare all linked specification sections.",
+      "ai_output": "The linked specification sections were skipped."
+    },
+    {
+      "id": "B047",
+      "domain": "source_urls",
+      "kind": "ambiguous",
+      "gold": "uncertain",
+      "source_text": "- Must verify the current policy version on the regulator website.",
+      "ai_output": "I used the policy information already in my notes."
+    },
+    {
+      "id": "B048",
+      "domain": "source_urls",
+      "kind": "lexical_trap",
+      "gold": "omitted",
+      "source_text": "- Must include all mandatory acceptance criteria from the source URL.",
+      "ai_output": "I added a source URL in the introduction but excluded the acceptance criteria."
+    },
+    {
+      "id": "B049",
+      "domain": "documents",
+      "kind": "exact",
+      "gold": "covered",
+      "source_text": "- Must export a CSV with a header row.",
+      "ai_output": "Must export a CSV with a header row."
+    },
+    {
+      "id": "B050",
+      "domain": "documents",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must remove duplicate rows from the exported dataset.",
+      "ai_output": "I de-duplicated the table before exporting it."
+    },
+    {
+      "id": "B051",
+      "domain": "documents",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must include a summary tab in the spreadsheet.",
+      "ai_output": "I created a workbook with raw transaction data only."
+    },
+    {
+      "id": "B052",
+      "domain": "documents",
+      "kind": "negation",
+      "gold": "omitted",
+      "source_text": "- Must preserve leading zeros in postal codes.",
+      "ai_output": "The CSV conversion stripped leading zeroes from postcodes."
+    },
+    {
+      "id": "B053",
+      "domain": "documents",
+      "kind": "ambiguous",
+      "gold": "uncertain",
+      "source_text": "- Must reconcile financial totals to the source ledger.",
+      "ai_output": "The spreadsheet checks seem fine."
+    },
+    {
+      "id": "B054",
+      "domain": "documents",
+      "kind": "lexical_trap",
+      "gold": "omitted",
+      "source_text": "- Must protect formulas from accidental edits.",
+      "ai_output": "I documented all formulas but left every formula cell unlocked."
+    },
+    {
+      "id": "B055",
+      "domain": "safety",
+      "kind": "exact",
+      "gold": "covered",
+      "source_text": "- Must not display raw user passwords.",
+      "ai_output": "Must not display raw user passwords."
+    },
+    {
+      "id": "B056",
+      "domain": "safety",
+      "kind": "paraphrase",
+      "gold": "covered",
+      "source_text": "- Must reject private IP targets when importing web pages.",
+      "ai_output": "Requests to loopback and RFC1918 network destinations are blocked."
+    },
+    {
+      "id": "B057",
+      "domain": "safety",
+      "kind": "omission",
+      "gold": "omitted",
+      "source_text": "- Must redact access tokens from audit logs.",
+      "ai_output": "The audit logs record full HTTP Authorization headers."
+    },
+    {
+      "id": "B058",
+      "domain": "safety",
+      "kind": "negation",
+      "gold": "omitted",
+      "source_text": "- Must restrict administrative settings to admins.",
+      "ai_output": "Any signed-in user can edit administrative settings."
+    },
+    {
+      "id": "B059",
+      "domain": "safety",
+      "kind": "ambiguous",
+      "gold": "uncertain",
+      "source_text": "- Must meet the organisation's retention policy.",
+      "ai_output": "We considered data governance and retention."
+    },
+    {
+      "id": "B060",
+      "domain": "safety",
+      "kind": "lexical_trap",
+      "gold": "omitted",
+      "source_text": "- Must disable database debug logging in production.",
+      "ai_output": "Database debug logs are enabled in the deployed environment."
+    }
+  ]
+}
