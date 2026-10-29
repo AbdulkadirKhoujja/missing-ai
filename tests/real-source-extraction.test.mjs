@@ -100,3 +100,67 @@ test("document-issuance imperatives are extracted without 'must', but issue meta
   "Include a support contact in receipts."
  ]);
 });
+
+test("six everyday AI jobs: all twelve previously observed imperative instructions are retained",()=>{
+ // Exact synthetic source lines from the live 29-Oct twelve-case smoke (PR #53, issue #54).
+ const sources=[
+  "- Include the meeting date and location in the invitation.",
+  "- Ask the recipient to reply to the email.",
+  "- Provide the publication year and source link for the report.",
+  "- Distinguish correlation from proven causation in the summary.",
+  "- Keep the total itinerary cost below £50.",
+  "- Avoid appointments after 18:00.",
+  "- Include at least three citations in the essay.",
+  "- Explain why interviews are appropriate for the research.",
+  "- Assign an owner to every project milestone.",
+  "- Explain how out-of-scope requests require approval.",
+  "- Issue payment receipts for completed payments.",
+  "- Reject webhook events with invalid signatures."
+ ];
+ for(const [index,source] of sources.entries()){
+  const list=extractReviewRequirements(source);
+  assert.equal(list.length,1,"smoke case "+(index+1)+": "+source);
+  assert.equal(list[0].text,source.slice(2),"source exactness in case "+(index+1));
+  assert.equal(list[0].line,1);
+ }
+ const aggregate=extractReviewRequirements(sources.join("\n"));
+ assert.equal(aggregate.length,12);
+ assert.deepEqual(aggregate.map(x=>x.line),Array.from({length:12},(_,i)=>i+1));
+ const packet=prepareEvidenceReview(sources.join("\n"),
+  "This is a synthetic answer with no implementation evidence.");
+ assert.equal(packet.requirements.length,12);
+ assert.equal(packet.limitations.includes("independently verified"),true);
+});
+test("imperative additions do not elevate common nouns, headings, links or examples",()=>{
+ const source=[
+  "The ask from the sponsor was discussed yesterday.",
+  "- The ask involves three background topics.",
+  "- Assignments in the sample are fictitious.",
+  "- Explanation of the methods follows.",
+  "- Issue number 42 records a past bug.",
+  "- Issue tracker stores completed tasks.",
+  "- Distinguishing criteria are illustrated below.",
+  "- Asking questions is encouraged in this introduction.",
+  "Examples and context:",
+  "- The word 'assign' may appear in a sample sentence.",
+  "- Example explaining why someone might use surveys.",
+  "Related guides",
+  "- Ask the recipient to reply to the email."
+ ].join("\n");
+ const candidates=extractReviewRequirements(source);
+ assert.equal(candidates.length,0,JSON.stringify(candidates));
+});
+test("added imperative verbs retain legitimate objects without capturing arbitrary short headings",()=>{
+ const source=[
+  "- Ask your reader for confirmation before sending.",
+  "- Distinguish observation from causation.",
+  "- Explain the selection criteria with evidence.",
+  "- Assign each milestone to a named owner.",
+  "- Issue a receipt when payment succeeds.",
+  "- Ask:",
+  "- Explain:"
+ ].join("\n");
+ const reqs=extractReviewRequirements(source);
+ assert.deepEqual(reqs.map(x=>x.line),[1,2,3,4,5]);
+ assert.equal(reqs.length,5);
+});
