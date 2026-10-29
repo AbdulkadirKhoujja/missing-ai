@@ -21,6 +21,16 @@ Missing AI is an [MIT-licensed](LICENSE) open-source tool for comparing **origin
 
 **Not a directory-listed plugin:** the custom MCP service is currently a public-address, unauthenticated **controlled beta**, not a production-grade or approved marketplace listing. Its connection is voluntary, subject to ChatGPT/Claude feature availability. It should **not** be distributed indiscriminately until the [public launch gates](docs/LAUNCH_GATES.md) are satisfied.
 
+## Free guides and technical discoverability
+
+- [Browse free AI answer-checking guides](https://abdulkadirkhoujja.github.io/missing-ai/guides/)
+- [Check an AI answer against original instructions](https://abdulkadirkhoujja.github.io/missing-ai/guides/how-to-check-ai-answer.html)
+- [Review a draft against assignment criteria](https://abdulkadirkhoujja.github.io/missing-ai/guides/check-ai-assignment-against-rubric.html)
+- [Requirements coverage checklist for coding assistants](https://abdulkadirkhoujja.github.io/missing-ai/guides/requirements-coverage-checklist.html)
+- [Understand answer evidence versus implementation verification](https://abdulkadirkhoujja.github.io/missing-ai/guides/ai-answer-evidence-vs-verification.html)
+
+The public site provides [canonical metadata, a sitemap](https://abdulkadirkhoujja.github.io/missing-ai/sitemap.xml), an [RSS feed](https://abdulkadirkhoujja.github.io/missing-ai/feed.xml) and optional [human-readable AI context](https://abdulkadirkhoujja.github.io/missing-ai/llms.txt). These improve discoverability but cannot guarantee indexing or AI citations. Seven URL-update notifications were accepted by IndexNow on 29 October 2026; Google/Bing property verification and actual search performance remain unverified. See [the evidence ledger](docs/marketing/SEO_AEO_GEO_EXECUTION.md).
+
 ## A simple example
 
 **Original instructions**
