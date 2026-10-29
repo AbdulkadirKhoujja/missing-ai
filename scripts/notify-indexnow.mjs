@@ -6,7 +6,7 @@ import {fileURLToPath} from "node:url";
 const base="https://abdulkadirkhoujja.github.io/missing-ai/";
 const key="0278792dd20355fb9998929be016b69950b85baa";
 const keyLocation=base+key+".txt";
-const pages=["","privacy.html","guides/","guides/how-to-check-ai-answer.html","guides/check-ai-assignment-against-rubric.html","guides/requirements-coverage-checklist.html","guides/ai-answer-evidence-vs-verification.html"];
+const pages=["","privacy.html","benchmarks/","guides/","guides/how-to-check-ai-answer.html","guides/check-ai-assignment-against-rubric.html","guides/requirements-coverage-checklist.html","guides/ai-answer-evidence-vs-verification.html"];
 const publication=Object.fromEntries(pages.map(p=>["site/"+(!p||p.endsWith("/")?p+"index.html":p),base+p]));
 export function notificationUrls(paths){
  if(!Array.isArray(paths))throw new Error("Changed paths must be an array.");
@@ -19,7 +19,7 @@ export function notificationUrls(paths){
 export function extractSitemapUrls(xml){
  if(typeof xml!=="string")throw new Error("Invalid sitemap.");
  const urls=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
- if(urls.length!==7||new Set(urls).size!==7)throw new Error("Sitemap requires exactly seven unique URLs.");
+ if(urls.length!==pages.length||new Set(urls).size!==pages.length)throw new Error("Sitemap requires exactly "+pages.length+" unique URLs.");
  if(urls.some(u=>!u.startsWith(base)||u.includes("?")||u.includes("#")))throw new Error("Sitemap URL mismatch.");
  return urls;
 }

@@ -25,3 +25,18 @@ What does this PR **not** verify? (A green CI run is not semantic or implementat
 - [ ] Privacy/security data handling changed — requires separate review
 
 Please do **not** include credentials, private client briefs or sensitive user data.
+
+## Public disclosure decision (required before posting)
+
+- [ ] OPEN — generic rights-cleared code/docs/synthetic tests; routine owner review
+- [ ] REVIEW — core/MCP/fetcher/security/privacy/telemetry/dependencies/benchmark truth/claims; human maintainer security assessment before publication
+- [ ] CLOSED — prohibited from public GitHub (secrets, user/client data, private Orchestryn, operational network details, vulnerability details). **Do not open this PR with restricted information.**
+
+Read [OPEN_SOURCE_BOUNDARIES](../docs/OPEN_SOURCE_BOUNDARIES.md). Record your classification, licence/provenance review, whether any real user prompts or infrastructure details appear in the diff/history, and what is intentionally still private. **A green CI run is not maintainer disclosure approval.**
+
+## Benchmark changes
+
+- [ ] Author-labelled synthetic findings clearly marked provisional
+- [ ] Exact source fixtures / commit / denominator supplied
+- [ ] Production lexical-v1 separated from experimental candidates
+- [ ] Independently adjudicated gold *not claimed* unless documented by two independent human reviewers

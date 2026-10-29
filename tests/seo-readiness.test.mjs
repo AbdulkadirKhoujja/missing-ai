@@ -4,18 +4,18 @@ import {readFileSync,existsSync} from "node:fs";
 const root=new URL("../",import.meta.url);
 const read=p=>readFileSync(new URL(p,root),"utf8");
 const base="https://abdulkadirkhoujja.github.io/missing-ai/";
-const pages=["index.html","privacy.html","guides/index.html",
+const pages=["index.html","privacy.html","benchmarks/index.html","guides/index.html",
 "guides/how-to-check-ai-answer.html","guides/check-ai-assignment-against-rubric.html",
 "guides/requirements-coverage-checklist.html","guides/ai-answer-evidence-vs-verification.html"];
 const canonicalPath=p=>p.endsWith("index.html")?p.slice(0,-"index.html".length):p;
 const canonicals=pages.map(p=>base+canonicalPath(p));
 const key="0278792dd20355fb9998929be016b69950b85baa";
-test("canonical sitemap exactly matches seven substantive public pages without duplicates",()=>{
+test("canonical sitemap exactly matches eight substantive public pages without duplicates",()=>{
  const sitemap=read("site/sitemap.xml");
  const entries=[...sitemap.matchAll(/<loc>(https:[^<]+)<\/loc>/g)].map(x=>x[1]);
  assert.deepEqual(entries,canonicals);
- assert.equal(new Set(entries).size,7);
- assert.equal((sitemap.match(/<lastmod>2026-10-29<\/lastmod>/g)||[]).length,7);
+ assert.equal(new Set(entries).size,8);
+ assert.equal((sitemap.match(/<lastmod>2026-10-29<\/lastmod>/g)||[]).length,8);
  assert.match(sitemap,/sitemaps\.org\/schemas\/sitemap\/0\.9/);
  for(const p of pages){
   const html=read("site/"+p);
@@ -68,6 +68,10 @@ test("internal page and guide links resolve to published files",()=>{
    if(url.origin!==new URL(base).origin||!url.pathname.startsWith("/missing-ai/"))continue;
    let relative=url.pathname.slice("/missing-ai/".length);
    if(!relative||relative.endsWith("/"))relative+="index.html";
+   if(relative==="benchmarks/synthetic-results.json"){
+     assert.match(read(".github/workflows/ci-and-pages.yml"),/node scripts\/publish-public-benchmark\.mjs --out _site\/benchmarks/);
+     continue;
+   }
    assert.ok(existsSync(new URL("site/"+relative,root)),p+" broken internal link -> "+href);
   }
  }

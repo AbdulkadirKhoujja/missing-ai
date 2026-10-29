@@ -1,0 +1,37 @@
+name: Daily public synthetic benchmark
+run-name: Synthetic benchmark — ${{ github.sha }}
+
+on:
+  schedule:
+    - cron: '30 08 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  public-synthetic-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify deterministic tests
+        run: npm test
+      - name: Generate source-anchored synthetic report
+        run: node scripts/publish-public-benchmark.mjs --out "$RUNNER_TEMP/missing-ai-public-benchmark"
+      - name: Publish factual test summary
+        shell: bash
+        run: |
+          cat "$RUNNER_TEMP/missing-ai-public-benchmark/summary.md" >> "$GITHUB_STEP_SUMMARY"
+          echo "Public source: https://github.com/AbdulkadirKhoujja/missing-ai" >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish downloadable result for this run
+        uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-benchmark-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/missing-ai-public-benchmark/summary.md
+            ${{ runner.temp }}/missing-ai-public-benchmark/synthetic-results.json
+          retention-days: 30
