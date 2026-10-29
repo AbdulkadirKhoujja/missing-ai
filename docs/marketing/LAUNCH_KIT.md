@@ -1,5 +1,8 @@
 # Missing AI — general-user launch kit (organic, evidence-first)
 
+**Execution records:** [Confirmed SEO and IndexNow results](SEO_AEO_GEO_EXECUTION.md) · [Prepared social posts and directory fields](POSTING_ASSETS.md). External social/community publishing still requires an authenticated owner account and rules review.
+
+
 **Prepared 29 October 2026.** This is a reusable, unposted marketing plan. Nothing here claims publicity, signups, endorsements or independently verified omission-detection accuracy. The safest public offer today is the **free local browser checker**, with open-source code and an optional **controlled beta** ChatGPT/Claude MCP integration.
 
 ## Positioning that ordinary people understand
