@@ -56,6 +56,12 @@ Missing AI now has an experimental additive MCP workflow for **one evidence-back
 
 The server **does not independently verify** duplicate semantics, obligation strength, legal applicability or implementation. Read [the complete workflow and safety bounds](docs/unified-source-review.md). This code is **not live** until a separate rollout passes; current Violet production keeps its previously accepted four MCP tools and lexical-v1 website.
 
+## Semantic reliability benchmark (source-anchored, provisional)
+
+An offline benchmark now contains **35 synthetic answer scenarios** against **22 short, verified public GOV.UK source anchors** and **17 equivalence pairs**. It tests semantic paraphrases, incomplete requirements, future promises, source obligation strength, internal versus external audits, contextual examples, and false duplicate merges. A strict scorer calculates omission precision/recall, false alarms, missed gaps, four-way judgment confusion, source-strength agreement and equivalence precision/recall. It rejects fabricated quote offsets and incomplete model results.
+
+**The author-supplied labels have not been independently adjudicated.** Scores against this seed must remain labeled provisional. Release-scoring mode requires documented independent review, and no real-world semantic accuracy claim is justified yet. See [benchmark instructions](benchmark/semantic-v1/README.md) and the [blind review pack](benchmark/semantic-v1/blind-review-pack.json).
+
 ## Local development (Node.js 22+)
 
 ```bash
