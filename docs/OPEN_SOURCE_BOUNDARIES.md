@@ -40,7 +40,7 @@
 
 Public benchmark pages may show **exactly reproducible, author-labeled synthetic results**, with source fixture version, engine identifier, case counts, commit SHA and limitations. They must be headed **“Synthetic fixture — not independently adjudicated”** and clearly differentiate production lexical-v1 from an experimental candidate. **Do not** call a synthetic 100% score a real-world reliability rate. **Never** publish private user prompts or human-reviewer identities/notes without rights and consent.
 
-Independent semantic-accuracy numbers are blocked until [the adjudication protocol](benchmark/semantic-v1/README.md) has been completed with two independent reviewers and documented disagreement resolutions. The host model being evaluated does not adjudicate its own ground truth. No unreviewed automated benchmark change can override the gate.
+Independent semantic-accuracy numbers are blocked until [the adjudication protocol](../benchmark/semantic-v1/README.md) has been completed with two independent reviewers and documented disagreement resolutions. The host model being evaluated does not adjudicate its own ground truth. No unreviewed automated benchmark change can override the gate.
 
 ## Escalation and private reporting
 
