@@ -1,0 +1,955 @@
+{
+  "schema": "missing-ai-semantic-benchmark-v1",
+  "provenance": {
+    "built_at": "2026-10-29",
+    "origin": "GOV.UK Service Manual normative and guidance excerpts",
+    "source_urls": {
+      "G1": "https://www.gov.uk/service-manual/helping-people-to-use-your-service/making-your-service-accessible-an-introduction",
+      "G2": "https://www.gov.uk/service-manual/helping-people-to-use-your-service/testing-for-accessibility"
+    },
+    "source_quote_policy": "Short verbatim anchors; scenarios and answers are synthetic, not claims about real implementations.",
+    "source_anchor_verification": {
+      "verified_date": "2026-10-29",
+      "method": "Fetched both public source URLs with installed Missing AI fetch_source and checked NFKC/whitespace-normalized short source excerpts against returned readable text.",
+      "verified_count": 22,
+      "total_count": 22,
+      "semantic_correctness_verified": false
+    }
+  },
+  "review": {
+    "status": "provisional_author_seed",
+    "adjudication": "not_completed",
+    "independent_reviewers": [],
+    "accuracy_claim_allowed": false
+  },
+  "metrics_policy": {
+    "positive_judgments": [
+      "not_clearly_mentioned",
+      "contradicted"
+    ],
+    "negative_judgments": [
+      "claimed_covered"
+    ],
+    "abstention": "cannot_determine (excluded from binary omission denominator, counted in 4-way classification)",
+    "scope": "source-claimed obligations and host interpretations only"
+  },
+  "requirements": [
+    {
+      "id": "A01",
+      "source_id": "G1",
+      "source_ref": "S01:R03",
+      "title": "WCAG 2.2 AA",
+      "source_excerpt": "meet level AA of the Web Content Accessibility Guidelines",
+      "strength": "mandatory"
+    },
+    {
+      "id": "A02",
+      "source_id": "G1",
+      "source_ref": "S01:R04",
+      "title": "Assistive technology support",
+      "source_excerpt": "work on the most commonly used assistive technologies",
+      "strength": "mandatory"
+    },
+    {
+      "id": "A03",
+      "source_id": "G1",
+      "source_ref": "S01:R05",
+      "title": "Disabled participants in user research",
+      "source_excerpt": "include disabled people in user research",
+      "strength": "mandatory"
+    },
+    {
+      "id": "A04",
+      "source_id": "G1",
+      "source_ref": "S01:R06",
+      "title": "Publish accessibility statement at public beta",
+      "source_excerpt": "have an accessibility statement that explains how accessible the service is",
+      "strength": "mandatory"
+    },
+    {
+      "id": "A05",
+      "source_id": "G1",
+      "source_ref": "S01:R08",
+      "title": "Accessibility budget",
+      "source_excerpt": "Include the cost of making your service accessible in your budget.",
+      "strength": "recommended"
+    },
+    {
+      "id": "A06",
+      "source_id": "G1",
+      "source_ref": "S01:R23",
+      "title": "Pre-beta accessibility audit",
+      "source_excerpt": "Before you move into public beta, you must get an accessibility audit.",
+      "strength": "mandatory"
+    },
+    {
+      "id": "A07",
+      "source_id": "G1",
+      "source_ref": "S01:R30",
+      "title": "Accessibility statement disclose issues",
+      "source_excerpt": "what accessibility issues the service has, if any",
+      "strength": "mandatory"
+    },
+    {
+      "id": "A08",
+      "source_id": "G1",
+      "source_ref": "S01:R32",
+      "title": "Make accessibility statement discoverable",
+      "source_excerpt": "it should be available on every page",
+      "strength": "recommended"
+    },
+    {
+      "id": "A09",
+      "source_id": "G1",
+      "source_ref": "S01:R33",
+      "title": "Mobile app statement location",
+      "source_excerpt": "For mobile applications the accessibility statement should be available from either",
+      "strength": "conditional"
+    },
+    {
+      "id": "A10",
+      "source_id": "G1",
+      "source_ref": "S01:R35",
+      "title": "Annual accessibility statement review",
+      "source_excerpt": "Your accessibility statement should be reviewed at least once a year",
+      "strength": "recommended"
+    },
+    {
+      "id": "A11",
+      "source_id": "G1",
+      "source_ref": "S01:R38",
+      "title": "Accessible alternative letter formats",
+      "source_excerpt": "If you have to send out letters as part of your service",
+      "strength": "conditional"
+    },
+    {
+      "id": "A12",
+      "source_id": "G1",
+      "source_ref": "S01:R17",
+      "title": "Plan accessibility audit during alpha",
+      "source_excerpt": "You should also start thinking about how to get an accessibility audit",
+      "strength": "recommended"
+    },
+    {
+      "id": "T01",
+      "source_id": "G2",
+      "source_ref": "S02:R03",
+      "title": "Test with disabled and older users",
+      "source_excerpt": "test the service with disabled users and with older users",
+      "strength": "conditional"
+    },
+    {
+      "id": "T02",
+      "source_id": "G2",
+      "source_ref": "S02:R05",
+      "title": "Test each public-beta feature",
+      "source_excerpt": "run tests every time you add a new feature",
+      "strength": "recommended"
+    },
+    {
+      "id": "T03",
+      "source_id": "G2",
+      "source_ref": "S02:R07",
+      "title": "Regular automated and manual testing",
+      "source_excerpt": "Test your code regularly, using both automated testing and manual testing",
+      "strength": "recommended"
+    },
+    {
+      "id": "T04",
+      "source_id": "G2",
+      "source_ref": "S02:R08",
+      "title": "Common browser and device support",
+      "source_excerpt": "Your service needs to work on the most common browsers and devices",
+      "strength": "mandatory"
+    },
+    {
+      "id": "T05",
+      "source_id": "G2",
+      "source_ref": "S02:R10",
+      "title": "Pre-beta audit and fix issues",
+      "source_excerpt": "You must get an accessibility audit - and fix any issues - before your service moves into public beta.",
+      "strength": "mandatory"
+    },
+    {
+      "id": "T06",
+      "source_id": "G2",
+      "source_ref": "S02:R02",
+      "title": "Service Standard conditional assistive technologies",
+      "source_excerpt": "If you’re working to meet the Service Standard",
+      "strength": "conditional"
+    },
+    {
+      "id": "T07",
+      "source_id": "G2",
+      "source_ref": "S02:R01",
+      "title": "WCAG 2.2 AA minimum from testing guidance",
+      "source_excerpt": "You need to make sure your service meets level AA",
+      "strength": "mandatory"
+    },
+    {
+      "id": "T08",
+      "source_id": "G2",
+      "source_ref": "S02:R09",
+      "title": "Common assistive technology support reiterated",
+      "source_excerpt": "You must also make sure your service works with common assistive technologies",
+      "strength": "mandatory"
+    },
+    {
+      "id": "A13",
+      "source_id": "G1",
+      "source_ref": "S01:R12",
+      "title": "Recruitment agency listed as an example",
+      "source_excerpt": "a recruitment agency to help you find participants",
+      "strength": "context_only"
+    },
+    {
+      "id": "A14",
+      "source_id": "G1",
+      "source_ref": "S01:R13",
+      "title": "Expenses listed as optional recruitment-support example",
+      "source_excerpt": "expenses to help participants take part in research",
+      "strength": "context_only"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "C001",
+      "requirement_id": "A01",
+      "answer": "The site conforms to WCAG version 2.2 at level AA.",
+      "challenge": "paraphrase",
+      "proposed": {
+        "judgment": "claimed_covered",
+        "strength": "mandatory",
+        "evidence": [
+          {
+            "quote": "WCAG version 2.2 at level AA",
+            "start": 21
+          }
+        ],
+        "rationale": "The answer explicitly claims the named minimum standard."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C002",
+      "requirement_id": "A01",
+      "answer": "We chose high contrast colours for the homepage.",
+      "challenge": "partial criteria",
+      "proposed": {
+        "judgment": "not_clearly_mentioned",
+        "strength": "mandatory",
+        "evidence": [],
+        "rationale": "Colour choices alone do not address the full WCAG standard."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C003",
+      "requirement_id": "A02",
+      "answer": "We tried VoiceOver on one page; the remaining screen-reader journeys have not been checked.",
+      "challenge": "testing is not working",
+      "proposed": {
+        "judgment": "cannot_determine",
+        "strength": "mandatory",
+        "evidence": [],
+        "rationale": "Trying one assistive technology does not show the service works across common tools."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C004",
+      "requirement_id": "A02",
+      "answer": "The service currently cannot be operated using a screen reader.",
+      "challenge": "explicit functional denial",
+      "proposed": {
+        "judgment": "contradicted",
+        "strength": "mandatory",
+        "evidence": [
+          {
+            "quote": "cannot be operated using a screen reader",
+            "start": 22
+          }
+        ],
+        "rationale": "The answer explicitly denies one important assistive-technology capability."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C005",
+      "requirement_id": "A03",
+      "answer": "Participants with disabilities joined our user interviews.",
+      "challenge": "semantic paraphrase",
+      "proposed": {
+        "judgment": "claimed_covered",
+        "strength": "mandatory",
+        "evidence": [
+          {
+            "quote": "Participants with disabilities joined our user interviews.",
+            "start": 0
+          }
+        ],
+        "rationale": "Equivalent claim of disabled participation, without verifying research records."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C006",
+      "requirement_id": "A03",
+      "answer": "We interviewed customers about the login screen.",
+      "challenge": "generic activity",
+      "proposed": {
+        "judgment": "not_clearly_mentioned",
+        "strength": "mandatory",
+        "evidence": [],
+        "rationale": "The statement does not say whether disabled people participated."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C007",
+      "requirement_id": "A04",
+      "answer": "Our accessibility statement will be drafted after the public-beta launch.",
+      "challenge": "late future promise",
+      "proposed": {
+        "judgment": "contradicted",
+        "strength": "mandatory",
+        "evidence": [
+          {
+            "quote": "will be drafted after the public-beta launch",
+            "start": 28
+          }
+        ],
+        "rationale": "The promised timing is later than the specified publication milestone."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C008",
+      "requirement_id": "A04",
+      "answer": "We plan to publish an accessibility statement when the service enters public beta.",
+      "challenge": "promise vs implementation",
+      "proposed": {
+        "judgment": "cannot_determine",
+        "strength": "mandatory",
+        "evidence": [],
+        "rationale": "Future intention alone does not establish actual publication or completeness."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C009",
+      "requirement_id": "A05",
+      "answer": "No money has been allocated to accessibility work.",
+      "challenge": "direct admission",
+      "proposed": {
+        "judgment": "contradicted",
+        "strength": "recommended",
+        "evidence": [
+          {
+            "quote": "No money has been allocated to accessibility work.",
+            "start": 0
+          }
+        ],
+        "rationale": "Budgeting guidance is explicitly unfulfilled in the stated plan."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C010",
+      "requirement_id": "A05",
+      "answer": "Our delivery budget includes time for accessibility training and testing.",
+      "challenge": "concrete planning claim",
+      "proposed": {
+        "judgment": "claimed_covered",
+        "strength": "recommended",
+        "evidence": [
+          {
+            "quote": "budget includes time for accessibility training and testing",
+            "start": 13
+          }
+        ],
+        "rationale": "The plan explicitly includes accessibility costs, not proof the funds exist."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C011",
+      "requirement_id": "A06",
+      "answer": "We did not hire an external auditor; our internal accessibility audit status has not been reported.",
+      "challenge": "external vs internal",
+      "proposed": {
+        "judgment": "cannot_determine",
+        "strength": "mandatory",
+        "evidence": [],
+        "rationale": "Not hiring an external specialist does not rule out an internal audit."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C012",
+      "requirement_id": "A06",
+      "answer": "A trained internal specialist completed the pre-beta accessibility audit.",
+      "challenge": "internal equivalence",
+      "proposed": {
+        "judgment": "claimed_covered",
+        "strength": "mandatory",
+        "evidence": [
+          {
+            "quote": "A trained internal specialist completed the pre-beta accessibility audit.",
+            "start": 0
+          }
+        ],
+        "rationale": "The claim is an acceptable route to obtaining an audit, but no proof was supplied."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C013",
+      "requirement_id": "A06",
+      "answer": "No accessibility audit has been performed before public beta.",
+      "challenge": "explicit missing audit",
+      "proposed": {
+        "judgment": "contradicted",
+        "strength": "mandatory",
+        "evidence": [
+          {
+            "quote": "No accessibility audit has been performed before public beta.",
+            "start": 0
+          }
+        ],
+        "rationale": "The answer denies an audit of any kind within the required period."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C014",
+      "requirement_id": "A06",
+      "answer": "Our team ran automated accessibility checks.",
+      "challenge": "different control",
+      "proposed": {
+        "judgment": "not_clearly_mentioned",
+        "strength": "mandatory",
+        "evidence": [],
+        "rationale": "Automated checks are not the stated accessibility audit."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C015",
+      "requirement_id": "A07",
+      "answer": "We published an accessibility statement on the website.",
+      "challenge": "compound rule partial",
+      "proposed": {
+        "judgment": "not_clearly_mentioned",
+        "strength": "mandatory",
+        "evidence": [],
+        "rationale": "Publication does not address disclosure of specific accessibility issues."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C016",
+      "requirement_id": "A08",
+      "answer": "Every page footer includes a link to the accessibility statement.",
+      "challenge": "paraphrase location",
+      "proposed": {
+        "judgment": "claimed_covered",
+        "strength": "recommended",
+        "evidence": [
+          {
+            "quote": "Every page footer includes a link to the accessibility statement.",
+            "start": 0
+          }
+        ],
+        "rationale": "The answer claims that the statement is accessible from every page."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C017",
+      "requirement_id": "A09",
+      "answer": "We do not publish a mobile application; this is a desktop browser service.",
+      "challenge": "conditional applicability",
+      "proposed": {
+        "judgment": "cannot_determine",
+        "strength": "conditional",
+        "evidence": [],
+        "rationale": "The mobile-app-specific clause may be inapplicable; absence is not evidence of breach."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C018",
+      "requirement_id": "A10",
+      "answer": "The accessibility statement is reviewed every January.",
+      "challenge": "recurring review claim",
+      "proposed": {
+        "judgment": "claimed_covered",
+        "strength": "recommended",
+        "evidence": [
+          {
+            "quote": "reviewed every January",
+            "start": 31
+          }
+        ],
+        "rationale": "The claimed annual schedule would meet the recommended frequency."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C019",
+      "requirement_id": "A11",
+      "answer": "We send postal letters but only provide standard-print versions when accessible formats are requested.",
+      "challenge": "conditional triggered",
+      "proposed": {
+        "judgment": "contradicted",
+        "strength": "conditional",
+        "evidence": [
+          {
+            "quote": "only provide standard-print versions",
+            "start": 27
+          }
+        ],
+        "rationale": "The service says it sends letters yet refuses requested accessible formats."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C020",
+      "requirement_id": "A12",
+      "answer": "We aim to arrange an accessibility audit after launch.",
+      "challenge": "timing and early planning",
+      "proposed": {
+        "judgment": "contradicted",
+        "strength": "recommended",
+        "evidence": [
+          {
+            "quote": "after launch",
+            "start": 41
+          }
+        ],
+        "rationale": "Planning after launch conflicts with advice to plan during alpha."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C021",
+      "requirement_id": "T01",
+      "answer": "We tested with disabled volunteers; whether older users were included is not recorded.",
+      "challenge": "partial compound",
+      "proposed": {
+        "judgment": "not_clearly_mentioned",
+        "strength": "conditional",
+        "evidence": [],
+        "rationale": "The older-user aspect is not established, even if disability testing is claimed."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C022",
+      "requirement_id": "T01",
+      "answer": "The Service Standard applies, but we did not test with any older users.",
+      "challenge": "conditional scope triggered",
+      "proposed": {
+        "judgment": "contradicted",
+        "strength": "conditional",
+        "evidence": [
+          {
+            "quote": "did not test with any older users",
+            "start": 37
+          }
+        ],
+        "rationale": "The stated standard applies and an explicit required participant group was omitted."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C023",
+      "requirement_id": "T02",
+      "answer": "Our team tests each new feature before beta, but stops accessibility tests once public beta begins.",
+      "challenge": "phase-specific omission",
+      "proposed": {
+        "judgment": "contradicted",
+        "strength": "recommended",
+        "evidence": [
+          {
+            "quote": "stops accessibility tests once public beta begins",
+            "start": 49
+          }
+        ],
+        "rationale": "The answer explicitly excludes the required public-beta testing period."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C024",
+      "requirement_id": "T02",
+      "answer": "We have an automated accessibility-test suite.",
+      "challenge": "missing cadence",
+      "proposed": {
+        "judgment": "not_clearly_mentioned",
+        "strength": "recommended",
+        "evidence": [],
+        "rationale": "Having a suite does not establish running it after every public-beta feature."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C025",
+      "requirement_id": "T03",
+      "answer": "All tests are automated; we do no manual accessibility testing.",
+      "challenge": "one method missing",
+      "proposed": {
+        "judgment": "contradicted",
+        "strength": "recommended",
+        "evidence": [
+          {
+            "quote": "we do no manual accessibility testing",
+            "start": 25
+          }
+        ],
+        "rationale": "The answer explicitly rules out one required approach."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C026",
+      "requirement_id": "T03",
+      "answer": "We run manual accessibility reviews alongside automated scans every sprint.",
+      "challenge": "multi-part paraphrase",
+      "proposed": {
+        "judgment": "claimed_covered",
+        "strength": "recommended",
+        "evidence": [
+          {
+            "quote": "manual accessibility reviews alongside automated scans every sprint",
+            "start": 7
+          }
+        ],
+        "rationale": "The claim mentions both modalities and recurring cadence."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C027",
+      "requirement_id": "T04",
+      "answer": "We checked Chrome on one desktop; compatibility with other browsers and mobile devices is unknown.",
+      "challenge": "limited coverage",
+      "proposed": {
+        "judgment": "cannot_determine",
+        "strength": "mandatory",
+        "evidence": [],
+        "rationale": "Checking one browser cannot demonstrate broad compatibility, and non-support is not proven."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C028",
+      "requirement_id": "T04",
+      "answer": "We support mainstream browsers across desktop and mobile devices.",
+      "challenge": "device/browser coverage",
+      "proposed": {
+        "judgment": "claimed_covered",
+        "strength": "mandatory",
+        "evidence": [
+          {
+            "quote": "support mainstream browsers across desktop and mobile devices",
+            "start": 3
+          }
+        ],
+        "rationale": "The answer asserts browser and device coverage, without testing evidence."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C029",
+      "requirement_id": "T05",
+      "answer": "An audit was completed, but critical issues remain unfixed before public beta.",
+      "challenge": "compound audit/remediation",
+      "proposed": {
+        "judgment": "contradicted",
+        "strength": "mandatory",
+        "evidence": [
+          {
+            "quote": "critical issues remain unfixed before public beta",
+            "start": 28
+          }
+        ],
+        "rationale": "A finished audit alone does not satisfy the additional remediation obligation."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C030",
+      "requirement_id": "T05",
+      "answer": "The accessibility audit is scheduled and the remediation plan is being drafted.",
+      "challenge": "in-progress ambiguous",
+      "proposed": {
+        "judgment": "cannot_determine",
+        "strength": "mandatory",
+        "evidence": [],
+        "rationale": "It is not established whether both audit and fixes will be completed before public beta."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C031",
+      "requirement_id": "T06",
+      "answer": "We are not claiming compliance with the Service Standard.",
+      "challenge": "scope conditional",
+      "proposed": {
+        "judgment": "cannot_determine",
+        "strength": "conditional",
+        "evidence": [],
+        "rationale": "The conditional source obligation may not apply in this scenario."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C032",
+      "requirement_id": "T07",
+      "answer": "The product meets WCAG 2.2 level AA, according to our team.",
+      "challenge": "repeated source equivalent",
+      "proposed": {
+        "judgment": "claimed_covered",
+        "strength": "mandatory",
+        "evidence": [
+          {
+            "quote": "meets WCAG 2.2 level AA",
+            "start": 12
+          }
+        ],
+        "rationale": "Claimed conformance is present but no audit was inspected."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C033",
+      "requirement_id": "T08",
+      "answer": "We ran automated accessibility checks, but have not assessed operation with assistive technologies.",
+      "challenge": "checking is not operation",
+      "proposed": {
+        "judgment": "not_clearly_mentioned",
+        "strength": "mandatory",
+        "evidence": [],
+        "rationale": "Automated scans don't establish working with common assistive technologies."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C034",
+      "requirement_id": "A13",
+      "answer": "We recruited participants through our own user panel.",
+      "challenge": "example not a requirement",
+      "proposed": {
+        "judgment": "cannot_determine",
+        "strength": "context_only",
+        "evidence": [],
+        "rationale": "An external recruitment agency is only an example of an optional expense."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "C035",
+      "requirement_id": "A14",
+      "answer": "Research participants joined remotely without paid taxis.",
+      "challenge": "example not a requirement",
+      "proposed": {
+        "judgment": "cannot_determine",
+        "strength": "context_only",
+        "evidence": [],
+        "rationale": "A taxi expense is not itself mandatory for every research session."
+      },
+      "review_state": "seed_unadjudicated"
+    }
+  ],
+  "pairs": [
+    {
+      "id": "D001",
+      "left": "A01",
+      "right": "T07",
+      "challenge": "cross-source equivalent",
+      "proposed": {
+        "equivalent": true,
+        "rationale": "Same WCAG 2.2 AA conformance baseline from two pages."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D002",
+      "left": "A02",
+      "right": "T08",
+      "challenge": "cross-source equivalent",
+      "proposed": {
+        "equivalent": true,
+        "rationale": "Both require operation with common assistive technologies."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D003",
+      "left": "A06",
+      "right": "T05",
+      "challenge": "compound versus subset",
+      "proposed": {
+        "equivalent": false,
+        "rationale": "The testing guide adds fixing audit issues, which is not entailed by obtaining an audit."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D004",
+      "left": "A04",
+      "right": "A08",
+      "challenge": "related but distinct",
+      "proposed": {
+        "equivalent": false,
+        "rationale": "Publishing a statement and making it available from every page are different dimensions."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D005",
+      "left": "A03",
+      "right": "T01",
+      "challenge": "partial overlap",
+      "proposed": {
+        "equivalent": false,
+        "rationale": "Disabled participants in research does not entail testing disabled AND older users."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D006",
+      "left": "T02",
+      "right": "T03",
+      "challenge": "same activity different criteria",
+      "proposed": {
+        "equivalent": false,
+        "rationale": "Per-feature beta cadence and manual+automated recurring modalities are different obligations."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D007",
+      "left": "A05",
+      "right": "A12",
+      "challenge": "same topic different actions",
+      "proposed": {
+        "equivalent": false,
+        "rationale": "Budget allocation and alpha-stage audit planning are different planning criteria."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D008",
+      "left": "A01",
+      "right": "A02",
+      "challenge": "independent requirements",
+      "proposed": {
+        "equivalent": false,
+        "rationale": "WCAG AA conformance and assistive-technology operation cannot be substituted."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D009",
+      "left": "A08",
+      "right": "A09",
+      "challenge": "conditional alternatives",
+      "proposed": {
+        "equivalent": false,
+        "rationale": "Every-page statement discovery and mobile-app alternative placements have different applicability."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D010",
+      "left": "T04",
+      "right": "T08",
+      "challenge": "non-equivalent technology",
+      "proposed": {
+        "equivalent": false,
+        "rationale": "Browser/device support is distinct from assistive-technology functionality."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D011",
+      "left": "A06",
+      "right": "A06",
+      "challenge": "self equivalence control",
+      "proposed": {
+        "equivalent": true,
+        "rationale": "Same underlying pre-beta accessibility-audit requirement."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D012",
+      "left": "T03",
+      "right": "T03",
+      "challenge": "self equivalence control",
+      "proposed": {
+        "equivalent": true,
+        "rationale": "Identical automated-plus-manual recurring testing criterion."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D013",
+      "left": "A07",
+      "right": "A04",
+      "challenge": "compound vs presence",
+      "proposed": {
+        "equivalent": false,
+        "rationale": "Publishing a statement need not include a description of issues unless contents also addressed."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D014",
+      "left": "T05",
+      "right": "A06",
+      "challenge": "symmetric compound test",
+      "proposed": {
+        "equivalent": false,
+        "rationale": "Audit-and-fix cannot be merged into only-audit, regardless of ordering."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D015",
+      "left": "A03",
+      "right": "A03",
+      "challenge": "self equivalence control",
+      "proposed": {
+        "equivalent": true,
+        "rationale": "Same disabled-user research requirement."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D016",
+      "left": "T01",
+      "right": "T06",
+      "challenge": "applicability vs child",
+      "proposed": {
+        "equivalent": false,
+        "rationale": "Service Standard's general conditional requirements and specific user-testing obligation are not equivalent."
+      },
+      "review_state": "seed_unadjudicated"
+    },
+    {
+      "id": "D017",
+      "left": "A13",
+      "right": "A14",
+      "challenge": "two different examples",
+      "proposed": {
+        "equivalent": false,
+        "rationale": "Different illustrative costs are neither obligatory nor equivalent."
+      },
+      "review_state": "seed_unadjudicated"
+    }
+  ]
+}
