@@ -26,6 +26,16 @@
 
 **No keyword volume data is asserted**: Ahrefs access returned “Insufficient plan,” Orchestryn's keyword worker is not configured, and Search Console/analytics data has not been linked.
 
+## Confirmed index notification and owned-site link (29 October 2026)
+
+- **7/7 webpages verified live** through a fresh HTTP retrieval, with expected canonical URLs and unique titles.
+- **Sitemap** returns all 7 canonical URLs; **RSS** returns four guide entries; **IndexNow public key file** was fetched and contained the expected public key.
+- **IndexNow notified:** GitHub Actions [run 40854138168](https://github.com/AbdulkadirKhoujja/missing-ai/actions/runs/40854138168), job `indexnow`, **HTTP 200** at `2026-10-29T10:01:56Z`. Seven new/changed URLs submitted. Actual log marker: `INDEXNOW_NOTIFICATION_ACCEPTED_NOT_INDEXING_PROOF`. This is accepted notification, **not** proof of indexing, ranking or AI citation.
+- **Owned portfolio placement verified:** Public [portfolio projects script](https://abdulkadir-khoujja.pages.dev/assets/projects.js) contains a Missing AI project card with the live demo URL and GitHub repository URL. The portfolio intentionally uses `noindex`; do not count this as an indexed backlink.
+- **No external social posts or community submissions** were completed: the browser profile has no signed-in social sites, and no social publisher was connected. A Metricool connection option was surfaced for legitimate account-owned posts.
+
+Keyword-metric access remains unavailable: the Ahrefs connector reported insufficient plan; Similarweb denied the keyword tool with missing product claims; Orchestryn's Google Ads keyword worker is unconfigured. No search-volume estimates, ranks, click counts or user adoption numbers have been fabricated.
+
 ## Search-intent content map
 
 | User question / potential search | Intent | Public destination |
@@ -75,7 +85,7 @@ IndexNow allows `keyLocation` for a non-host-root verification file. Submit **ne
 | Owned or external location | Status | What is appropriate |
 |---|---|---|
 | Missing AI GitHub README, Pages homepage, guide pages | **Owned and documented** | Contextual, crawlable links to actual resources |
-| Author's private portfolio public site | **Separate project; possible relevant project card** | Single accurate link to Missing AI when safely reviewed in that repository |
+| Author's portfolio public site | **Public script verified**; portfolio intentionally noindex | Accurate open-source beta project card links to repo and live demo; not counted as indexed backlink |
 | GitHub repository About homepage and topic tags | **Not updated through current connector** | Owner sets homepage and 4-6 accurate GitHub topics |
 | Dev.to or Hashnode | **Not posted: no authenticated publishing account available** | One original educational article with a contextual link; disclose affiliation |
 | LinkedIn / Mastodon / Bluesky | **Not posted: no authenticated publishing account available** | Product story, useful synthetic demo, explicit beta disclaimer |
