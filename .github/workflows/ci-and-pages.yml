@@ -31,7 +31,7 @@ jobs:
       - name: Assemble static website
         run: |
           mkdir -p _site/shared
-          cp site/index.html site/styles.css site/app.js site/config.js site/favicon.svg _site/
+          cp site/index.html site/privacy.html site/styles.css site/app.js site/config.js site/favicon.svg _site/
           cp shared/checker.mjs _site/shared/checker.mjs
           touch _site/.nojekyll
       - name: Upload GitHub Pages artifact
