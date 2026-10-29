@@ -112,7 +112,7 @@ function contradiction(r,segment){
   const ts=norm(t).split(/\s+/);
   const positive=ts.map((word,i)=>({word:concept(word),i})).filter(x=>segment.overlap.includes(x.word));
   const negatives=ts.map((word,i)=>({word,i})).filter(x=>/^(not|never|no|cannot|without|failed|fails|missing|omitted|omits|excluded|skipped|disabled|unavailable|unimplemented|dont|doesnt|didnt|cant|wont)$/.test(x.word));
-  return positives.some(p=>negatives.some(n=>Math.abs(n.i-p.i)<=5));
+  return positive.some(p=>negatives.some(n=>Math.abs(n.i-p.i)<=5));
 }
 function negativeCoverage(r,best){
   if(!best||!sourceNegation.test(r.text))return false;
