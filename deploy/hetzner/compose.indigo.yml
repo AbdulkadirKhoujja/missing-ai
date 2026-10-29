@@ -1,0 +1,35 @@
+# Independent evidence-first candidate. Existing Amber 3103 stays public until acceptance.
+name: missing-ai-indigo
+services:
+  api:
+    build:
+      context: ../..
+      dockerfile: deploy/hetzner/Dockerfile
+    image: missing-ai-indigo-api:initial
+    container_name: missing-ai-indigo-api
+    ports:
+      - "127.0.0.1:3104:3101"
+    environment:
+      NODE_ENV: production
+      PORT: "3101"
+      ALLOWED_ORIGINS: https://abdulkadirkhoujja.github.io
+    read_only: true
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,size=32m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 100
+    mem_limit: 256m
+    cpus: 0.5
+    networks: [missing_ai_indigo]
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
+networks:
+  missing_ai_indigo:
+    driver: bridge
