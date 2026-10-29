@@ -78,3 +78,25 @@ test("alternatives stay a single obligation",()=>{
  assert.match(list[0].text,/download page/);
  assert.match(list[0].text,/the app/);
 });
+
+test("document-issuance imperatives are extracted without 'must', but issue metadata stays contextual",()=>{
+ const src=[
+  "- Issue payment receipts for completed payments.",
+  "- Issue a refund after cancellation.",
+  "- Issue number 42 documents an example incident.",
+  "- Issue tracker contains old ticket metadata.",
+  "- Must issue training certificates after attendance."
+ ].join("\n");
+ const reqs=extractReviewRequirements(src);
+ assert.deepEqual(reqs.map(x=>[x.text,x.line]),[
+  ["Issue payment receipts for completed payments.",1],
+  ["Issue a refund after cancellation.",2],
+  ["Must issue training certificates after attendance.",5]
+ ]);
+ const review=prepareEvidenceReview("- Issue payment receipts for completed payments.\n- Include a support contact in receipts.",
+  "Payment receipts have not been implemented.");
+ assert.deepEqual(review.requirements.map(x=>x.text),[
+  "Issue payment receipts for completed payments.",
+  "Include a support contact in receipts."
+ ]);
+});
