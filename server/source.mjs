@@ -49,10 +49,23 @@ export function htmlToText(input) {
     return {amp:"&",lt:"<",gt:">",quot:'"',apos:"'",nbsp:" "}[c]||m;
   }).replace(/[^\S\n]+/g," ").replace(/\n\s*\n\s*\n/g,"\n\n").trim().slice(0,30000);
 }
+// Node 22 may ask custom DNS resolvers for all addresses (options.all=true)
+// when automatic family selection is enabled. In that mode callback's second
+// argument MUST be an array of {address, family} objects, not a bare string.
+// Always return only the previously validated, DNS-pinned IPv4 destination.
+export function pinnedIPv4Lookup(address) {
+  if(net.isIP(address)!==4)throw new Error("Pinned address must be IPv4.");
+  return (_host,options,callback)=>{
+    if(typeof options==="function"){callback=options;options={};}
+    if(options?.all)callback(null,[{address,family:4}]);
+    else callback(null,address,4);
+  };
+}
+
 export async function fetchPublicSource(input,remaining=3) {
   const url=validatePublicUrl(input),address=await resolvePublicAddress(url.hostname);
   return new Promise((resolve,reject)=>{
-    const req=https.request(url,{method:"GET",timeout:8000,headers:{Accept:"text/html,text/plain;q=0.9","User-Agent":"MissingAI/0.1 (public page requirement checker)"},lookup:(_host,_opts,callback)=>callback(null,address,4)},async res=>{
+    const req=https.request(url,{method:"GET",timeout:8000,headers:{Accept:"text/html,text/plain;q=0.9","User-Agent":"MissingAI/0.1 (public page requirement checker)"},family:4,autoSelectFamily:false,lookup:pinnedIPv4Lookup(address)},async res=>{
       const status=res.statusCode||0;
       if([301,302,303,307,308].includes(status)){
         const target=res.headers.location;res.resume();
