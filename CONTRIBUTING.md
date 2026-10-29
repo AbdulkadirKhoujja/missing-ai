@@ -30,3 +30,7 @@ PRs must preserve exact provenance, meaningful limitations, no unsafe default ne
 Use [issue templates](.github/ISSUE_TEMPLATE) for public bugs, UX problems and proposed features. Never include private client briefs, user identifiers, credentials or pasted sensitive responses in tickets. For vulnerabilities, read [SECURITY.md](SECURITY.md), not a public issue. Respect [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 Contributions are made under the repository's existing [MIT License](LICENSE). No Contributor License Agreement is required at present; if one is ever proposed it requires an explicit documented change.
+
+## Public/open-source boundaries before contributing
+
+Review the [OPEN / REVIEW / CLOSED disclosure policy](docs/OPEN_SOURCE_BOUNDARIES.md) **before** opening an issue or PR. External developers can fork and propose rights-cleared public code, but are not granted production access, private test datasets, live security targets or permission to publish user prompts. Security-sensitive proposals require private owner review **before** sensitive details enter GitHub. The daily assistant and benchmarks follow [the daily operations rules](docs/DAILY_OPERATIONS.md); a repeated automation does not confer release authority.
