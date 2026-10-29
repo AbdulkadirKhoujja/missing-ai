@@ -22,6 +22,8 @@ jobs:
         run: npm test
       - name: Measure synthetic answer-coverage benchmark
         run: npm run benchmark
+      - name: Measure candidate coverage separately (not deployed)
+        run: npm run benchmark:candidate
       - name: Assemble static website
         run: |
           mkdir -p _site/shared
