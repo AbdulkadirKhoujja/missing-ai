@@ -1,0 +1,12 @@
+api.orchestryn.com {
+    handle_path /missing-ai/* {
+        reverse_proxy 127.0.0.1:3102 {
+            header_up X-Forwarded-For {remote_host}
+            header_up -Cookie
+            header_up -Authorization
+        }
+    }
+    handle {
+        reverse_proxy 127.0.0.1:3000
+    }
+}
