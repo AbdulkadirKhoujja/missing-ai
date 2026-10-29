@@ -1,0 +1,449 @@
+{
+  "schema": "missing-ai-semantic-benchmark-v1",
+  "review_pack": "blind_independent_review_v1",
+  "instructions": "Independently classify each scenario, source-stated strength and pair equivalence. Do not read author seed labels. No code or website implementation is being verified. Return reasons and relevant answer quote spans. Mark ambiguous cases and suggest corrections.",
+  "sources": {
+    "G1": "https://www.gov.uk/service-manual/helping-people-to-use-your-service/making-your-service-accessible-an-introduction",
+    "G2": "https://www.gov.uk/service-manual/helping-people-to-use-your-service/testing-for-accessibility"
+  },
+  "requirements": [
+    {
+      "id": "A01",
+      "source_id": "G1",
+      "source_ref": "S01:R03",
+      "title": "WCAG 2.2 AA",
+      "source_excerpt": "meet level AA of the Web Content Accessibility Guidelines"
+    },
+    {
+      "id": "A02",
+      "source_id": "G1",
+      "source_ref": "S01:R04",
+      "title": "Assistive technology support",
+      "source_excerpt": "work on the most commonly used assistive technologies"
+    },
+    {
+      "id": "A03",
+      "source_id": "G1",
+      "source_ref": "S01:R05",
+      "title": "Disabled participants in user research",
+      "source_excerpt": "include disabled people in user research"
+    },
+    {
+      "id": "A04",
+      "source_id": "G1",
+      "source_ref": "S01:R06",
+      "title": "Publish accessibility statement at public beta",
+      "source_excerpt": "have an accessibility statement that explains how accessible the service is"
+    },
+    {
+      "id": "A05",
+      "source_id": "G1",
+      "source_ref": "S01:R08",
+      "title": "Accessibility budget",
+      "source_excerpt": "Include the cost of making your service accessible in your budget."
+    },
+    {
+      "id": "A06",
+      "source_id": "G1",
+      "source_ref": "S01:R23",
+      "title": "Pre-beta accessibility audit",
+      "source_excerpt": "Before you move into public beta, you must get an accessibility audit."
+    },
+    {
+      "id": "A07",
+      "source_id": "G1",
+      "source_ref": "S01:R30",
+      "title": "Accessibility statement disclose issues",
+      "source_excerpt": "what accessibility issues the service has, if any"
+    },
+    {
+      "id": "A08",
+      "source_id": "G1",
+      "source_ref": "S01:R32",
+      "title": "Make accessibility statement discoverable",
+      "source_excerpt": "it should be available on every page"
+    },
+    {
+      "id": "A09",
+      "source_id": "G1",
+      "source_ref": "S01:R33",
+      "title": "Mobile app statement location",
+      "source_excerpt": "For mobile applications the accessibility statement should be available from either"
+    },
+    {
+      "id": "A10",
+      "source_id": "G1",
+      "source_ref": "S01:R35",
+      "title": "Annual accessibility statement review",
+      "source_excerpt": "Your accessibility statement should be reviewed at least once a year"
+    },
+    {
+      "id": "A11",
+      "source_id": "G1",
+      "source_ref": "S01:R38",
+      "title": "Accessible alternative letter formats",
+      "source_excerpt": "If you have to send out letters as part of your service"
+    },
+    {
+      "id": "A12",
+      "source_id": "G1",
+      "source_ref": "S01:R17",
+      "title": "Plan accessibility audit during alpha",
+      "source_excerpt": "You should also start thinking about how to get an accessibility audit"
+    },
+    {
+      "id": "T01",
+      "source_id": "G2",
+      "source_ref": "S02:R03",
+      "title": "Test with disabled and older users",
+      "source_excerpt": "test the service with disabled users and with older users"
+    },
+    {
+      "id": "T02",
+      "source_id": "G2",
+      "source_ref": "S02:R05",
+      "title": "Test each public-beta feature",
+      "source_excerpt": "run tests every time you add a new feature"
+    },
+    {
+      "id": "T03",
+      "source_id": "G2",
+      "source_ref": "S02:R07",
+      "title": "Regular automated and manual testing",
+      "source_excerpt": "Test your code regularly, using both automated testing and manual testing"
+    },
+    {
+      "id": "T04",
+      "source_id": "G2",
+      "source_ref": "S02:R08",
+      "title": "Common browser and device support",
+      "source_excerpt": "Your service needs to work on the most common browsers and devices"
+    },
+    {
+      "id": "T05",
+      "source_id": "G2",
+      "source_ref": "S02:R10",
+      "title": "Pre-beta audit and fix issues",
+      "source_excerpt": "You must get an accessibility audit - and fix any issues - before your service moves into public beta."
+    },
+    {
+      "id": "T06",
+      "source_id": "G2",
+      "source_ref": "S02:R02",
+      "title": "Service Standard conditional assistive technologies",
+      "source_excerpt": "If you’re working to meet the Service Standard, you’ll also need to"
+    },
+    {
+      "id": "T07",
+      "source_id": "G2",
+      "source_ref": "S02:R01",
+      "title": "WCAG 2.2 AA minimum from testing guidance",
+      "source_excerpt": "You need to make sure your service meets level AA"
+    },
+    {
+      "id": "T08",
+      "source_id": "G2",
+      "source_ref": "S02:R09",
+      "title": "Common assistive technology support reiterated",
+      "source_excerpt": "You must also make sure your service works with common assistive technologies"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "C001",
+      "requirement_id": "A01",
+      "answer": "The site conforms to WCAG version 2.2 at level AA.",
+      "challenge": "paraphrase"
+    },
+    {
+      "id": "C002",
+      "requirement_id": "A01",
+      "answer": "We chose high contrast colours for the homepage.",
+      "challenge": "partial criteria"
+    },
+    {
+      "id": "C003",
+      "requirement_id": "A02",
+      "answer": "We tried VoiceOver on one page; the remaining screen-reader journeys have not been checked.",
+      "challenge": "testing is not working"
+    },
+    {
+      "id": "C004",
+      "requirement_id": "A02",
+      "answer": "The service currently cannot be operated using a screen reader.",
+      "challenge": "explicit functional denial"
+    },
+    {
+      "id": "C005",
+      "requirement_id": "A03",
+      "answer": "Participants with disabilities joined our user interviews.",
+      "challenge": "semantic paraphrase"
+    },
+    {
+      "id": "C006",
+      "requirement_id": "A03",
+      "answer": "We interviewed customers about the login screen.",
+      "challenge": "generic activity"
+    },
+    {
+      "id": "C007",
+      "requirement_id": "A04",
+      "answer": "Our accessibility statement will be drafted after the public-beta launch.",
+      "challenge": "late future promise"
+    },
+    {
+      "id": "C008",
+      "requirement_id": "A04",
+      "answer": "We plan to publish an accessibility statement when the service enters public beta.",
+      "challenge": "promise vs implementation"
+    },
+    {
+      "id": "C009",
+      "requirement_id": "A05",
+      "answer": "No money has been allocated to accessibility work.",
+      "challenge": "direct admission"
+    },
+    {
+      "id": "C010",
+      "requirement_id": "A05",
+      "answer": "Our delivery budget includes time for accessibility training and testing.",
+      "challenge": "concrete planning claim"
+    },
+    {
+      "id": "C011",
+      "requirement_id": "A06",
+      "answer": "We did not hire an external auditor; our internal accessibility audit status has not been reported.",
+      "challenge": "external vs internal"
+    },
+    {
+      "id": "C012",
+      "requirement_id": "A06",
+      "answer": "A trained internal specialist completed the pre-beta accessibility audit.",
+      "challenge": "internal equivalence"
+    },
+    {
+      "id": "C013",
+      "requirement_id": "A06",
+      "answer": "No accessibility audit has been performed before public beta.",
+      "challenge": "explicit missing audit"
+    },
+    {
+      "id": "C014",
+      "requirement_id": "A06",
+      "answer": "Our team ran automated accessibility checks.",
+      "challenge": "different control"
+    },
+    {
+      "id": "C015",
+      "requirement_id": "A07",
+      "answer": "We published an accessibility statement on the website.",
+      "challenge": "compound rule partial"
+    },
+    {
+      "id": "C016",
+      "requirement_id": "A08",
+      "answer": "Every page footer includes a link to the accessibility statement.",
+      "challenge": "paraphrase location"
+    },
+    {
+      "id": "C017",
+      "requirement_id": "A09",
+      "answer": "We do not publish a mobile application; this is a desktop browser service.",
+      "challenge": "conditional applicability"
+    },
+    {
+      "id": "C018",
+      "requirement_id": "A10",
+      "answer": "The accessibility statement is reviewed every January.",
+      "challenge": "recurring review claim"
+    },
+    {
+      "id": "C019",
+      "requirement_id": "A11",
+      "answer": "We send postal letters but only provide standard-print versions when accessible formats are requested.",
+      "challenge": "conditional triggered"
+    },
+    {
+      "id": "C020",
+      "requirement_id": "A12",
+      "answer": "We aim to arrange an accessibility audit after launch.",
+      "challenge": "timing and early planning"
+    },
+    {
+      "id": "C021",
+      "requirement_id": "T01",
+      "answer": "We tested with disabled volunteers; whether older users were included is not recorded.",
+      "challenge": "partial compound"
+    },
+    {
+      "id": "C022",
+      "requirement_id": "T01",
+      "answer": "The Service Standard applies, but we did not test with any older users.",
+      "challenge": "conditional scope triggered"
+    },
+    {
+      "id": "C023",
+      "requirement_id": "T02",
+      "answer": "Our team tests each new feature before beta, but stops accessibility tests once public beta begins.",
+      "challenge": "phase-specific omission"
+    },
+    {
+      "id": "C024",
+      "requirement_id": "T02",
+      "answer": "We have an automated accessibility-test suite.",
+      "challenge": "missing cadence"
+    },
+    {
+      "id": "C025",
+      "requirement_id": "T03",
+      "answer": "All tests are automated; we do no manual accessibility testing.",
+      "challenge": "one method missing"
+    },
+    {
+      "id": "C026",
+      "requirement_id": "T03",
+      "answer": "We run manual accessibility reviews alongside automated scans every sprint.",
+      "challenge": "multi-part paraphrase"
+    },
+    {
+      "id": "C027",
+      "requirement_id": "T04",
+      "answer": "We checked Chrome on one desktop; compatibility with other browsers and mobile devices is unknown.",
+      "challenge": "limited coverage"
+    },
+    {
+      "id": "C028",
+      "requirement_id": "T04",
+      "answer": "We support mainstream browsers across desktop and mobile devices.",
+      "challenge": "device/browser coverage"
+    },
+    {
+      "id": "C029",
+      "requirement_id": "T05",
+      "answer": "An audit was completed, but critical issues remain unfixed before public beta.",
+      "challenge": "compound audit/remediation"
+    },
+    {
+      "id": "C030",
+      "requirement_id": "T05",
+      "answer": "The accessibility audit is scheduled and the remediation plan is being drafted.",
+      "challenge": "in-progress ambiguous"
+    },
+    {
+      "id": "C031",
+      "requirement_id": "T06",
+      "answer": "We are not claiming compliance with the Service Standard.",
+      "challenge": "scope conditional"
+    },
+    {
+      "id": "C032",
+      "requirement_id": "T07",
+      "answer": "The product meets WCAG 2.2 level AA, according to our team.",
+      "challenge": "repeated source equivalent"
+    },
+    {
+      "id": "C033",
+      "requirement_id": "T08",
+      "answer": "We ran automated accessibility checks, but have not assessed operation with assistive technologies.",
+      "challenge": "checking is not operation"
+    }
+  ],
+  "pairs": [
+    {
+      "id": "D001",
+      "left": "A01",
+      "right": "T07",
+      "challenge": "cross-source equivalent"
+    },
+    {
+      "id": "D002",
+      "left": "A02",
+      "right": "T08",
+      "challenge": "cross-source equivalent"
+    },
+    {
+      "id": "D003",
+      "left": "A06",
+      "right": "T05",
+      "challenge": "compound versus subset"
+    },
+    {
+      "id": "D004",
+      "left": "A04",
+      "right": "A08",
+      "challenge": "related but distinct"
+    },
+    {
+      "id": "D005",
+      "left": "A03",
+      "right": "T01",
+      "challenge": "partial overlap"
+    },
+    {
+      "id": "D006",
+      "left": "T02",
+      "right": "T03",
+      "challenge": "same activity different criteria"
+    },
+    {
+      "id": "D007",
+      "left": "A05",
+      "right": "A12",
+      "challenge": "same topic different actions"
+    },
+    {
+      "id": "D008",
+      "left": "A01",
+      "right": "A02",
+      "challenge": "independent requirements"
+    },
+    {
+      "id": "D009",
+      "left": "A08",
+      "right": "A09",
+      "challenge": "conditional alternatives"
+    },
+    {
+      "id": "D010",
+      "left": "T04",
+      "right": "T08",
+      "challenge": "non-equivalent technology"
+    },
+    {
+      "id": "D011",
+      "left": "A06",
+      "right": "A06",
+      "challenge": "self equivalence control"
+    },
+    {
+      "id": "D012",
+      "left": "T03",
+      "right": "T03",
+      "challenge": "self equivalence control"
+    },
+    {
+      "id": "D013",
+      "left": "A07",
+      "right": "A04",
+      "challenge": "compound vs presence"
+    },
+    {
+      "id": "D014",
+      "left": "T05",
+      "right": "A06",
+      "challenge": "symmetric compound test"
+    },
+    {
+      "id": "D015",
+      "left": "A03",
+      "right": "A03",
+      "challenge": "self equivalence control"
+    },
+    {
+      "id": "D016",
+      "left": "T01",
+      "right": "T06",
+      "challenge": "applicability vs child"
+    }
+  ]
+}
