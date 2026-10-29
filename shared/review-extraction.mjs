@@ -42,6 +42,7 @@ export function extractReviewRequirements(source){
   }
   if(isBullet){
    const content=raw.replace(bullet,"").trim();
+   if(groupChoice&&groupChoice.variants.length>0&&(directive.test(content)||imperative.test(content)))flushChoice();
    if(groupChoice){if(content)groupChoice.variants.push(content);continue;}
    if(directive.test(content)||imperative.test(content)||listPolicy==="mandatory"){
     push(content,i+1,"list_item");
