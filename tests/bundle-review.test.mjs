@@ -39,6 +39,9 @@ test("consolidated report includes only three host-proposed groups but all four 
  assert.match(result.report_markdown,/line 1/);
  assert.match(result.report_markdown,/answer offsets 0/);
  assert.equal(result.validation.all_source_requirements_accounted_for,true);
+ assert.equal(result.validation.source_extraction_completeness_verified,false);
+ assert.match(result.limitations,/Missing obligations in original sources may remain undetected/);
+ assert.match(result.report_markdown,/Source extraction completeness/);
  assert.equal(result.validation.all_answer_quotes_exact,true);
  assert.equal(result.validation.groupings_independently_verified,false);
  assert.equal(result.validation.implementation_verified,false);
