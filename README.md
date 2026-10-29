@@ -4,7 +4,8 @@
 
 Missing AI is an [MIT-licensed](LICENSE) open-source tool for comparing **original instructions** with **AI-generated answers**. It highlights requirements worth a second look and shows where the evidence came from. It is for students, developers, writers, project managers, researchers, and anyone using AI for work with a brief or checklist.
 
-**Try the free web checker:** https://abdulkadirkhoujja.github.io/missing-ai/  
+**Try the free web checker:** https://abdulkadirkhoujja.github.io/missing-ai/
+**Learn how to review an AI answer:** [Original guides](https://abdulkadirkhoujja.github.io/missing-ai/guides/) · [Requirements coverage](https://abdulkadirkhoujja.github.io/missing-ai/guides/requirements-coverage-checklist.html) · [RSS feed](https://abdulkadirkhoujja.github.io/missing-ai/feed.xml)  
 **Report a bug or suggest a feature:** [GitHub Issues](https://github.com/AbdulkadirKhoujja/missing-ai/issues/new/choose)  
 **Start contributing:** [CONTRIBUTING.md](CONTRIBUTING.md) · [Developer handoff](docs/DEVELOPER_HANDOFF.md) · [First issues](https://github.com/AbdulkadirKhoujja/missing-ai/issues?q=is%3Aissue+is%3Aopen)
 
@@ -83,6 +84,10 @@ For the MCP protocol, tools and source safety limits, read [DEVELOPER_HANDOFF.md
 | \`deploy/hetzner/\` | **Operator-specific historical beta runbooks**, not a portable installer |
 
 Do not use the historical Hetzner scripts as a general quickstart: they contain environment-specific Caddy assumptions and prior release checkpoints. Use the local Node commands above, or create your own isolated deployment with explicit security review.
+
+## Search discovery and documentation
+
+The static site publishes an [XML sitemap](https://abdulkadirkhoujja.github.io/missing-ai/sitemap.xml), original accessible [guides](https://abdulkadirkhoujja.github.io/missing-ai/guides/), canonical page metadata and a human-readable RSS feed. **None proves Google or another engine indexed the pages.** The project-path robots.txt file is not a host-root robots policy on the shared GitHub Pages domain. See the [SEO/AEO/GEO execution ledger](docs/marketing/SEO_AEO_GEO_EXECUTION.md) for actual publication status, safe IndexNow notifications and webmaster ownership gates.
 
 ## Contributing and trust
 

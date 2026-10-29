@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel>
+<title>Missing AI — Practical AI Answer Review Guides</title>
+<link>https://abdulkadirkhoujja.github.io/missing-ai/guides/</link>
+<description>Original public, evidence-first guides about checking AI-generated answers against original requirements. All examples are fictional and require human review.</description>
+<language>en-gb</language>
+<lastBuildDate>Thu, 29 Oct 2026 09:00:00 GMT</lastBuildDate>
+<item><title>How to Check If an AI Answer Missed Your Instructions</title><link>https://abdulkadirkhoujja.github.io/missing-ai/guides/how-to-check-ai-answer.html</link><guid isPermaLink="true">https://abdulkadirkhoujja.github.io/missing-ai/guides/how-to-check-ai-answer.html</guid><pubDate>Thu, 29 Oct 2026 09:00:00 GMT</pubDate><description>How to review claims against original instructions, partial requirements and paraphrases.</description></item>
+<item><title>How to Check an AI Draft Against Assignment Criteria</title><link>https://abdulkadirkhoujja.github.io/missing-ai/guides/check-ai-assignment-against-rubric.html</link><guid isPermaLink="true">https://abdulkadirkhoujja.github.io/missing-ai/guides/check-ai-assignment-against-rubric.html</guid><pubDate>Thu, 29 Oct 2026 09:00:00 GMT</pubDate><description>A non-grading, rubric-first guide to review AI-assisted coursework.</description></item>
+<item><title>Requirements Coverage Checklist for AI Coding Assistants</title><link>https://abdulkadirkhoujja.github.io/missing-ai/guides/requirements-coverage-checklist.html</link><guid isPermaLink="true">https://abdulkadirkhoujja.github.io/missing-ai/guides/requirements-coverage-checklist.html</guid><pubDate>Thu, 29 Oct 2026 09:00:00 GMT</pubDate><description>How to separate completion claims from tested functionality.</description></item>
+<item><title>AI Answer Evidence vs Actual Verification</title><link>https://abdulkadirkhoujja.github.io/missing-ai/guides/ai-answer-evidence-vs-verification.html</link><guid isPermaLink="true">https://abdulkadirkhoujja.github.io/missing-ai/guides/ai-answer-evidence-vs-verification.html</guid><pubDate>Thu, 29 Oct 2026 09:00:00 GMT</pubDate><description>Why exact quotes and source references are not proof that a claim is true.</description></item>
+</channel></rss>
