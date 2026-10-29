@@ -1,0 +1,11 @@
+# Missing AI public repository: owner review intent (not enforced without GitHub branch rules)
+* @AbdulkadirKhoujja
+/server/ @AbdulkadirKhoujja
+/shared/ @AbdulkadirKhoujja
+/deploy/ @AbdulkadirKhoujja
+/.github/workflows/ @AbdulkadirKhoujja
+/benchmark/ @AbdulkadirKhoujja
+/benchmarks/ @AbdulkadirKhoujja
+/scripts/ @AbdulkadirKhoujja
+/docs/OPEN_SOURCE_BOUNDARIES.md @AbdulkadirKhoujja
+/SECURITY.md @AbdulkadirKhoujja
