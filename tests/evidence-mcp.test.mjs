@@ -21,7 +21,7 @@ const rpc=(id,name,args)=>({jsonrpc:"2.0",id,method:"tools/call",params:{name,ar
 test("MCP advertises evidence-first tools alongside original two without API-breaking changes",async()=>{
  await withServer(async post=>{
   const tools=(await post("/mcp",{jsonrpc:"2.0",id:1,method:"tools/list"})).json.result.tools;
-  assert.deepEqual(tools.map(t=>t.name),["check_missing","fetch_source","prepare_review","validate_review"]);
+  assert.deepEqual(tools.map(t=>t.name),["check_missing","fetch_source","prepare_review","validate_review","prepare_bundle","validate_bundle"]);
   const prepared=tools.find(t=>t.name==="prepare_review");
   const validate=tools.find(t=>t.name==="validate_review");
   assert.equal(prepared.inputSchema.required.includes("ai_output"),true);
