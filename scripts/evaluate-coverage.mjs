@@ -5,8 +5,10 @@ import {checkMissingV2} from "../shared/checker-v2.mjs";
 
 const dataPath=fileURLToPath(new URL("../benchmarks/coverage-v1.json", import.meta.url));
 const data=JSON.parse(readFileSync(dataPath,"utf8"));
+const challengePath=fileURLToPath(new URL("../benchmarks/challenge-v1.json", import.meta.url));
+const challengeData=JSON.parse(readFileSync(challengePath,"utf8"));
 const safeDivide=(a,b)=>b>0?a/b:null;
-export function evaluate(cases=data.cases,check=checkMissing){
+export function evaluate(cases=data.cases,check=checkMissing,fixture=data){
   const rows=cases.map(c=>{
     const result=check(c.source_text,c.ai_output);
     if(result.summary.requirements!==1 || result.findings.length!==1){
@@ -25,8 +27,8 @@ export function evaluate(cases=data.cases,check=checkMissing){
   return {
     schema_version:1,
     engine:check===checkMissing?"lexical-v1-current-import":check===checkMissingV2?"lexical-v2-candidate":"custom-checker",
-    benchmark:dataPath,
-    annotation_status:data.annotation_status,
+    benchmark:fixture===challengeData?challengePath:dataPath,
+    annotation_status:fixture.annotation_status,
     n:rows.length,
     labels:{covered:fp+tn,omitted:tp+fn,uncertain:unknownReview+unknownMention},
     confusion:{true_positive:tp,false_negative:fn,false_positive:fp,true_negative:tn,uncertain_review:unknownReview,uncertain_mentioned:unknownMention},
@@ -47,7 +49,8 @@ export function evaluate(cases=data.cases,check=checkMissing){
 const invoked=process.argv[1]&&fileURLToPath(import.meta.url)===process.argv[1];
 if(invoked){
   const checker=process.argv.includes("--candidate")?checkMissingV2:checkMissing;
-  const result=evaluate(data.cases,checker);
+  const fixture=process.argv.includes("--challenge")?challengeData:data;
+  const result=evaluate(fixture.cases,checker,fixture);
   if(process.argv.includes("--json"))console.log(JSON.stringify(result,null,2));
   else {
     const c=result.confusion,m=result.metrics;
