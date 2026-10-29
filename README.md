@@ -10,9 +10,9 @@ The static website is on [GitHub Pages](https://abdulkadirkhoujja.github.io/miss
 
 - Browser URL import uses `https://api.orchestryn.com/missing-ai/api/fetch`. Pasted-text comparisons happen locally in the browser.
 - Remote MCP endpoint for **private testing only**: `https://api.orchestryn.com/missing-ai/mcp`.
-- Caddy exposes the green container on local port 3102 under `/missing-ai/*` and preserves original Orchestryn routes; blue (port 3101) remains an independent fallback.
+- Caddy currently exposes the corrected **Amber** container on local loopback port 3103 under `/missing-ai/*`; previous Green (3102) and original Blue (3101) remain separate healthy fallbacks. Original Orchestryn routing is preserved.
 - The website and HTTP/MCP health checks are public, but the endpoint is an **anonymous, controlled beta**, not an authenticated public production service.
-- External monitoring, edge abuse limits, user privacy assessment, independent domain and formal ChatGPT/Claude connection validation are still required before wider launch.
+- External monitoring, edge abuse limits, user privacy assessment and an independent public domain are still required before wider launch. ChatGPT MCP tools have passed live end-to-end tests; Claude is user-connected but not independently tool-tested in this session.
 
 ## What works
 
@@ -29,6 +29,16 @@ The static website is on [GitHub Pages](https://abdulkadirkhoujja.github.io/miss
 - No server on GitHub Pages: Pages only hosts the static web interface. URL import and remote MCP need the backend running separately.
 
 The report's statuses are `text_found`, `likely_mentioned`, and `needs_review`. **Every status is heuristic and requires human judgement.** Prefer to report possible omissions rather than invent certainty.
+
+## Accuracy evaluation (Phase 2)
+
+The public site, API and MCP currently use **lexical-v1**. This is a cautious first-pass omission *candidate* finder, not a semantic accuracy guarantee.
+
+- `npm run benchmark` measures the 60-case synthetic answer-coverage reference baseline.
+- `npm run benchmark:challenge` evaluates a separate 30-case synthetic challenge set.
+- `npm run benchmark:candidate` and `npm run benchmark:candidate:challenge` evaluate experimental `shared/checker-v2.mjs` **without deploying it**.
+- [Experiment 001](docs/phase2-experiment-001.md) records false alarms of **8/10 covered challenge cases (80%)** for the candidate. It is **not promoted** despite improvements on the reference suite.
+- Both datasets are author-labelled rather than blind, human-adjudicated real-world measurements. Do not advertise their figures as representative accuracy.
 
 ## Local development (Node.js 22+)
 
@@ -59,7 +69,7 @@ The backend has origin checks, basic IP rate limits, HTTPS-only URL validation, 
 
 ## Backend hosting
 
-The current beta backend is running as an isolated Docker Compose **green** service on the existing Hetzner host; its Docker port is bound to loopback only. Caddy routes the existing `api.orchestryn.com/missing-ai/*` path to Green (port 3102). A separate older **blue** container on port 3101 is retained as a rollback option. Avoid merging either with Orchestryn's private Compose, volumes, networks or credentials.
+The current beta backend is running as an isolated Docker Compose **Amber** service on the existing Hetzner host; its Docker port is bound to loopback only. Caddy routes the existing `api.orchestryn.com/missing-ai/*` path to Amber (port 3103). Previous **Green** (3102) and original **Blue** (3101) containers are retained as independent rollback options. Avoid merging either with Orchestryn's private Compose, volumes, networks or credentials.
 
 The root `config.js` and `site/config.js` now both point at the verified URL-import API base `https://api.orchestryn.com/missing-ai` (not the `/mcp` path). This is a **read-only public beta** and should not be used for confidential requirements. `ALLOWED_ORIGINS` controls permitted browser origins; do not put provider secrets in frontend files. Before broad launch, separate the public hostname from private Orchestryn and add robust edge abuse controls and monitoring.
 
