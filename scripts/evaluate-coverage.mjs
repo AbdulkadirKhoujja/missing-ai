@@ -1,6 +1,7 @@
 import {readFileSync} from "node:fs";
 import {fileURLToPath} from "node:url";
 import {checkMissing} from "../shared/checker.mjs";
+import {checkMissingV2} from "../shared/checker-v2.mjs";
 
 const dataPath=fileURLToPath(new URL("../benchmarks/coverage-v1.json", import.meta.url));
 const data=JSON.parse(readFileSync(dataPath,"utf8"));
@@ -23,7 +24,7 @@ export function evaluate(cases=data.cases,check=checkMissing){
   const unknownMention=count("uncertain","mentioned");
   return {
     schema_version:1,
-    engine:check===checkMissing?"lexical-v1-current-import":"custom-checker",
+    engine:check===checkMissing?"lexical-v1-current-import":check===checkMissingV2?"lexical-v2-candidate":"custom-checker",
     benchmark:dataPath,
     annotation_status:data.annotation_status,
     n:rows.length,
@@ -45,7 +46,8 @@ export function evaluate(cases=data.cases,check=checkMissing){
 }
 const invoked=process.argv[1]&&fileURLToPath(import.meta.url)===process.argv[1];
 if(invoked){
-  const result=evaluate();
+  const checker=process.argv.includes("--candidate")?checkMissingV2:checkMissing;
+  const result=evaluate(data.cases,checker);
   if(process.argv.includes("--json"))console.log(JSON.stringify(result,null,2));
   else {
     const c=result.confusion,m=result.metrics;
