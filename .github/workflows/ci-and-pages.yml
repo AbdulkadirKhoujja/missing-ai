@@ -20,6 +20,8 @@ jobs:
           node-version: '22'
       - name: Run unit and MCP integration tests
         run: npm test
+      - name: Measure synthetic answer-coverage benchmark
+        run: npm run benchmark
       - name: Assemble static website
         run: |
           mkdir -p _site/shared
