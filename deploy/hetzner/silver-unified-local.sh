@@ -153,6 +153,79 @@ assert any("automated testing" in x["text"].lower() or "manual testing" in x["te
 assert any("accessibility audit" in x["text"].lower() for x in r)
 assert not any("Related guides" in x["text"] or "Guidance first published" in x["text"] for x in r)
 print("SILVER_REAL_SOURCE_LINKED_GUIDE_PASS requirements="+str(len(r)))'
+  # The host AI performs semantic grouping; this smoke verifies quote
+  # authenticity, ref accounting, source URLs, actual fetches and report format.
+  # Real pages are untrusted data, never instructions executed by the installer.
+  python3 - "$base" <<'PY'
+import json,sys,urllib.request
+base=sys.argv[1]
+def call(name,args):
+    payload={"jsonrpc":"2.0","id":19,"method":"tools/call","params":{"name":name,"arguments":args}}
+    req=urllib.request.Request(base+"/mcp",data=json.dumps(payload).encode(),headers={"Content-Type":"application/json"},method="POST")
+    with urllib.request.urlopen(req,timeout=65) as response:
+        result=json.loads(response.read())["result"]
+    assert result["isError"] is False,(name,result.get("content",[]))
+    return result["structuredContent"]
+
+urls=[
+ "https://www.gov.uk/service-manual/helping-people-to-use-your-service/making-your-service-accessible-an-introduction",
+ "https://www.gov.uk/service-manual/helping-people-to-use-your-service/testing-for-accessibility"
+]
+answer="We claim WCAG 2.2 AA, but the accessibility audit has not been performed."
+packet=call("prepare_bundle",{"sources":[{"source_url":u} for u in urls],"ai_output":answer})
+assert [x["source_url"] for x in packet["sources"]]==urls
+src=packet["sources"]
+assert len(src)==2
+assert 15<=len(src[0]["requirements"])<=60, len(src[0]["requirements"])
+assert 5<=len(src[1]["requirements"])<=25, len(src[1]["requirements"])
+assert any("WCAG" in x["text"] for x in src[0]["requirements"])
+assert any("accessibility audit" in x["text"].lower() for x in src[1]["requirements"])
+assert any("testing-for-accessibility" in x["url"] for x in src[0]["linked_sources"])
+assert all(x["reviewed"] is False for x in src[0]["linked_sources"])
+groups=[]
+for page in src:
+    for item in page["requirements"]:
+        groups.append({
+          "title":"Review candidate "+item["ref"],
+          "refs":[item["ref"]],"obligation":"uncertain",
+          "judgment":"cannot_determine",
+          "reason":"Machine acceptance cannot certify the meaning or obligation strength of this candidate.",
+          "evidence":[]
+        })
+report=call("validate_bundle",{
+ "sources":[{"source_url":x["source_url"],"source_text":x["source_text"]} for x in src],
+ "ai_output":answer,"groups":groups
+})
+assert report["summary"]["candidate_requirements"]==len(groups)
+assert report["summary"]["groups"]==len(groups)
+assert report["validation"]["all_source_requirements_accounted_for"]
+assert not report["validation"]["semantic_classifications_verified"]
+assert all(u in report["report_markdown"] for u in urls)
+assert "Cannot determine" in report["report_markdown"]
+print("SILVER_REAL_TWO_PAGE_BUNDLE_PASS sources=2 candidates="+str(len(groups)))
+
+# Synthetic duplicate and contradicted example: one group, two refs, one quote.
+sa="- Must obtain an accessibility audit before public beta."
+sb="- Must get an accessibility audit before public beta."
+synthetic=call("prepare_bundle",{"sources":[{"source_text":sa},{"source_text":sb}],"ai_output":answer})
+assert len(synthetic["sources"][0]["requirements"])==1
+assert len(synthetic["sources"][1]["requirements"])==1
+ref_a=synthetic["sources"][0]["requirements"][0]["ref"]
+ref_b=synthetic["sources"][1]["requirements"][0]["ref"]
+quote="the accessibility audit has not been performed."
+start=answer.index(quote)
+joined=call("validate_bundle",{"sources":[{"source_text":sa},{"source_text":sb}],"ai_output":answer,
+ "groups":[{"title":"Pre-beta accessibility audit requirement","refs":[ref_a,ref_b],
+ "obligation":"mandatory","judgment":"contradicted",
+ "reason":"The answer explicitly says an audit was not performed.",
+ "evidence":[{"quote":quote,"start":start}]}]})
+assert joined["summary"]["candidate_requirements"]==2
+assert joined["summary"]["groups"]==1
+assert joined["summary"]["duplicate_references_collapsed"]==1
+assert joined["validation"]["all_answer_quotes_exact"]
+assert not joined["validation"]["groupings_independently_verified"]
+print("SILVER_DUPLICATE_AND_CITATION_PASS")
+PY
   status="$(curl -sS --max-time 12 -o /dev/null -w '%{http_code}' -H 'content-type: application/json' -d '{"url":"https://127.0.0.1/"}' "$base/api/fetch")"
   test "$status" = 400 || { echo "SILVER_PRIVATE_IP_REFUSAL_FAILED_HTTP=$status" >&2; false; }
 }
