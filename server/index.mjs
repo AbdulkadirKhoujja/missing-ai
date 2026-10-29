@@ -30,7 +30,7 @@ const tools=[
 async function invoke(name,args) {
  if(!args||typeof args!=="object"||Array.isArray(args))throw new Error("Tool arguments must be an object.");
  if(name==="fetch_source"){return await fetchPublicSource(args.url);}
- if(name==="prepare_review"){const fetched=(!args.source_text&&args.source_url)?await fetchPublicSource(args.source_url):null;return prepareEvidenceReview(fetched?.text||args.source_text,args.ai_output,{source_url:fetched?.url||null});}
+ if(name==="prepare_review"){const fetched=(!args.source_text&&args.source_url)?await fetchPublicSource(args.source_url):null;return prepareEvidenceReview(fetched?.text||args.source_text,args.ai_output,{source_url:fetched?.url||null,linked_sources:fetched?.links||[]});}
  if(name==="validate_review"){return validateEvidenceReview(args.source_text,args.ai_output,args.assessments);}
  if(name==="check_missing"){
    let source=args.source_text;
