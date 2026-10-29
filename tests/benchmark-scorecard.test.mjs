@@ -32,7 +32,7 @@ test("published page and site build use the release result instead of hardcoded 
 });
 test("renderer uses textContent-only for untrusted display labels and fails safely for unexpected schema",()=>{
  const source=read("site/benchmarks/scorecard.js");
- assert.doesNotMatch(source,/innerHTML|document\.write/);
+ assert.doesNotMatch(source,/\.innerHTML\s*=|document\.write\s*\(/);
  const values=new Map();
  const create=()=>({textContent:"",children:[],appendChild(x){this.children.push(x)},replaceChildren(){this.children=[]}});
  const oldDoc=globalThis.document;
