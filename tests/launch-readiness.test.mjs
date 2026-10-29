@@ -33,7 +33,7 @@ test("website has local checker, candid beta notice, live sample and privacy acc
 });
 test("policy page describes browser check, remote URL fetch and MCP text transmission",()=>{
  const html=read("site/privacy.html");
- assert.match(html,/pasted text.*locally/i);
+ assert.match(html,/text is compared locally by JavaScript/i);
  assert.match(html,/Loading a public URL sends|your selected URL is submitted/i);
  assert.match(html,/MCP requests|MCP tools/i);
  assert.match(html,/logs/i);
