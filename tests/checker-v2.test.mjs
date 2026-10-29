@@ -39,3 +39,17 @@ test("candidate rejects oversized and missing input",()=>{
  assert.throws(()=>checkMissingV2("","text"),/required/);
  assert.throws(()=>checkMissingV2("- Must verify webhooks","x".repeat(30001)),/Maximum/);
 });
+
+test("supplementary challenge set stays separate from the reference benchmark",()=>{
+ const fixture=JSON.parse(readFileSync(new URL("../benchmarks/challenge-v1.json",import.meta.url),"utf8"));
+ assert.equal(fixture.cases.length,30);
+ assert.equal(new Set(fixture.cases.map(c=>c.id)).size,30);
+ assert.equal(new Set(fixture.cases.map(c=>c.domain)).size,10);
+ assert.match(fixture.annotation_status,/not_blind_not_independent/);
+ const b=evaluate(fixture.cases,checkMissingV2,fixture);
+ assert.equal(b.n,30);
+ assert.equal(b.labels.covered,10);
+ assert.equal(b.labels.omitted,15);
+ assert.equal(b.labels.uncertain,5);
+ for(const item of b.rows)assert.ok(["review","mentioned"].includes(item.predicted));
+});
