@@ -4,6 +4,16 @@
 
 **Current version:** v0.1 / early working prototype.
 
+## Hosted beta deployment (October 2026)
+
+The static website is on [GitHub Pages](https://abdulkadirkhoujja.github.io/missing-ai/). The isolated API is hosted on the **existing Hetzner server** alongside, but not inside, private Orchestryn. No Render/Railway instance is required.
+
+- Browser URL import uses `https://api.orchestryn.com/missing-ai/api/fetch`. Pasted-text comparisons happen locally in the browser.
+- Remote MCP endpoint for **private testing only**: `https://api.orchestryn.com/missing-ai/mcp`.
+- Caddy exposes the green container on local port 3102 under `/missing-ai/*` and preserves original Orchestryn routes; blue (port 3101) remains an independent fallback.
+- The website and HTTP/MCP health checks are public, but the endpoint is an **anonymous, controlled beta**, not an authenticated public production service.
+- External monitoring, edge abuse limits, user privacy assessment, independent domain and formal ChatGPT/Claude connection validation are still required before wider launch.
+
 ## What works
 
 - Responsive web app: paste requirements and an AI-generated response, click **Find what AI missed**, inspect line-referenced candidates, and copy the report.
@@ -49,15 +59,15 @@ The backend has origin checks, basic IP rate limits, HTTPS-only URL validation, 
 
 ## Backend hosting
 
-Deploy this repo on a Node.js-capable runtime (Railway is compatible) with `npm start` and public HTTPS. It needs Node.js 22+ and the platform-provided `PORT` variable. The service must not be hosted on GitHub Pages. `ALLOWED_ORIGINS` is an optional comma-separated list of further approved browser origins. Never place provider secrets in `site/config.js`.
+The current beta backend is running as an isolated Docker Compose **green** service on the existing Hetzner host; its Docker port is bound to loopback only. Caddy routes the existing `api.orchestryn.com/missing-ai/*` path to Green (port 3102). A separate older **blue** container on port 3101 is retained as a rollback option. Avoid merging either with Orchestryn's private Compose, volumes, networks or credentials.
 
-Update `site/config.js` to the verified backend origin (no trailing `/mcp`), e.g. `window.MISSING_AI_API_BASE = "https://your-api.example.com";` and redeploy Pages. The app's paste-only flow works even while URL import is unconfigured.
+The root `config.js` and `site/config.js` now both point at the verified URL-import API base `https://api.orchestryn.com/missing-ai` (not the `/mcp` path). This is a **read-only public beta** and should not be used for confidential requirements. `ALLOWED_ORIGINS` controls permitted browser origins; do not put provider secrets in frontend files. Before broad launch, separate the public hostname from private Orchestryn and add robust edge abuse controls and monitoring.
 
 ## Connectors
 
-**ChatGPT custom plugin:** After deploying the backend, in ChatGPT go to **Plugins → + → Add custom MCP server** (subject to access), provide `https://YOUR-BACKEND/mcp`, review access and install the custom plugin. The plugin exposes `check_missing` and `fetch_source`. This is not a public directory submission.
+**ChatGPT custom plugin:** After deploying the backend, in ChatGPT go to **Plugins → + → Add custom MCP server** (subject to access), provide `https://api.orchestryn.com/missing-ai/mcp`, review access and install the custom plugin. The plugin exposes `check_missing` and `fetch_source`. This is not a public directory submission.
 
-**Claude custom connector:** In Claude go to **Customize → Connectors → Add custom connector**, supply the same HTTPS `/mcp` URL, review authentication and connect. No login is implemented in this prototype. Platform UI naming and eligibility may change.
+**Claude custom connector:** In Claude go to **Customize → Connectors → Add custom connector**, supply `https://api.orchestryn.com/missing-ai/mcp`, review authentication and connect. Select no authentication when offered; this prototype implements no login. Create the connection privately and verify tool discovery and calls before wider distribution. Platform UI naming and eligibility may change.
 
 Example model prompt: *"Check this response against the original requirements using Missing AI and show which source instructions need review; don't assume an omission is proven merely because wording differs."*
 
