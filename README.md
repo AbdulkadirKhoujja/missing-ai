@@ -46,6 +46,16 @@ The codebase now includes two additional **MCP-candidate** tools, `prepare_revie
 
 ChatGPT or Claude (the host model) interprets answer meaning. Missing AI **only validates exact answer quotations, requirement IDs, input limits and structural completeness**, never semantic accuracy or whether work was actually implemented. The existing `check_missing` and `fetch_source` tools remain backward compatible, and the static web checker stays local lexical-v1. No new external model API, API key, telemetry or automatic submission of browser-pasted text is added.
 
+## Consolidated multi-source review (candidate)
+
+Missing AI now has an experimental additive MCP workflow for **one evidence-backed report across up to three selected public pages or pasted sources**:
+
+- `prepare_bundle`: fetch the explicitly selected URLs and return source-scoped refs (`S01:R01`), extracted requirements, and unreviewed-link suggestions.
+- ChatGPT or Claude judges whether criteria are repeated across pages, labels source strength (mandatory, recommended, conditional, context-only, uncertain) and evaluates what the AI answer claims.
+- `validate_bundle`: verify that every source requirement is counted **exactly once**, that cited answer quotations match their exact offsets, then render consolidated Markdown with individual source URLs and extracted-text line numbers.
+
+The server **does not independently verify** duplicate semantics, obligation strength, legal applicability or implementation. Read [the complete workflow and safety bounds](docs/unified-source-review.md). This code is **not live** until a separate rollout passes; current Violet production keeps its previously accepted four MCP tools and lexical-v1 website.
+
 ## Local development (Node.js 22+)
 
 ```bash
