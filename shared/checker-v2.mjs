@@ -61,7 +61,7 @@ for(const [canonical,...variants] of GROUPS)for(const v of [canonical,...variant
   // Prefer the first assigned meaning when a token appears in multiple groups.
   if(!LEXICON.has(v))LEXICON.set(v,canonical);
 }
-const norm=s=>String(s||"").normalize("NFKC").toLowerCase().replace(/[^\\p{L}\\p{N}]+/gu," ").trim();
+const norm=s=>String(s||"").normalize("NFKC").toLowerCase().replace(/[^\p{L}\p{N}]+/gu," ").trim();
 function concept(t){
   const lower=t.toLowerCase();
   if(LEXICON.has(lower))return LEXICON.get(lower);
@@ -72,7 +72,7 @@ function concept(t){
   return lower;
 }
 function concepts(s){
-  return [...new Set((norm(s).match(/[\\p{L}\\p{N}]+/gu)||[]).filter(t=>t.length>=3&&!STOP.has(t)).map(concept))];
+  return [...new Set((norm(s).match(/[\p{L}\p{N}]+/gu)||[]).filter(t=>t.length>=3&&!STOP.has(t)).map(concept))];
 }
 function clauses(output){
   const lines=output.match(/[^.!?\n]+[.!?]?/g)||[output];
