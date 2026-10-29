@@ -1,0 +1,43 @@
+{
+  "schema": "missing-ai-synthetic-release-history-v1",
+  "caution": "These are measured results against author-written synthetic fixtures, not independently adjudicated accuracy. Historical snapshots only record accepted public site releases; omission of other commits is not a claim of no change.",
+  "entries": [
+    {
+      "release_commit": "83cddbbb9c84199e81e6a218d216906432269229",
+      "generated_utc": "2026-10-29T10:23:43.926Z",
+      "source_url": "https://github.com/AbdulkadirKhoujja/missing-ai/actions/runs/40857197469",
+      "source_results": "https://abdulkadirkhoujja.github.io/missing-ai/benchmarks/synthetic-results.json",
+      "snapshot_basis": "Public JSON verified on 29 October 2026; snapshot of deployed release before subsequent changes. Historical metrics are manually retained and reviewed, not dynamically re-fetched.",
+      "measurements": [
+        {
+          "engine": "lexical-v1",
+          "fixture": "base",
+          "cases": 60,
+          "recall": 0.8,
+          "false_alarm_rate": 0.5
+        },
+        {
+          "engine": "lexical-v1",
+          "fixture": "challenge",
+          "cases": 30,
+          "recall": 1,
+          "false_alarm_rate": 1
+        },
+        {
+          "engine": "lexical-v2-candidate",
+          "fixture": "base",
+          "cases": 60,
+          "recall": 0.9,
+          "false_alarm_rate": 0.2
+        },
+        {
+          "engine": "lexical-v2-candidate",
+          "fixture": "challenge",
+          "cases": 30,
+          "recall": 1,
+          "false_alarm_rate": 0.8
+        }
+      ]
+    }
+  ]
+}
