@@ -30,6 +30,13 @@ export function triage(snapshot, { now = new Date(), activeWork = [] } = {}) {
       snapshot.unavailable.length !== 0 || !SHA.test(snapshot.main_sha ?? '')) {
     return blocked('Missing or incomplete verified public metadata');
   }
+  // Require an explicitly UTC source timestamp, never a host-local time.
+  // Python's aware UTC isoformat emits +00:00; JSON exporters may use Z.
+  if (typeof snapshot.observed_at_utc !== 'string' ||
+      !/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|\\+00:00)$/.test(
+        snapshot.observed_at_utc)) {
+    return blocked('Source observation must use explicit UTC');
+  }
   const observed = Date.parse(snapshot.observed_at_utc);
   const current = new Date(now).getTime();
   if (!Number.isFinite(observed) || !Number.isFinite(current) ||
