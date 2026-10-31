@@ -2,12 +2,14 @@ import {checkMissing} from "./shared/checker.mjs";
 const el=id=>document.getElementById(id);
 const source=el("source-text"), output=el("output-text"), results=el("results");
 let latest=null;
+const resultAnnouncement=el("result-announcement");
+function announce(message){resultAnnouncement.textContent=message;}
 [source,output].forEach((element)=>element.addEventListener("input",()=>{
  el("source-length").textContent=source.value.length.toLocaleString()+" characters";
  el("output-length").textContent=output.value.length.toLocaleString()+" characters";
 }));
 function node(tag,text,className){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e}
-function warning(message){results.replaceChildren();const wrap=node("div",undefined,"results-view");wrap.append(node("div","CHECK NOT COMPLETED","mini-title"),node("h3",message),node("p","Try pasting a shorter, complete set of requirements and the AI output.","result-note"));results.append(wrap);}
+function warning(message){results.replaceChildren();const wrap=node("div",undefined,"results-view");wrap.append(node("div","CHECK NOT COMPLETED","mini-title"),node("h3",message),node("p","Try pasting a shorter, complete set of requirements and the AI output.","result-note"));results.append(wrap);announce("Check not completed. "+message);}
 function present(report){results.replaceChildren();const wrap=node("div",undefined,"results-view");
 wrap.append(node("div","YOUR GAP REPORT","mini-title"),node("h3",report.summary.needs_review+" item(s) need a second look"),node("p","Matches are based on overlapping terms, not semantic proof. A flagged item may actually be satisfied.","result-note"));
 const counts=node("div",undefined,"result-counts");for(const [key,label] of [["needs_review","Review"],["likely_mentioned","Mentioned"],["text_found","Exact"]]){const block=node("div",undefined,"count");block.append(node("strong",String(report.summary[key])),node("span",label));counts.append(block);}wrap.append(counts);
@@ -16,8 +18,9 @@ if(!report.findings.length)wrap.append(node("p","No checklist-style requirements
 const caveat=node("p",report.limitations,"result-note");wrap.append(caveat);
 const copy=node("button","Copy report as JSON","copy-btn");copy.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(JSON.stringify(report,null,2));copy.textContent="Copied ✓"}catch{copy.textContent="Copy failed — browser permission required"}});wrap.append(copy);
 results.append(wrap);
+announce("Gap report ready. "+report.summary.needs_review+" need review, "+report.summary.likely_mentioned+" likely mentioned, and "+report.summary.text_found+" have exact wording matches. These are wording-based suggestions, not verification.");
 }
-el("check-btn").addEventListener("click",()=>{try{latest=checkMissing(source.value,output.value);present(latest);results.scrollIntoView({behavior:"smooth",block:"nearest"});}catch(e){warning(e.message);}});
+el("check-btn").addEventListener("click",(event)=>{try{latest=checkMissing(source.value,output.value);present(latest);if(event.detail>0)results.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"nearest"});}catch(e){warning(e.message);}});
 el("example-btn").addEventListener("click",()=>{source.value="- Must verify signed payment webhooks\n- Include a cancellation flow\n- Provide accessible mobile navigation\n- Prevent duplicate bookings";output.value="Implemented cancellation flow, mobile navigation, and duplicate booking prevention.";source.dispatchEvent(new Event("input"));el("check-btn").click();});
 el("load-url").addEventListener("click",async()=>{
 const button=el("load-url"),status=el("url-status"),api=(window.MISSING_AI_API_BASE||"").replace(/\/$/,"");
