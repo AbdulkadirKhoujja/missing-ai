@@ -41,8 +41,15 @@ export function triage(snapshot, { now = new Date(), activeWork = [] } = {}) {
       activeWork.some(key => typeof key !== 'string' || key.length > 80)) {
     return blocked('Invalid public state or in-flight work list');
   }
+  if ([...snapshot.issues, ...snapshot.pulls].some(item =>
+        !item || typeof item !== 'object' || !Number.isInteger(item.number))) {
+    return blocked('Malformed tracked GitHub record');
+  }
   const issues = new Map(snapshot.issues.map(item => [item.number, item]));
   const pulls = new Map(snapshot.pulls.map(item => [item.number, item]));
+  if (issues.size !== snapshot.issues.length || pulls.size !== snapshot.pulls.length) {
+    return blocked('Conflicting duplicate GitHub record');
+  }
   for (const track of TRACKS) {
     if (!['open', 'closed'].includes(issues.get(track.issue)?.state) ||
         (track.relatedPR !== null && (!['open', 'closed'].includes(pulls.get(track.relatedPR)?.state) ||
@@ -51,13 +58,20 @@ export function triage(snapshot, { now = new Date(), activeWork = [] } = {}) {
     }
   }
   const inflight = new Set(activeWork);
+  const busyPRs = new Set(TRACKS.filter(item => inflight.has(item.key) &&
+    item.relatedPR !== null).map(item => item.relatedPR));
+  const seenOpenPRs = new Set();
   const queue = TRACKS.map(track => {
     const issue = issues.get(track.issue);
     const pr = track.relatedPR === null ? null : pulls.get(track.relatedPR);
     let status;
     if (issue.state === 'closed') status = 'closed_issue';
-    else if (inflight.has(track.key)) status = 'already_in_progress';
-    else if (pr?.state === 'open') status = 'review_existing_pr';
+    else if (inflight.has(track.key) || (pr && busyPRs.has(pr.number))) {
+      status = 'already_in_progress';
+    } else if (pr?.state === 'open') {
+      status = seenOpenPRs.has(pr.number) ? 'same_pr_as_higher_priority' : 'review_existing_pr';
+      seenOpenPRs.add(pr.number);
+    }
     else if (track.key === 'semantic-adjudication') status = 'independent_human_review';
     else if (track.risk === 'REVIEW') status = 'maintainer_review_required';
     else status = 'safe_draft_candidate';
