@@ -81,3 +81,20 @@ test('a REVIEW change without an open PR needs maintainer approval', () => {
   assert.equal(result.recommendation.status, 'maintainer_review_required');
   assert.equal(result.recommendation.risk, 'REVIEW');
 });
+
+test('accepts explicit UTC but rejects ambiguous or non-UTC source clocks', () => {
+  const base = snapshot();
+  const accepted = ['2026-10-31T13:15:00Z', '2026-10-31T13:15:00+00:00'];
+  for (const stamp of accepted) {
+    base.observed_at_utc = stamp;
+    assert.equal(triage(base, { now }).outcome, 'recommendation');
+  }
+  for (const stamp of [
+    '2026-10-31T13:15:00', '2026-10-31T14:15:00+01:00',
+    '2026-10-31 13:15:00Z', '2026-10-31T13:15Z',
+  ]) {
+    base.observed_at_utc = stamp;
+    assert.equal(triage(base, { now }).outcome, 'blocked',
+                 `timestamp must be rejected: ${stamp}`);
+  }
+});
