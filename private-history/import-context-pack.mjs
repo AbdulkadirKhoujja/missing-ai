@@ -47,6 +47,7 @@ export async function importContextPack({folder,packPath,apply=false}) {
   const root=resolve(folder),pack=resolve(packPath),dest=join(root,'agent-events.jsonl');
   const dir=await lstat(root);
   if(!dir.isDirectory() || dir.isSymbolicLink() || (dir.mode & 0o077)!==0)throw Error('History folder must be a real, owner-private directory (mode 0700).');
+  if(typeof process.getuid==='function' && dir.uid!==process.getuid())throw Error('Importer must run as the private history directory owner, not a privileged or unrelated account.');
   if(pack===dest)throw Error('Input pack must not be the destination history file.');
   const entries=parseContextPack(await secureRead(pack,CONTEXT_LIMITS.packBytes));
   let existingContent='';
@@ -55,6 +56,7 @@ export async function importContextPack({folder,packPath,apply=false}) {
   if(existingContent && !existingContent.endsWith('\n'))throw Error('Existing history must end with a newline. No changes made.');
   const existing=existingRecords(existingContent);
   const oldStat=await lstat(dest).catch(e=>{if(e.code==='ENOENT')return null;throw e;});
+  if(oldStat && (!oldStat.isFile() || oldStat.isSymbolicLink() || oldStat.nlink!==1 || (oldStat.mode & 0o077)!==0 || oldStat.uid!==dir.uid))throw Error('History destination must be a single-link owner-private regular file.');
   const keys=new Set(existing.map(x=>`${x.conversation.trim()}\0${x.text.trim()}`));
   const additions=[];
   for(const e of entries){
@@ -73,7 +75,7 @@ export async function importContextPack({folder,packPath,apply=false}) {
   const fd=await open(dest,constants.O_WRONLY|constants.O_APPEND|constants.O_CREAT|constants.O_NOFOLLOW,0o600);
   try {
     const stat=await fd.stat();
-    if(!stat.isFile() || stat.size!==Buffer.byteLength(existingContent,'utf8') || (oldStat && (stat.dev!==oldStat.dev || stat.ino!==oldStat.ino)))throw Error('History file changed during import. No append attempted.');
+    if(!stat.isFile() || stat.nlink!==1 || (stat.mode & 0o077)!==0 || stat.uid!==dir.uid || stat.size!==Buffer.byteLength(existingContent,'utf8') || (oldStat && (stat.dev!==oldStat.dev || stat.ino!==oldStat.ino)))throw Error('History file changed or is unsafe. No append attempted.');
     await fd.writeFile(bytes);
     await fd.sync();
   }finally{await fd.close();}
