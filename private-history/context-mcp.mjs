@@ -2,7 +2,8 @@
 // Never deploy this inside the public beta, expose it on a public port, or log content.
 import readline from "node:readline";
 import {lstat,readFile} from "node:fs/promises";
-import {join,isAbsolute} from "node:path";
+import {join,isAbsolute,resolve} from "node:path";
+import {pathToFileURL} from "node:url";
 import {importChatGPTExport,reviewContext,HISTORY_LIMITS} from "../site/history-context.mjs";
 
 const MAX_EVENTS=2*1024*1024;
@@ -91,7 +92,7 @@ export function serveStdio(store,input=process.stdin,output=process.stdout){
  });
  return rl;
 }
-if(process.argv[1]&&import.meta.url===new URL("file://"+process.argv[1]).href){
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){
  try{serveStdio(createHistoryStore(process.env.MISSING_AI_HISTORY_DIR));}
  catch(e){process.stderr.write("Private history MCP startup failed: "+e.message+"\n");process.exitCode=1;}
 }
