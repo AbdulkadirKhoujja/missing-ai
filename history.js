@@ -3,6 +3,11 @@ import {encryptHistory,decryptHistory} from "./history-vault.mjs";
 const el=id=>document.getElementById(id);
 let messages=[];
 const state=el("import-status"),vaultStatus=el("vault-status"),results=el("history-results");
+const sharedPagesOrigin=location.hostname==="abdulkadirkhoujja.github.io";
+if(sharedPagesOrigin){
+ for(const id of ["vault-passphrase","save-vault","load-vault","delete-vault"])el(id).disabled=true;
+ vaultStatus.textContent="Encrypted browser storage is intentionally disabled on this shared GitHub Pages origin. Use a private, isolated self-hosted origin for saved histories. You can still review history in this session.";
+}
 function updateCount(extra=""){state.textContent=messages.length.toLocaleString()+" history messages in this session."+(extra?" "+extra:"");}
 function reportError(target,error){target.textContent=error instanceof Error?error.message:String(error);}
 function node(tag,text,className){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e;}
