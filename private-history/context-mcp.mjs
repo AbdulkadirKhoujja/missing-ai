@@ -22,13 +22,13 @@ async function sourceInfo(dir,name,maxBytes){
  try{stat=await lstat(path);}catch(e){if(e.code==="ENOENT")return null;throw Error("Cannot inspect authorized history source.");}
  if(!stat.isFile()||stat.isSymbolicLink())throw Error("History source must be a regular non-symlink file.");
  if(stat.size>maxBytes)throw Error("History source exceeds its size limit.");
- return {path,signature:[stat.dev,stat.ino,stat.size,stat.mtimeMs,stat.ctimeMs].join(":")};
+ return {path,dev:stat.dev,ino:stat.ino,signature:[stat.dev,stat.ino,stat.size,stat.mtimeMs,stat.ctimeMs].join(":")};
 }
 async function safeRead(file,maxBytes){
  const handle=await open(file.path,constants.O_RDONLY|constants.O_NOFOLLOW);
  try{
   const st=await handle.stat();
-  if(!st.isFile()||st.size>maxBytes)throw Error("History source is invalid or too large.");
+  if(!st.isFile()||st.size>maxBytes||st.dev!==file.dev||st.ino!==file.ino)throw Error("History source changed or exceeds size limit; retry after verifying source.");
   const chunks=[];let total=0,position=0;
   for(;;){
    const buffer=Buffer.allocUnsafe(Math.min(65536,maxBytes+1-total));
