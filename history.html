@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; img-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Opt-in conversation history review. Import ChatGPT exports and check AI answers against previous messages locally in your browser.">
+<title>History &amp; Context — Missing AI</title>
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./history.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="./" aria-label="Missing AI home"><span class="brandmark">M<span class="dot">•</span></span><span>missing<span class="accent">ai</span></span></a><nav><a href="./">Main checker</a><a href="./privacy.html">Data handling</a><a href="https://github.com/AbdulkadirKhoujja/missing-ai" rel="noopener noreferrer">Source code ↗</a></nav></header>
+<main class="history-page">
+<section class="history-intro"><div class="mini-title">EARLY PREVIEW · OPTIONAL · LOCAL-FIRST</div><h1>Check what your AI<br><em>might have forgotten.</em></h1><p>Import your own ChatGPT <code>conversations.json</code> export, then compare a new AI answer with relevant earlier messages. Nothing you import is submitted to the Missing AI server by this page.</p><p class="history-caution"><strong>Important:</strong> Earlier chat claims are not independent proof of access, completion, or current state. Results are suggestions to verify, not semantic fact-checking. Do not import third-party or client data without permission. Review your export first.</p></section>
+<div class="history-layout"><div class="history-stack">
+<section class="history-panel" aria-labelledby="import-title"><div class="panel-title"><span class="step">01</span><h2 id="import-title">Load your history</h2></div>
+<p>From your own ChatGPT data export, select the <code>conversations.json</code> file (not the ZIP). Supports files up to 25 MB. Only user and assistant text from each conversation's active branch is imported.</p>
+<label for="history-file" class="history-label">Choose local JSON export</label><input id="history-file" type="file" accept=".json,application/json">
+<p id="import-status" class="history-status" role="status">No history loaded. We never automatically access your ChatGPT account.</p>
+<div class="history-toolbar"><button type="button" id="clear-session" class="smallbtn">Clear current session</button></div>
+</section>
+<section class="history-panel" aria-labelledby="note-title"><div class="panel-title"><span class="step">02</span><h2 id="note-title">Add earlier evidence manually</h2></div>
+<p>For conversations you don't have in your export, enter a historical note or a short quoted excerpt. A manual note is marked as user-provided, not verified.</p>
+<label for="note-title-input" class="history-label">Chat or source title</label><input id="note-title-input" type="text" maxlength="160" placeholder="e.g. Orchestryn access discussion">
+<label for="note-text" class="history-label">Earlier message or note</label><textarea id="note-text" rows="4" maxlength="3000" placeholder="I already provided Hetzner access and we verified the GitHub connection."></textarea>
+<button type="button" id="add-note" class="smallbtn">Add to this session</button>
+</section>
+<section class="history-panel" aria-labelledby="vault-title"><div class="panel-title"><span class="step">03</span><h2 id="vault-title">Optional encrypted device storage</h2></div>
+<p>Nothing is retained by this page after you close it unless you choose to save an encrypted copy in this browser. The saved copy uses AES-GCM and a passphrase-derived key. The passphrase is not stored or recoverable.</p>
+<label for="vault-passphrase" class="history-label">Passphrase (12 characters minimum)</label><input id="vault-passphrase" type="password" minlength="12" autocomplete="new-password" spellcheck="false" placeholder="Choose a strong unique passphrase">
+<div class="history-toolbar"><button type="button" id="save-vault" class="smallbtn">Save encrypted copy</button><button type="button" id="load-vault" class="smallbtn">Unlock saved copy</button><button type="button" id="delete-vault" class="textbtn">Delete saved copy</button></div>
+<p id="vault-status" class="history-status" role="status">Stored only if you explicitly choose Save. Local browser storage can be cleared by your browser or device.</p>
+</section>
+</div><section class="history-panel history-review" aria-labelledby="review-title"><div class="panel-title"><span class="step">04</span><h2 id="review-title">Review an AI answer</h2></div>
+<p>Paste the AI's latest answer. Missing AI searches related history and highlights possible repeated access requests or previously completed work.</p>
+<label for="answer-text" class="history-label">AI answer to review</label><textarea id="answer-text" rows="8" maxlength="15000" spellcheck="false" placeholder="To investigate the GitHub issue, please give me access to Hetzner again…"></textarea>
+<button id="review-answer" type="button" class="primary">Find overlooked context ↗</button>
+<div id="history-results" role="status" aria-live="polite"><p class="history-status">Review results and sourced quotations will appear here.</p></div>
+</section></div>
+<section class="history-fineprint"><h2>Privacy and integration limits</h2><p>This preview runs its comparison in the browser. The file input does not upload your JSON to the remote MCP API. If you opt to save, an encrypted copy is stored using browser IndexedDB under this site's origin. The page's network policy blocks JavaScript connections. Browser extensions, compromised devices, and browser-profile access are outside this feature's protection. There is no automatic ChatGPT or Claude conversation-history API sync; users import or supply the information they authorise. This is a local-only early preview, not an audited secure document vault.</p><p><a href="./privacy.html">Read data handling</a> · <a href="https://github.com/AbdulkadirKhoujja/missing-ai/blob/main/docs/HISTORY_CONTEXT.md" rel="noopener noreferrer">Read the technical limits</a></p></section>
+</main>
+<footer><div class="brand">M<span class="dot">•</span> missing<span class="accent">ai</span></div><p>Find what AI missed. Built in the open.</p><div class="footer-links"><a href="./">Home</a><a href="./privacy.html">Data handling</a><a href="https://github.com/AbdulkadirKhoujja/missing-ai">Source &amp; licence ↗</a></div></footer>
+<script type="module" src="./history.js"></script>
+</body></html>
