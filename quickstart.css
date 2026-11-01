@@ -1,0 +1,16 @@
+.context-prompt{border:1px solid #53637c;border-radius:10px;padding:12px;margin:16px 0;color:#dbe8ff}
+.context-prompt summary{cursor:pointer;font-weight:700}
+.context-prompt textarea{margin-top:10px}
+.context-preview{max-height:320px;overflow:auto;margin:16px 0;padding:12px;border:1px solid #465c72;border-radius:9px;background:#0d1929;white-space:pre-wrap;overflow-wrap:anywhere}
+.context-preview article{border-top:1px solid #465c72;padding:12px 0}
+.context-preview article:first-of-type{border-top:0}
+.context-preview article p{margin:8px 0}
+.context-confirm{display:flex;align-items:flex-start;gap:10px;line-height:1.55;margin:16px 0;color:#e1ebfc}
+.context-confirm input{flex:none;width:18px;height:18px;margin-top:2px}
+#add-context{margin-bottom:10px}
+#review-answer{margin:18px 0}
+.result-card{padding:14px 0;border-top:1px solid #3e4b62}
+.result-card h3{font-size:16px}
+.result-card small{color:#bdcfe6}
+.result-card blockquote{padding:10px;border-left:3px solid #8edab6;background:#1b2c37;white-space:pre-wrap;overflow-wrap:anywhere}
+button:disabled{opacity:.55;cursor:not-allowed}

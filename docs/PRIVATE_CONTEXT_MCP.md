@@ -1,5 +1,7 @@
 # Private history MCP companion — opt-in, read-only
 
+Optional reviewed context-pack imports are a separate, owner-operated CLI (`private-history/import-context-pack.mjs`) and are **not** new MCP write tools. See `docs/INSTANT_CONTEXT_ONBOARDING.md`; keep the private MCP read-only.
+
 **Status:** integration candidate; not part of the hosted/public Missing AI beta. The browser history page disables persistent saving on the shared GitHub Pages origin; use a private isolated origin for encrypted browser saving. The six existing public MCP tools are unchanged. No private conversation archive is to be uploaded to the GitHub repository, Actions artifacts, website or shared unauthenticated API.
 
 ## Purpose
