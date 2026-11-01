@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {makeContextEntries,splitSummary,serializeContextPack,parseContextPack,mergeContextEntries,CONTEXT_LIMITS} from '../site/context-onboarding.mjs';
 import {importContextPack} from '../private-history/import-context-pack.mjs';
-import {mkdtemp,mkdir,writeFile,readFile,symlink,rm,chmod} from 'node:fs/promises';
+import {mkdtemp,mkdir,writeFile,readFile,symlink,link,rm,chmod} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 const date='2026-11-01T09:00:00.000Z';
@@ -39,7 +39,7 @@ test('dry-run does not write; apply appends approved context and skips repeat im
  try{
   await mkdir(folder,{mode:0o700});await chmod(folder,0o700);
   const old={id:'existing',conversation:'Example setup',text:'Confirmed earlier setup.',role:'event',date};
-  const dest=join(folder,'agent-events.jsonl');await writeFile(dest,JSON.stringify(old)+'\n');
+  const dest=join(folder,'agent-events.jsonl');await writeFile(dest,JSON.stringify(old)+'\n',{mode:0o600});await chmod(dest,0o600);
   const pack=join(dir,'pack.jsonl');await writeFile(pack,serializeContextPack(makeContextEntries('Example setup','A new user-approved handoff.',date)));
   assert.deepEqual(await importContextPack({folder,packPath:pack}),{mode:'dry-run',existing:1,new:1,duplicates:0});
   assert.equal((await readFile(dest,'utf8')).split('\n').filter(Boolean).length,1);
@@ -105,4 +105,19 @@ test('a context pack cannot contain markup-based role spoofing or bogus date',()
  assert.throws(()=>parseContextPack(JSON.stringify({...valid,date:'garbage'})+'\n'),/Invalid capture date/);
  const dangerous='<img src=x onerror=alert(1)>';
  assert.equal(makeContextEntries('Project',dangerous,date)[0].text,dangerous);
+});
+
+
+test('rejects hardlinked or group-readable existing history before append',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'missing-ai-context-'));const folder=join(dir,'history');
+ try{
+  await mkdir(folder,{mode:0o700});await chmod(folder,0o700);
+  const pack=join(dir,'pack.jsonl');await writeFile(pack,serializeContextPack(makeContextEntries('Example','Approved note.',date)));
+  const dest=join(folder,'agent-events.jsonl');await writeFile(dest,JSON.stringify({conversation:'Example',text:'Older event',role:'event'})+'\n');
+  const other=join(dir,'second-link');await link(dest,other);
+  await assert.rejects(importContextPack({folder,packPath:pack,apply:true}),/single-link/);
+  await rm(other);await chmod(dest,0o644);
+  await assert.rejects(importContextPack({folder,packPath:pack,apply:true}),/owner-private/);
+  assert.equal((await readFile(dest,'utf8')).trim(),JSON.stringify({conversation:'Example',text:'Older event',role:'event'}));
+ }finally{await rm(dir,{recursive:true,force:true});}
 });
