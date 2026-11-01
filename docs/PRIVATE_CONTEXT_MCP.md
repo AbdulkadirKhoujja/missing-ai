@@ -1,6 +1,6 @@
 # Private history MCP companion — opt-in, read-only
 
-**Status:** integration candidate; not part of the hosted/public Missing AI beta. The six existing public MCP tools are unchanged. No private conversation archive is to be uploaded to the GitHub repository, Actions artifacts, website or shared unauthenticated API.
+**Status:** integration candidate; not part of the hosted/public Missing AI beta. The browser history page disables persistent saving on the shared GitHub Pages origin; use a private isolated origin for encrypted browser saving. The six existing public MCP tools are unchanged. No private conversation archive is to be uploaded to the GitHub repository, Actions artifacts, website or shared unauthenticated API.
 
 ## Purpose
 
@@ -47,6 +47,17 @@ printf '%s\n' '{"conversation":"Example staging project","text":"The staging sch
 ```
 
 The CLI accepts one record via stdin and refuses a symlinked history directory. Use only factual, consented notes that your agent is authorised to record; ideally store a redacted evidence reference alongside the text. Record claims without evidence as claims, not verified facts.
+
+### Enforce a preflight in an agent pipeline
+
+An agent you control can invoke the local review as a required step, independently of whether the AI host volunteers a tool call:
+
+```sh
+printf '%s' 'Please grant staging cloud access again.' |
+  MISSING_AI_HISTORY_DIR="$HOME/.missing-ai-history" node private-history/preflight.mjs
+```
+
+Exit codes: `0` means no supported candidate was flagged, `3` means potential overlooked context requiring a human/agent review, and `2` means unavailable/invalid input (fail closed). A zero exit code **does not prove** the reply is accurate, and a 3 does **not prove** the proposal is false. A supervised agent can call this preflight before final handoff; the product does not automatically intercept ChatGPT/Claude messages.
 
 This is **automatic file refresh**, **not** automatic transcription of every ChatGPT/Claude turn. A host may call the tool when it judges retrieval relevant; it cannot be forced to invoke the tool on every answer by MCP alone. A user-operated agent pipeline may enforce a preflight tool call in its own orchestration logic.
 
