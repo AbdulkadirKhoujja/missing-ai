@@ -25,6 +25,7 @@
 <details class="context-prompt"><summary>Suggested prompt to create a handoff in any AI chat</summary>
 <label for="handoff-prompt" class="history-label">Copy the prompt below and review its result</label>
 <textarea id="handoff-prompt" readonly rows="6">Summarise only the important decisions, explicit user preferences, completed work, unresolved tasks, dates and evidence references from this conversation. Distinguish confirmed evidence from unverified claims. Do not invent facts or claim to have checked live systems. Exclude passwords, API keys, private credentials and confidential third-party information. Write a concise, plain-text handoff for my review.</textarea>
+<button type="button" id="copy-handoff" class="smallbtn">Copy handoff prompt</button><p id="copy-status" class="history-status" role="status"></p>
 </details>
 <label for="source-title" class="history-label">Project or conversation title</label><input id="source-title" type="text" maxlength="160" placeholder="e.g. Personal project handoff">
 <label for="source-text" class="history-label">Your reviewed context summary or excerpt</label><textarea id="source-text" rows="9" maxlength="15000" spellcheck="false" placeholder="What was decided, what was completed, what remains open, and where evidence can be checked…"></textarea>
