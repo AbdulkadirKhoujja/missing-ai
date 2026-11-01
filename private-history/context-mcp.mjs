@@ -1,7 +1,8 @@
 // Private, read-only, stdio MCP companion for *explicitly authorized* local history.
 // Never deploy this inside the public beta, expose it on a public port, or log content.
 import readline from "node:readline";
-import {lstat,readFile} from "node:fs/promises";
+import {lstat,open} from "node:fs/promises";
+import {constants} from "node:fs";
 import {join,isAbsolute,resolve} from "node:path";
 import {pathToFileURL} from "node:url";
 import {importChatGPTExport,reviewContext,HISTORY_LIMITS} from "../site/history-context.mjs";
@@ -23,6 +24,23 @@ async function sourceInfo(dir,name,maxBytes){
  if(stat.size>maxBytes)throw Error("History source exceeds its size limit.");
  return {path,signature:[stat.dev,stat.ino,stat.size,stat.mtimeMs,stat.ctimeMs].join(":")};
 }
+async function safeRead(file,maxBytes){
+ const handle=await open(file.path,constants.O_RDONLY|constants.O_NOFOLLOW);
+ try{
+  const st=await handle.stat();
+  if(!st.isFile()||st.size>maxBytes)throw Error("History source is invalid or too large.");
+  const chunks=[];let total=0,position=0;
+  for(;;){
+   const buffer=Buffer.allocUnsafe(Math.min(65536,maxBytes+1-total));
+   if(!buffer.length)throw Error("History source exceeds its size limit.");
+   const {bytesRead}=await handle.read(buffer,0,buffer.length,position);
+   if(!bytesRead)break;
+   total+=bytesRead;position+=bytesRead;chunks.push(buffer.subarray(0,bytesRead));
+   if(total>maxBytes)throw Error("History source exceeds its size limit.");
+  }
+  return Buffer.concat(chunks).toString("utf8");
+ }finally{await handle.close();}
+}
 export function createHistoryStore(dir){
  if(typeof dir!=="string"||!isAbsolute(dir))throw Error("Set MISSING_AI_HISTORY_DIR to an explicit absolute folder path.");
  let cache=null,signature=null;
@@ -34,12 +52,12 @@ export function createHistoryStore(dir){
   if(next===signature&&cache)return cache;
   let messages=[],sources=[];
   if(exportFile){
-   const parsed=JSON.parse(await readFile(exportFile.path,"utf8"));
+   const parsed=JSON.parse(await safeRead(exportFile,HISTORY_LIMITS.maxFileBytes));
    messages=importChatGPTExport(parsed).messages;
    sources.push("chatgpt-export");
   }
   if(eventFile){
-   const lines=(await readFile(eventFile.path,"utf8")).split("\n").filter(Boolean);
+   const lines=(await safeRead(eventFile,MAX_EVENTS)).split("\n").filter(Boolean);
    if(lines.length>2000)throw Error("Authorized event file exceeds 2,000 records.");
    const seen=new Set(messages.map(m=>m.id));
    for(let i=0;i<lines.length;i++){
