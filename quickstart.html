@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; img-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Start reviewing forgotten AI context immediately, using only user-approved summaries and excerpts in your browser.">
+<title>Start with your context — Missing AI</title>
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./history.css"><link rel="stylesheet" href="./quickstart.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="./" aria-label="Missing AI home"><span class="brandmark">M<span class="dot">•</span></span><span>missing<span class="accent">ai</span></span></a><nav><a href="./">Main checker</a><a href="./history.html">Full history import</a><a href="./privacy.html">Data handling</a></nav></header>
+<main class="history-page">
+<section class="history-intro">
+<div class="mini-title">INSTANT START · OPT-IN · LOCAL-FIRST</div>
+<h1>Start with context.<br><em>No export wait.</em></h1>
+<p>Copy a short, reviewed project handoff or a selected excerpt from an AI conversation. Missing AI will check new answers against what you chose to provide. No account link, ZIP file or server upload required.</p>
+<p class="history-caution"><strong>Review before using:</strong> Remove passwords, tokens and confidential third-party material. This is a preview, not a certified private-data vault. Prior conversations are claims, not proof that something is still configured.</p>
+</section>
+<div class="history-layout"><div class="history-stack">
+<section class="history-panel" aria-labelledby="source-heading">
+<div class="panel-title"><span class="step">01</span><h2 id="source-heading">Paste the context you want remembered</h2></div>
+<p>You can write your own notes, paste a selected conversation excerpt, or use an assistant to draft a summary and then review it yourself. Maximum 15,000 characters per summary; long text is split into searchable notes.</p>
+<details class="context-prompt"><summary>Suggested prompt to create a handoff in any AI chat</summary>
+<label for="handoff-prompt" class="history-label">Copy the prompt below and review its result</label>
+<textarea id="handoff-prompt" readonly rows="6">Summarise only the important decisions, explicit user preferences, completed work, unresolved tasks, dates and evidence references from this conversation. Distinguish confirmed evidence from unverified claims. Do not invent facts or claim to have checked live systems. Exclude passwords, API keys, private credentials and confidential third-party information. Write a concise, plain-text handoff for my review.</textarea>
+</details>
+<label for="source-title" class="history-label">Project or conversation title</label><input id="source-title" type="text" maxlength="160" placeholder="e.g. Personal project handoff">
+<label for="source-text" class="history-label">Your reviewed context summary or excerpt</label><textarea id="source-text" rows="9" maxlength="15000" spellcheck="false" placeholder="What was decided, what was completed, what remains open, and where evidence can be checked…"></textarea>
+<button type="button" id="preview-context" class="smallbtn">Preview context</button>
+<div id="context-preview" class="context-preview" aria-live="polite"><p>Preview the text before confirming.</p></div>
+<label class="context-confirm"><input id="approved-check" type="checkbox"> I reviewed the content, have permission to use it, and removed secrets and unconsented third-party data.</label>
+<button type="button" id="add-context" class="smallbtn">Add reviewed context to this session</button>
+<p id="context-status" class="history-status" role="status">Nothing is loaded. Your text stays in this browser session.</p>
+</section>
+<section class="history-panel" aria-labelledby="portable-heading">
+<div class="panel-title"><span class="step">02</span><h2 id="portable-heading">Keep or restore your approved notes</h2></div>
+<p>Download a plain-text context pack containing <strong>only the notes you explicitly approved</strong>. It is not encrypted; keep it in a private place. You can reopen it here, or use the separately authorised local importer with a private Missing AI MCP server. This page never uploads the pack.</p>
+<div class="history-toolbar"><button id="download-pack" type="button" class="smallbtn" disabled>Download approved context pack</button><button id="clear-context" type="button" class="textbtn" disabled>Clear this session</button></div>
+<label class="history-label" for="pack-file">Restore a previous Missing AI context pack (JSONL)</label><input id="pack-file" type="file" accept=".jsonl,application/x-ndjson,text/plain">
+<p class="history-status">Other devices and ChatGPT cannot see these notes until you explicitly import the pack using a compatible private connector. There is no background account-history synchronization.</p>
+</section>
+</div><section class="history-panel history-review" aria-labelledby="review-heading">
+<div class="panel-title"><span class="step">03</span><h2 id="review-heading">Check an AI answer now</h2></div>
+<p>Paste an AI answer. Missing AI searches only the notes you approved during this session and flags potential forgotten decisions or repeated work. Verify every finding against current evidence.</p>
+<label class="history-label" for="answer-text">New AI answer to review</label>
+<textarea id="answer-text" rows="9" maxlength="15000" placeholder="Please give me access to the server again before I can continue…"></textarea>
+<button type="button" id="review-answer" class="primary" disabled>Check against my context</button>
+<div id="results" role="status" aria-live="polite"><p>No review performed.</p></div>
+</section></div>
+<section class="history-fineprint"><h2>What this does — and doesn't — do</h2>
+<p>This opt-in instant flow requires no bulk export and sends no input to Missing AI: the page's Content Security Policy blocks JavaScript network connections. Data stays in browser memory until you close or clear the session. The optional downloaded JSONL file is unencrypted. The quickstart does not automatically access other ChatGPT conversations and does not save to your connected private MCP server. Current results are keyword-based suggestions, not verified semantic truth. For later, larger imports use the <a href="./history.html">full history preview</a> and the <a href="https://github.com/AbdulkadirKhoujja/missing-ai/blob/main/docs/PRIVATE_CONTEXT_MCP.md" rel="noopener noreferrer">private MCP documentation</a>.</p></section>
+</main>
+<footer><div class="brand">M<span class="dot">•</span> missing<span class="accent">ai</span></div><p>Find what AI missed. Built in the open.</p></footer>
+<script type="module" src="./quickstart.js"></script>
+</body></html>
