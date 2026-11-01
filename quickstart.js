@@ -8,6 +8,10 @@ let approved=[];
 let pending=null;
 let pendingFingerprint='';
 const marker=()=>el('source-title').value+'\u0000'+el('source-text').value;
+el('copy-handoff').addEventListener('click',async()=>{
+  try {await navigator.clipboard.writeText(el('handoff-prompt').value);el('copy-status').textContent='Prompt copied. Review its response before bringing any context here.';}
+  catch {el('handoff-prompt').focus();el('handoff-prompt').select();el('copy-status').textContent='Clipboard permission unavailable. Select and copy the prompt above manually.';}
+});
 function node(tag,value){const e=document.createElement(tag);if(value!==undefined)e.textContent=value;return e;}
 function setStatus(text){status.textContent=text;}
 function clearPreview(){pending=null;pendingFingerprint='';el('context-preview').replaceChildren(node('p','Preview the text before confirming.'));}
@@ -38,7 +42,9 @@ el('pack-file').addEventListener('change',async event=>{
   const file=event.target.files?.[0];if(!file)return;
   try {
     if(file.size>CONTEXT_LIMITS.packBytes)throw Error('Context pack exceeds 2 MB.');
-    const loaded=parseContextPack(await file.text());const merged=mergeContextEntries(approved,loaded);
+    const loaded=parseContextPack(await file.text());
+    if(!window.confirm(`Restore ${loaded.length} note(s) from this unencrypted file? Only restore a pack you own and have reviewed for private or third-party information.`))return;
+    const merged=mergeContextEntries(approved,loaded);
     approved=merged.entries;updateControls();
     setStatus(`${merged.added} note(s) restored from the selected local file. ${approved.length} available; duplicates skipped.`);
   }catch(error){setStatus(error.message);}finally{event.target.value='';}
@@ -48,7 +54,7 @@ el('download-pack').addEventListener('click',()=>{
     if(!approved.length)throw Error('Add reviewed notes first.');
     if(!window.confirm('Download these reviewed notes as an unencrypted plain-text file? Keep it private.'))return;
     const blob=new Blob([serializeContextPack(approved)],{type:'application/x-ndjson;charset=utf-8'});
-    const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='missing-ai-context-pack.jsonl';a.click();
+    const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='missing-ai-context-pack.jsonl';document.body.append(a);a.click();a.remove();
     setTimeout(()=>URL.revokeObjectURL(url),1000);
     setStatus('Downloaded the reviewed notes as a local JSONL file. This page did not upload them.');
   }catch(error){setStatus(error.message);}
