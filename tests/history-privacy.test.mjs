@@ -34,3 +34,21 @@ test("root mirrors match the deployment source for history and privacy",async()=
   assert.equal(await read(file),await read("site/"+file),"drift in "+file);
  }
 });
+
+test("private history source identity is pinned across inspection and read",async()=>{
+ const code=await read("private-history/context-mcp.mjs");
+ assert.match(code,/constants\\.O_NOFOLLOW/);
+ assert.match(code,/st\\.dev!==file\\.dev/);
+ assert.match(code,/st\\.ino!==file\\.ino/);
+ assert.match(code,/maxBytes/);
+});
+test("vault encrypts before storage and does not persist the key or passphrase",async()=>{
+ const cryptoCode=await read("site/history-vault.mjs");
+ const uiCode=await read("site/history.js");
+ assert.match(cryptoCode,/AES-GCM/);
+ assert.match(cryptoCode,/PBKDF2/);
+ assert.match(cryptoCode,/crypto\\.subtle\\.encrypt/);
+ assert.match(uiCode,/await encryptHistory\\(messages,passphrase\\(\\)\\)/);
+ assert.match(uiCode,/dbOperation\\("readwrite","put",record\\)/);
+ assert.doesNotMatch(uiCode,/localStorage\\.setItem\\(/);
+});
