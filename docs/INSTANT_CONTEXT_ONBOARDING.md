@@ -28,12 +28,12 @@ For an existing Docker-based private MCP, run this CLI in an **isolated, no-netw
 - The downloaded pack is **unencrypted plain text**. It may contain sensitive personal data. Users must review, protect, and delete it themselves. The UI includes warnings and an explicit download confirmation.
 - The common patterns used to flag likely secrets are incomplete: **they are not a credential detector**. The UI requires a separate human review.
 - This initial UI does not automatically read entire platform chat histories, transfer notes to a ChatGPT connector, or silently capture future messages. Per-account automatic sync and hosted multi-tenant storage are out of scope.
-- The importer rejects symlinks, oversized and malformed inputs, role spoofing and obvious duplicate notes. It does not parse private history into GitHub or logs. Its append check is not a multi-process transactional lock; run it without concurrent writers. Existing event files keep their ownership; for a newly created file, ensure the service user can read it.
+- The importer requires the private-directory owner identity and rejects symlinks, hardlinked or group-readable history files, oversized and malformed inputs, role spoofing and obvious duplicate notes. It does not parse private history into GitHub or logs. Its append check is not a multi-process transactional lock; run it without concurrent writers. Existing event files keep their ownership; for a newly created file, ensure the service user can read it.
 - The search engine remains `context-lexical-v1`; it may miss paraphrases or return irrelevant matches. Historical notes are not verified implementation/access evidence.
 
 ## Change classification and review requirements
 
-**REVIEW** under `docs/OPEN_SOURCE_BOUNDARIES.md` because adding a portable history export and a local import CLI changes data-handling flow. New content is generic and synthetic; no tokens, personal conversations, provider secrets, host identifiers or infrastructure configuration are included. A security/privacy/compatibility review, owner disclosure decision, and independent CI must precede publication to the public repo or production release. The current public Missing AI site and private MCP deployment remain unchanged until approval.
+**REVIEW** under `docs/OPEN_SOURCE_BOUNDARIES.md` because adding a portable history export and a local import CLI changes data-handling flow. New content is generic and synthetic; no tokens, personal conversations, provider secrets, host identifiers or infrastructure configuration are included. A security/privacy/compatibility review, owner disclosure decision, and independent CI must precede publication to the public repo or production release. Publishing site code is separate from installing the private CLI on an authorized device; do not assume the live private MCP has been upgraded.
 
 ## Acceptance tests
 
@@ -42,3 +42,5 @@ For an existing Docker-based private MCP, run this CLI in an **isolated, no-netw
 - JSONL with forged `assistant` role, symlinks, oversized files, malformed JSON and likely credential patterns are rejected.
 - Dry-run does not write history; `--apply` preserves existing agent events and appends only approved notes; MCP subsequently sees them without a restart.
 - Browser preview and review never render untrusted snippets as HTML; keyboard/accessibility interactions and narrow-screen layout are checked.
+
+Import the context pack using the same unprivileged UID as the history directory owner. Do not run the importer as root when that directory belongs to another user.
