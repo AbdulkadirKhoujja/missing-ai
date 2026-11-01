@@ -1,5 +1,7 @@
 # Conversation history and context continuity — local preview (review required)
 
+Instant onboarding candidate: `site/quickstart.html` permits a reviewed note or handoff without a full export. It is local/session-only; an optional, unencrypted JSONL download requires user approval. See `docs/INSTANT_CONTEXT_ONBOARDING.md`. The existing archive import remains optional.
+
 This is an **opt-in local browser preview**, not a live MCP account-integration feature. `site/history.html` reads a user-selected ChatGPT `conversations.json` file, extracts the active conversation branch's user/assistant text messages, and searches those messages when the user pastes a new AI response. Original text stays in browser memory unless a user explicitly saves an encrypted IndexedDB copy. This feature sends no imported conversation to the Missing AI API, MCP endpoint, GitHub or Orchestryn.
 
 ## Product contract
