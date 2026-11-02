@@ -29,7 +29,7 @@ async function call(url,name,args={},jwt=token('alice'),extra={}){
 test('OAuth metadata advertises separate provider and user read/write scopes',()=>run(async({url})=>{
  const r=await fetch(url+'/.well-known/oauth-protected-resource');assert.equal(r.status,200);
  const body=await r.json();assert.equal(body.resource,resource);assert.deepEqual(body.authorization_servers,[issuer]);assert.deepEqual(body.scopes_supported,['context:read','context:write']);
- const list=await fetch(url+'/mcp',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'tools/list'})});const data=await list.json();assert.equal(data.result.tools.length,10);assert.ok(data.result.tools.every(t=>t.securitySchemes[0].type==='oauth2'));
+ const list=await fetch(url+'/mcp',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'tools/list'})});const data=await list.json();assert.equal(data.result.tools.length,8);assert.ok(data.result.tools.every(t=>t.securitySchemes[0].type==='oauth2'));
 }));
 test('unauthenticated reads challenge and invalid tokens are denied',()=>run(async({url})=>{
  const none=await call(url,'missing_ai_context_status',{},'');assert.equal(none.status,401);assert.match(none.headers.get('www-authenticate'),/oauth-protected-resource/);
@@ -51,7 +51,7 @@ test('tenant isolation: separate identities cannot list, search, commit or delet
  const list=await call(url,'missing_ai_list_context');assert.equal(list.value.notes.length,1);
  const search=await call(url,'missing_ai_search_context',{query:'staging release'});assert.equal(search.value.findings.length,1);
  const bob=await call(url,'missing_ai_search_context',{query:'staging release'},token('bob'));assert.deepEqual(bob.value.findings,[]);
- const blocked=await call(url,'missing_ai_delete_context',{note_id:list.value.notes[0].id},token('bob'));assert.equal(blocked.value.deleted,false);
+ assert.equal(store.delete(tenant('bob'),list.value.notes[0].id),0);
  assert.equal((await call(url,'missing_ai_context_status')).value.note_count,1);
 }));
 test('separate confirm step, one-shot approval, duplicate detection and explicit cancellation',()=>run(async({url})=>{
@@ -63,16 +63,18 @@ test('separate confirm step, one-shot approval, duplicate detection and explicit
  const repeat=await call(url,'missing_ai_prepare_context_import',{notes:[note()]});const committed=await call(url,'missing_ai_save_approved_context',approved('alice',repeat.value.preview_id));assert.equal(committed.value.added,0);assert.equal(committed.value.duplicates,1);
  const newer=await call(url,'missing_ai_prepare_context_import',{notes:[note('Another synthetic item.')]});await call(url,'missing_ai_cancel_context_import',{preview_id:newer.value.preview_id});assert.equal((await call(url,'missing_ai_save_approved_context',approved('alice',newer.value.preview_id))).error,true);
 }));
-test('delete one and delete all are strictly tenant-scoped',()=>run(async({url,store})=>{
+test('private storage delete one and delete all remain strictly tenant-scoped',()=>run(async({url,store})=>{
  const add=async(sub,text)=>{const draft=await call(url,'missing_ai_prepare_context_import',{notes:[note(text)]},token(sub));await call(url,'missing_ai_save_approved_context',approved(sub,draft.value.preview_id),token(sub));};
  await add('alice','Synthetic alpha completed.');await add('bob','Synthetic bravo completed.');
  assert.equal(store.count(tenant('alice')),1);assert.equal(store.count(tenant('bob')),1);
- const id=(await call(url,'missing_ai_list_context')).value.notes[0].id;
- assert.equal((await call(url,'missing_ai_delete_context',{note_id:id})).value.deleted,true);
+ const id=store.list(tenant('alice'))[0].id;
+ assert.equal(store.delete(tenant('bob'),id),0);assert.equal(store.count(tenant('alice')),1);
+ assert.equal(store.delete(tenant('alice'),id),1);
  await add('alice','Synthetic replacement completed.');
- assert.equal((await call(url,'missing_ai_delete_all_context',{confirmation:'WRONG'})).error,true);
- assert.equal((await call(url,'missing_ai_delete_all_context',{confirmation:'DELETE ALL MY MISSING AI CONTEXT'})).value.deleted,1);
+ assert.equal(store.deleteAll(tenant('alice')),1);
  assert.equal(store.count(tenant('alice')),0);assert.equal(store.count(tenant('bob')),1);
+ const toolList=await fetch(url+'/mcp',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:99,method:'tools/list'})});
+ assert.ok((await toolList.json()).result.tools.every(t=>!t.name.startsWith('missing_ai_delete')));
 }));
 test('encrypted store does not persist plaintext note content',()=>{
  const {store}=setup(),t=tenant('alice');const id=store.prepare(t,[{conversation:'Synthetic',text:'Unique confidentiality fixture marker: ZEBRA-87654',role:'note',date:new Date().toISOString()}]);
@@ -167,7 +169,8 @@ test('without independent approval signer configured, managed service cannot sav
  const server=http.createServer(createManagedMcp({issuer,resource,store,verifyToken:verifier}));
  await new Promise(ok=>server.listen(0,'127.0.0.1',ok));const url=`http://127.0.0.1:${server.address().port}`;
  try{const draft=await call(url,'missing_ai_prepare_context_import',{notes:[note()]});
- assert.equal((await call(url,'missing_ai_save_approved_context',approved('alice',draft.value.preview_id))).error,true);
+ const unsupported=await call(url,'missing_ai_save_approved_context',approved('alice',draft.value.preview_id));
+ assert.equal(unsupported.body.error.code,-32602);
  assert.equal(store.count(tenant('alice')),0);
  }finally{await new Promise(ok=>server.close(ok));store.close();}
 });

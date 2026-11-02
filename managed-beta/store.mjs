@@ -38,6 +38,7 @@ export function createStore({path=':memory:',key,now=()=>Date.now(),allowMemory=
   count(tenant){safeTenant(tenant);return count.get(tenant).n;},
   list(tenant){safeTenant(tenant);return readNotes.all(tenant).map(r=>({id:r.id,...decrypt(key,r)}));},
   prepare(tenant,entries){safeTenant(tenant);if(entries.length>10)throw Error('Maximum 10 notes per import.');expireDrafts.run(now());const id=randomUUID(),enc=crypt(key,entries);addDraft.run(tenant,id,enc.iv,enc.tag,enc.data,now()+300_000);return id;},
+  preview(tenant,id){safeTenant(tenant);const draft=getDraft.get(tenant,id);if(!draft||draft.expires<=now())return null;return decrypt(key,draft);},
   commit(tenant,id){safeTenant(tenant);if(typeof id!=='string'||!/^[-0-9a-f]{36}$/.test(id))throw Error('Invalid preview.');
    const draft=getDraft.get(tenant,id);if(!draft||draft.expires<=now())throw Error('Preview expired or not found.');
    // Explicit single-process transaction: consume the preview once, and atomically add notes.

@@ -27,16 +27,17 @@ export const MANAGED_TOOLS=[
  tool('missing_ai_context_audit','Read content-free import/deletion receipts for only the authenticated user.',inputSchema({}),scopes.read),
  tool('missing_ai_prepare_context_import','Store a short-lived encrypted draft and return its EXACT notes for user review. Do not call the save tool until the user has explicitly approved the displayed notes. This tool makes no lasting history change.',inputSchema({notes:{type:'array',minItems:1,maxItems:10,items:{type:'object',properties:{conversation:str(160,'Title'),text:str(3000,'Reviewed context')},required:['conversation','text'],additionalProperties:false}}},['notes']),scopes.write,false),
  tool('missing_ai_save_approved_context','Commit a one-use draft ONLY with a short-lived approval proof signed by the separately authenticated user approval portal. The model cannot self-authorize saving. The ChatGPT host must still display write confirmation.',inputSchema({preview_id:str(80,'ID from prepare step'),approval_proof:str(6000,'Signed proof from the independent approval portal')},['preview_id','approval_proof']),scopes.write,false),
- tool('missing_ai_cancel_context_import','Discard an uncommitted draft without saving history.',inputSchema({preview_id:str(80,'Draft ID')},['preview_id']),scopes.write,false),
- tool('missing_ai_delete_context','Permanently remove one of the authenticated user’s notes by ID, with host write confirmation.',inputSchema({note_id:str(80,'Saved note ID')},['note_id']),scopes.write,false,true),
- tool('missing_ai_delete_all_context','Permanently delete ALL the authenticated user’s context and drafts. Requires explicit user confirmation.',inputSchema({confirmation:{type:'string',const:'DELETE ALL MY MISSING AI CONTEXT'}},['confirmation']),scopes.write,false,true)
+ tool('missing_ai_cancel_context_import','Discard an uncommitted draft without saving history.',inputSchema({preview_id:str(80,'Draft ID')},['preview_id']),scopes.write,false)
+
 ];
-const byName=new Map(MANAGED_TOOLS.map(x=>[x.name,x]));
+
 function words(text){return [...new Set((String(text).normalize('NFKC').toLowerCase().match(/[\p{L}\p{N}][\p{L}\p{N}_-]{2,}/gu)||[]).filter(w=>w.length<70))].slice(0,35);}
-export function createManagedMcp({store,verifyToken,verifyApproval,issuer,resource,allowedOrigins=[]}={}){
+export function createManagedMcp({store,verifyToken,verifyApproval,issuer,resource,allowedOrigins=[],approvalBase}={}){
  if(!store||typeof verifyToken!=='function')throw Error('Store and token verifier required.');
  if(!resource?.startsWith('https://')||!issuer?.startsWith('https://'))throw Error('HTTPS resource and issuer required.');
  const origins=new Set(allowedOrigins);
+ const exposedTools=MANAGED_TOOLS.filter(t=>t.name!=='missing_ai_save_approved_context'||typeof verifyApproval==='function');
+ const byName=new Map(exposedTools.map(t=>[t.name,t]));
  const rate=new Map();
  function consume(tenant){const now=Date.now();let x=rate.get(tenant);if(!x||now-x.start>=60_000){x={start:now,n:0};rate.set(tenant,x);}x.n++;if(rate.size>10000)for(const [k,v] of rate)if(now-v.start>60_000)rate.delete(k);if(x.n>60)throw new AuthError('Too many requests',429);}
  async function invoke(name,args,authorization){
@@ -44,7 +45,7 @@ export function createManagedMcp({store,verifyToken,verifyApproval,issuer,resour
   if(!args||typeof args!=='object'||Array.isArray(args))throw Error('Invalid tool arguments.');
   const principal=await verifyToken(authorization,def.securitySchemes[0].scopes);consume(principal.tenant);
   const tenant=principal.tenant;
-  if(name==='missing_ai_get_profile')return {id:tenant};
+  if(name==='missing_ai_get_profile')return {id:tenant,...(approvalBase?{manage_url:new URL('/account/start',approvalBase).href}:{})};
   if(name==='missing_ai_context_status')return {note_count:store.count(tenant),source:'managed-approved-notes',limitations:'No automatic ChatGPT history access.'};
   if(name==='missing_ai_list_context')return {notes:store.list(tenant).map(n=>({id:n.id,conversation:n.conversation,date:n.date}))};
   if(name==='missing_ai_context_audit')return {receipts:store.audit(tenant)};
@@ -57,7 +58,7 @@ export function createManagedMcp({store,verifyToken,verifyApproval,issuer,resour
   }
   if(name==='missing_ai_prepare_context_import'){
    const entries=validatedEntries(args.notes),preview_id=store.prepare(tenant,entries);
-   return {preview_id,expires_in_seconds:300,notes:entries,warning:'Show each exact note to the user. Saving requires explicit separate confirmation; no history has been changed.'};
+   return {preview_id,expires_in_seconds:300,notes:entries,...(approvalBase?{approval_url:approvalBase+'?draft='+encodeURIComponent(preview_id)}:{}),warning:'Show each exact note to the user. Saving requires explicit separate confirmation; no history has been changed.'};
   }
   if(name==='missing_ai_save_approved_context'){
    if(typeof verifyApproval!=='function')throw Error('Independent user approval is not configured.');
@@ -66,11 +67,6 @@ export function createManagedMcp({store,verifyToken,verifyApproval,issuer,resour
    return store.commit(tenant,preview_id);
   }
   if(name==='missing_ai_cancel_context_import')return {cancelled:store.cancel(tenant,string(args.preview_id,80,'preview ID'))===1};
-  if(name==='missing_ai_delete_context')return {deleted:store.delete(tenant,string(args.note_id,80,'note ID'))===1};
-  if(name==='missing_ai_delete_all_context'){
-   if(args.confirmation!=='DELETE ALL MY MISSING AI CONTEXT')throw Error('Explicit deletion confirmation required.');
-   return {deleted:store.deleteAll(tenant)};
-  }
   throw Error('Unknown tool.');
  }
  function response(id,result){return {jsonrpc:'2.0',id,result};}
@@ -82,6 +78,7 @@ export function createManagedMcp({store,verifyToken,verifyApproval,issuer,resour
    send(200,{resource,authorization_servers:[issuer],scopes_supported:[scopes.read,scopes.write]});return;
   }
   if(path==='/health'&&req.method==='GET'){send(200,{ok:true,mode:'managed-beta',public_signup:false});return;}
+  if(path==='/mcp'&&req.method==='GET'){res.writeHead(405,{'Allow':'POST'});res.end();return;}
   if(path!=='/mcp'||req.method!=='POST'){send(404,{error:'Not found'});return;}
   let body;
   try{
@@ -94,7 +91,7 @@ export function createManagedMcp({store,verifyToken,verifyApproval,issuer,resour
    send(200,response(id,{protocolVersion:'2025-06-18',serverInfo:{name:'missing-ai-managed-beta',version:'0.1.0'},capabilities:{tools:{listChanged:false}}}));return;
   }
   if(body.method==='ping'){send(200,response(id,{}));return;}
-  if(body.method==='tools/list'){send(200,response(id,{tools:MANAGED_TOOLS}));return;}
+  if(body.method==='tools/list'){send(200,response(id,{tools:exposedTools}));return;}
   if(body.method!=='tools/call'){send(200,{jsonrpc:'2.0',id,error:{code:-32601,message:'Method not found'}});return;}
   const name=body.params?.name,def=byName.get(name);
   if(!def){send(200,{jsonrpc:'2.0',id,error:{code:-32602,message:'Unknown tool'}});return;}
@@ -113,9 +110,9 @@ export function createManagedMcp({store,verifyToken,verifyApproval,issuer,resour
   }
  };
 }
-export function createManagedBeta({issuer,audience,jwksUrl,resource,dbPath,encryptionKey,allowedOrigins=[],fetchImpl,clock,allowMemory=false,approvalPublicKey,approvalIssuer}={}){
+export function createManagedBeta({issuer,audience,jwksUrl,resource,dbPath,encryptionKey,allowedOrigins=[],fetchImpl,clock,allowMemory=false,approvalPublicKey,approvalIssuer,approvalBase}={}){
  const verifyToken=createVerifier({issuer,audience,jwksUrl,fetchImpl,clock});
  const store=createStore({path:dbPath,key:encryptionKey,allowMemory,now:clock});
  const verifyApproval=approvalPublicKey&&approvalIssuer?createApprovalVerifier({publicKey:approvalPublicKey,issuer:approvalIssuer,now:clock||(()=>Date.now())}):null;
- return {handler:createManagedMcp({store,verifyToken,verifyApproval,issuer,resource,allowedOrigins}),store};
+ return {handler:createManagedMcp({store,verifyToken,verifyApproval,issuer,resource,allowedOrigins,approvalBase}),store};
 }
