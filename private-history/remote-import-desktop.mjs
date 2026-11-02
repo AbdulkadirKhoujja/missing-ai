@@ -68,7 +68,8 @@ export async function createRemoteDesktopServer({executeRemote,port=0,host='127.
    if(req.url==='/api/preview'){
     if(Date.now()-windowStart>5*60*1000){windowStart=Date.now();previews=0;}
     if(++previews>20)throw Error('Too many previews; retry after five minutes.');
-    const pack=body.pack;parseContextPack(pack);pending=null;
+    const pack=body.pack;parseContextPack(pack);
+    if(pending){const previous=pending.remote_id;pending=null;await executeRemote({op:'cancel',approval_id:previous}).catch(()=>{});}
     const remote=await executeRemote({op:'preview',pack});if(remote.status!=='previewed'||typeof remote.approval_id!=='string')throw Error('Remote preview not acknowledged.');
     const local_approval=randomBytes(32).toString('hex');pending={remote_id:remote.approval_id,local_approval,expires:Date.now()+EXPIRY};
     respond(res,200,{existing:remote.existing,new:remote.new,duplicates:remote.duplicates,local_approval});

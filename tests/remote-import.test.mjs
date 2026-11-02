@@ -77,3 +77,13 @@ test('receipt records counts only, never private note text or shared URLs',()=>f
  const audit=await readFile(join(folder,'.missing-ai-remote-import-receipts.jsonl'),'utf8');assert.equal(audit.trim().split('\n').length,1);
  const item=JSON.parse(audit);assert.equal(item.new,1);assert.equal(item.action,'remote-context-import');assert.equal(audit.includes('sample rollout'),false);assert.equal(audit.includes('Sample project'),false);
 }));
+test('replacing a preview cancels the old remote approval and prevents the old commit',()=>fixture(async({url,folder})=>{
+ const token=(await(await fetch(url+'api/session')).json()).token;
+ const old=await post(url,'api/preview',token,{pack:pack()});assert.equal(old.status,200);
+ const newer=serializeContextPack(makeContextEntries('Another sample','Verified completed setup.','2026-11-02T00:00:00.000Z'));
+ const current=await post(url,'api/preview',token,{pack:newer});assert.equal(current.status,200);
+ assert.equal((await post(url,'api/commit',token,{local_approval:old.data.local_approval})).status,409);
+ // A stale attempt invalidates the local approval; preview again for a new commit.
+ assert.equal((await post(url,'api/preview',token,{pack:newer})).status,200);
+ await assert.rejects(readFile(join(folder,'agent-events.jsonl'),'utf8'),{code:'ENOENT'});
+}));
