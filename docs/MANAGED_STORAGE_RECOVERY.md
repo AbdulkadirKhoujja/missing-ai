@@ -26,7 +26,7 @@ Do not run this procedure on live customer data. Only snapshot basename and byte
 
 ## Blocking limitations
 
-Node 22 node:sqlite is experimental and the adapter is single-process. No real OIDC provider has been provisioned or tested. No HTTPS two-account end-to-end staging run, enforced backup lifecycle, safe key rotation, token revocation, or consumer signup is verified. Keep MISSING_AI_MANAGED_BETA_ENABLED disabled. Restoring older backups must not resurrect deleted customer records.
+Node 22 node:sqlite is experimental and the adapter is single-process. No real OIDC provider has been provisioned or tested. No HTTPS two-account end-to-end staging run, enforced backup lifecycle, safe key rotation, token revocation, or consumer signup is verified. Keep MISSING_AI_MANAGED_ENABLED disabled. Restoring older backups must not resurrect deleted customer records.
 
 ## Review and rollback
 
