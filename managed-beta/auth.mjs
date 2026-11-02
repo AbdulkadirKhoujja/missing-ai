@@ -2,21 +2,23 @@
 import {createHash,createPublicKey,verify} from 'node:crypto';
 
 export class AuthError extends Error { constructor(message='Unauthorized', status=401){super(message);this.name='AuthError';this.status=status;} }
+async function readLimited(res,max){const rd=res.body?.getReader();if(!rd)throw Error('Missing JWKS stream');let n=0,parts=[];for(;;){const {done,value}=await rd.read();if(done)break;n+=value.byteLength;if(n>max){await rd.cancel().catch(()=>{});throw Error('JWKS response too large');}parts.push(Buffer.from(value));}return Buffer.concat(parts);}
 const decodeJson=raw=>{
   if(typeof raw!=='string'||raw.length>8192||!/^[A-Za-z0-9_-]+$/.test(raw))throw new AuthError();
   try{return JSON.parse(Buffer.from(raw,'base64url').toString('utf8'));}catch{throw new AuthError();}
 };
 function isObj(x){return x!==null&&typeof x==='object'&&!Array.isArray(x);}
 function within(x,limit=256){return typeof x==='string'&&x.length>0&&x.length<=limit;}
-function validConfig({issuer,audience,jwksUrl}){
+function validConfig({issuer,audience,jwksUrl,allowOpaqueAudience=false}){
   for(const [label,url] of [['issuer',issuer],['audience',audience],['JWKS',jwksUrl]]){
     if(!within(url,500))throw Error('Missing managed-beta '+label+' configuration.');
+    if(label==='audience'&&allowOpaqueAudience)continue;
     const parsed=new URL(url);
     if(parsed.protocol!=='https:'||parsed.username||parsed.password||parsed.hash)throw Error('Managed-beta auth URLs must be HTTPS.');
   }
 }
-export function createVerifier({issuer,audience,jwksUrl,fetchImpl=fetch,clock=()=>Date.now(),cacheMs=300_000}={}){
-  validConfig({issuer,audience,jwksUrl});
+export function createVerifier({issuer,audience,jwksUrl,fetchImpl=fetch,clock=()=>Date.now(),cacheMs=300_000,allowOpaqueAudience=false}={}){
+  validConfig({issuer,audience,jwksUrl,allowOpaqueAudience});
   let cached=null,until=0,lastFetch=0,pending=null;
   async function getKeys(force=false){
     if(!force&&cached&&clock()<until)return cached;
@@ -31,8 +33,7 @@ export function createVerifier({issuer,audience,jwksUrl,fetchImpl=fetch,clock=()
     try{
       const res=await fetchImpl(jwksUrl,{method:'GET',redirect:'error',signal:ctl.signal,headers:{accept:'application/json'}});
       if(!res.ok||Number(res.headers.get('content-length')||0)>32_768)throw Error('Invalid JWKS response.');
-      const buffer=Buffer.from(await res.arrayBuffer());
-      if(buffer.length>32_768)throw Error('JWKS response too large.');
+      const buffer=await readLimited(res,32_768);
       const parsed=JSON.parse(buffer.toString('utf8'));
       if(!Array.isArray(parsed.keys)||parsed.keys.length>16)throw Error('Invalid JWKS.');
       cached=parsed.keys.filter(k=>isObj(k)&&k.kty==='RSA'&&within(k.kid,128)&&k.use!=='enc'&&(!k.alg||k.alg==='RS256'));
@@ -41,17 +42,18 @@ export function createVerifier({issuer,audience,jwksUrl,fetchImpl=fetch,clock=()
     }catch{throw new AuthError('Token verification unavailable',503);}
     finally{clearTimeout(timeout);}
   }
-  return async function verifyToken(authorization,scopes=[]){
+  return async function verifyToken(authorization,scopes=[],{nonce}={}){
     if(typeof authorization!=='string'||authorization.length>12_000||!/^Bearer [A-Za-z0-9_.-]+$/.test(authorization))throw new AuthError();
     const token=authorization.slice(7);const parts=token.split('.');
     if(parts.length!==3||parts.some(x=>x.length===0))throw new AuthError();
     const head=decodeJson(parts[0]),claims=decodeJson(parts[1]);
     if(!isObj(head)||head.alg!=='RS256'||!within(head.kid,128)||!isObj(claims))throw new AuthError();
     const now=clock()/1000;
-    if(claims.iss!==issuer||!(claims.aud===audience||(Array.isArray(claims.aud)&&claims.aud.includes(audience)))||
+    if(claims.iss!==issuer||!(claims.aud===audience||(!allowOpaqueAudience&&Array.isArray(claims.aud)&&claims.aud.includes(audience)))||
        !within(claims.sub,256)||!Number.isSafeInteger(claims.exp)||claims.exp<now-30||
        claims.exp>now+7200||claims.nbf!==undefined&&(!Number.isSafeInteger(claims.nbf)||claims.nbf>now+30)||
        claims.iat!==undefined&&(!Number.isSafeInteger(claims.iat)||claims.iat>now+30))throw new AuthError();
+    if(nonce!==undefined&&(claims.nonce!==nonce||!Number.isSafeInteger(claims.iat)||now-claims.iat>3600))throw new AuthError();
     const scopeSet=new Set(typeof claims.scope==='string'?claims.scope.split(/\s+/).filter(Boolean):Array.isArray(claims.scp)?claims.scp:[]);
     if(scopes.some(s=>!scopeSet.has(s)))throw new AuthError('Insufficient scope',403);
     let keys=await getKeys();let key=keys.find(k=>k.kid===head.kid);
