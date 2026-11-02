@@ -20,7 +20,25 @@ export function createStore({path=':memory:',key,now=()=>Date.now(),allowMemory=
  }
  const db=new DatabaseSync(path);
  if(path!==':memory:')chmodSync(path,0o600);
- db.exec('PRAGMA journal_mode=DELETE; PRAGMA busy_timeout=3000; CREATE TABLE IF NOT EXISTS notes(tenant TEXT NOT NULL,id TEXT NOT NULL,digest TEXT NOT NULL,iv BLOB NOT NULL,tag BLOB NOT NULL,data BLOB NOT NULL,created INTEGER NOT NULL,PRIMARY KEY(tenant,id),UNIQUE(tenant,digest)); CREATE TABLE IF NOT EXISTS drafts(tenant TEXT NOT NULL,id TEXT NOT NULL,iv BLOB NOT NULL,tag BLOB NOT NULL,data BLOB NOT NULL,expires INTEGER NOT NULL,PRIMARY KEY(tenant,id)); CREATE INDEX IF NOT EXISTS ix_drafts_expiry ON drafts(expires); CREATE TABLE IF NOT EXISTS audit(tenant TEXT NOT NULL,id TEXT NOT NULL,action TEXT NOT NULL,quantity INTEGER NOT NULL,created INTEGER NOT NULL,PRIMARY KEY(tenant,id)); CREATE INDEX IF NOT EXISTS ix_audit_tenant_created ON audit(tenant,created)');
+ db.exec('PRAGMA journal_mode=DELETE; PRAGMA busy_timeout=3000; PRAGMA secure_delete=ON; PRAGMA synchronous=FULL; PRAGMA trusted_schema=OFF; CREATE TABLE IF NOT EXISTS metadata(k TEXT PRIMARY KEY,iv BLOB NOT NULL,tag BLOB NOT NULL,data BLOB NOT NULL); CREATE TABLE IF NOT EXISTS notes(tenant TEXT NOT NULL,id TEXT NOT NULL,digest TEXT NOT NULL,iv BLOB NOT NULL,tag BLOB NOT NULL,data BLOB NOT NULL,created INTEGER NOT NULL,PRIMARY KEY(tenant,id),UNIQUE(tenant,digest)); CREATE TABLE IF NOT EXISTS drafts(tenant TEXT NOT NULL,id TEXT NOT NULL,iv BLOB NOT NULL,tag BLOB NOT NULL,data BLOB NOT NULL,expires INTEGER NOT NULL,PRIMARY KEY(tenant,id)); CREATE INDEX IF NOT EXISTS ix_drafts_expiry ON drafts(expires); CREATE TABLE IF NOT EXISTS audit(tenant TEXT NOT NULL,id TEXT NOT NULL,action TEXT NOT NULL,quantity INTEGER NOT NULL,created INTEGER NOT NULL,PRIMARY KEY(tenant,id)); CREATE INDEX IF NOT EXISTS ix_audit_tenant_created ON audit(tenant,created)');
+
+ // Reject wrong keys and compromised data before allowing writes.
+ try {
+  const check=db.prepare('PRAGMA quick_check').get();
+  if(!check||Object.values(check)[0]!=='ok')throw Error('Managed database integrity check failed.');
+  const seal=db.prepare('SELECT iv,tag,data FROM metadata WHERE k=?').get('encryption-key-v1');
+  if(seal){
+   let value;
+   try{value=decrypt(key,seal);}catch{throw Error('Managed database encryption key does not match.');}
+   if(value?.marker!=='missing-ai-managed-beta-v1')throw Error('Managed database encryption key marker is invalid.');
+  }else{
+   // For older gated beta databases, verify a pre-existing encrypted record.
+   const sample=db.prepare('SELECT iv,tag,data FROM notes LIMIT 1').get()||db.prepare('SELECT iv,tag,data FROM drafts LIMIT 1').get();
+   if(sample){try{decrypt(key,sample);}catch{throw Error('Existing encrypted records do not match the provided key.');}}
+   const encrypted=crypt(key,{marker:'missing-ai-managed-beta-v1'});
+   db.prepare('INSERT INTO metadata(k,iv,tag,data) VALUES(?,?,?,?)').run('encryption-key-v1',encrypted.iv,encrypted.tag,encrypted.data);
+  }
+ } catch(e){db.close();throw e;}
  const readNotes=db.prepare('SELECT id,iv,tag,data FROM notes WHERE tenant=? ORDER BY created DESC LIMIT 101');
  const count=db.prepare('SELECT COUNT(*) as n FROM notes WHERE tenant=?');
  const add=db.prepare('INSERT OR IGNORE INTO notes(tenant,id,digest,iv,tag,data,created) VALUES(?,?,?,?,?,?,?)');
@@ -35,6 +53,8 @@ export function createStore({path=':memory:',key,now=()=>Date.now(),allowMemory=
  const all=db.prepare('DELETE FROM notes WHERE tenant=?');
  const getOne=db.prepare('SELECT iv,tag,data FROM notes WHERE tenant=? AND id=?');
  return {
+  integrityOk(){const r=db.prepare('PRAGMA quick_check').get();return Boolean(r&&Object.values(r)[0]==='ok');},
+  securityPosture(){return {secureDeletion:Object.values(db.prepare('PRAGMA secure_delete').get())[0]===1,synchronousFull:Object.values(db.prepare('PRAGMA synchronous').get())[0]===2};},
   count(tenant){safeTenant(tenant);return count.get(tenant).n;},
   list(tenant){safeTenant(tenant);return readNotes.all(tenant).map(r=>({id:r.id,...decrypt(key,r)}));},
   prepare(tenant,entries){safeTenant(tenant);if(entries.length>10)throw Error('Maximum 10 notes per import.');expireDrafts.run(now());const id=randomUUID(),enc=crypt(key,entries);addDraft.run(tenant,id,enc.iv,enc.tag,enc.data,now()+300_000);return id;},

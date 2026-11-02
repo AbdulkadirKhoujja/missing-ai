@@ -113,7 +113,7 @@ test('private disk storage encrypts notes and drafts, survives restart and has c
   store=createStore({path:p,key});assert.equal(store.count(t),1);assert.equal(store.list(t)[0].text,marker);
   assert.equal(store.audit(t).length,1);assert.equal(JSON.stringify(store.audit(t)).includes(marker),false);
   store.close();
-  const wrong=createStore({path:p,key:randomBytes(32)});assert.throws(()=>wrong.list(t));wrong.close();
+  assert.throws(()=>createStore({path:p,key:randomBytes(32)}),/encryption key does not match/);
  }finally{rmSync(folder,{recursive:true,force:true});}
 });
 test('prepared drafts expire without write, and cannot be replayed by other tenants',()=>{
