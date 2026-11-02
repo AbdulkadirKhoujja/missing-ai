@@ -20,6 +20,7 @@ const inputSchema=(properties,required=[])=>({type:'object',properties,required,
 const str=(maxLength,description)=>({type:'string',maxLength,description});
 const tool=(name,description,inputSchema,scope,readOnlyHint=true,destructiveHint=false)=>({name,description,inputSchema,annotations:{readOnlyHint,destructiveHint},securitySchemes:[{type:'oauth2',scopes:[scope]}],_meta:{securitySchemes:[{type:'oauth2',scopes:[scope]}]}});
 export const MANAGED_TOOLS=[
+ {...tool('missing_ai_get_profile','Return the authenticated account’s stable, opaque profile identifier for multi-account ChatGPT connections.',inputSchema({}),scopes.read),_meta:{securitySchemes:[{type:'oauth2',scopes:[scopes.read]}],'openai/profile':true}},
  tool('missing_ai_context_status','Return a count of only the authenticated user’s saved context notes.',inputSchema({}),scopes.read),
  tool('missing_ai_search_context','Search only the authenticated user’s approved notes; historical claims are not independently verified.',inputSchema({query:str(2000,'Search terms for earlier notes'),max_results:{type:'integer',minimum:1,maximum:8}},['query']),scopes.read),
  tool('missing_ai_list_context','List titles and IDs of only the authenticated user’s notes.',inputSchema({}),scopes.read),
@@ -43,6 +44,7 @@ export function createManagedMcp({store,verifyToken,verifyApproval,issuer,resour
   if(!args||typeof args!=='object'||Array.isArray(args))throw Error('Invalid tool arguments.');
   const principal=await verifyToken(authorization,def.securitySchemes[0].scopes);consume(principal.tenant);
   const tenant=principal.tenant;
+  if(name==='missing_ai_get_profile')return {id:tenant};
   if(name==='missing_ai_context_status')return {note_count:store.count(tenant),source:'managed-approved-notes',limitations:'No automatic ChatGPT history access.'};
   if(name==='missing_ai_list_context')return {notes:store.list(tenant).map(n=>({id:n.id,conversation:n.conversation,date:n.date}))};
   if(name==='missing_ai_context_audit')return {receipts:store.audit(tenant)};

@@ -29,7 +29,7 @@ async function call(url,name,args={},jwt=token('alice'),extra={}){
 test('OAuth metadata advertises separate provider and user read/write scopes',()=>run(async({url})=>{
  const r=await fetch(url+'/.well-known/oauth-protected-resource');assert.equal(r.status,200);
  const body=await r.json();assert.equal(body.resource,resource);assert.deepEqual(body.authorization_servers,[issuer]);assert.deepEqual(body.scopes_supported,['context:read','context:write']);
- const list=await fetch(url+'/mcp',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'tools/list'})});const data=await list.json();assert.equal(data.result.tools.length,9);assert.ok(data.result.tools.every(t=>t.securitySchemes[0].type==='oauth2'));
+ const list=await fetch(url+'/mcp',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'tools/list'})});const data=await list.json();assert.equal(data.result.tools.length,10);assert.ok(data.result.tools.every(t=>t.securitySchemes[0].type==='oauth2'));
 }));
 test('unauthenticated reads challenge and invalid tokens are denied',()=>run(async({url})=>{
  const none=await call(url,'missing_ai_context_status',{},'');assert.equal(none.status,401);assert.match(none.headers.get('www-authenticate'),/oauth-protected-resource/);
@@ -171,3 +171,14 @@ test('without independent approval signer configured, managed service cannot sav
  assert.equal(store.count(tenant('alice')),0);
  }finally{await new Promise(ok=>server.close(ok));store.close();}
 });
+
+test('ChatGPT multi-account profile is stable across tokens and distinct between accounts',()=>run(async({url})=>{
+ const first=await call(url,'missing_ai_get_profile',{},token('alice'));
+ const second=await call(url,'missing_ai_get_profile',{},token('alice','context:read'));
+ const third=await call(url,'missing_ai_get_profile',{},token('bob'));
+ assert.match(first.value.id,/^[0-9a-f]{64}$/);
+ assert.equal(first.value.id,second.value.id);assert.notEqual(first.value.id,third.value.id);
+ const res=await fetch(url+'/mcp',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:10,method:'tools/list'})});
+ const profile=(await res.json()).result.tools.find(t=>t.name==='missing_ai_get_profile');
+ assert.equal(profile._meta['openai/profile'],true);
+}));
