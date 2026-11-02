@@ -87,3 +87,11 @@ test('replacing a preview cancels the old remote approval and prevents the old c
  assert.equal((await post(url,'api/preview',token,{pack:newer})).status,200);
  await assert.rejects(readFile(join(folder,'agent-events.jsonl'),'utf8'),{code:'ENOENT'});
 }));
+test('rejected malformed request never logs private snippets to stderr',()=>fixture(async({folder})=>{
+ const {spawnSync}=await import('node:child_process');
+ const fixture='{"op":"preview","pack":"VERY_PRIVATE_PASSPHRASE","malformed":';
+ const proc=spawnSync(process.execPath,['private-history/remote-import-stdio.mjs'],{cwd:new URL('..',import.meta.url),env:{...process.env,MISSING_AI_HISTORY_DIR:folder},input:fixture,encoding:'utf8',timeout:5000});
+ assert.equal(proc.status,2);
+ assert.equal(proc.stderr.includes('VERY_PRIVATE_PASSPHRASE'),false);
+ assert.equal(proc.stdout.includes('VERY_PRIVATE_PASSPHRASE'),false);
+}));

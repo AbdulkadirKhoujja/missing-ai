@@ -94,5 +94,5 @@ export async function serveRemoteStdio({folder,input=process.stdin,output=proces
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){
  try{await serveRemoteStdio({folder:process.env.MISSING_AI_HISTORY_DIR});}
- catch(e){process.stderr.write('Remote import rejected: '+String(e.message).slice(0,150)+'\n');process.exitCode=2;}
+ catch{process.stderr.write('Remote private import rejected. Check the reviewed input, expiry, and directory permissions.\n');process.exitCode=2;}
 }

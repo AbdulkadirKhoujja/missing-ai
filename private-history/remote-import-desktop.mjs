@@ -3,7 +3,7 @@
 import http from 'node:http';
 import {randomBytes,timingSafeEqual} from 'node:crypto';
 import {spawn} from 'node:child_process';
-import {lstat} from 'node:fs/promises';
+import {lstat,readFile} from 'node:fs/promises';
 import {isAbsolute,resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {parseContextPack,CONTEXT_LIMITS} from '../site/context-onboarding.mjs';
@@ -49,13 +49,13 @@ export function sshRunner({destination,key,command='/usr/local/sbin/missing-ai-p
 }
 export async function createRemoteDesktopServer({executeRemote,port=0,host='127.0.0.1'}={}){
  if(host!=='127.0.0.1'||typeof executeRemote!=='function')throw Error('Local loopback and an authenticated private transport are required.');
- const session=randomBytes(32).toString('hex');let pending=null,busy=false,previews=0,windowStart=Date.now();
+ const session=randomBytes(32).toString('hex');const moduleSource=await readFile(new URL('../site/context-onboarding.mjs',import.meta.url),'utf8');let pending=null,busy=false,previews=0,windowStart=Date.now();
  const server=http.createServer(async(req,res)=>{
   const origin=`http://127.0.0.1:${server.address().port}`;
   for(const [k,v] of Object.entries({'Cache-Control':'no-store','Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",'X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','Cross-Origin-Resource-Policy':'same-origin','Cross-Origin-Opener-Policy':'same-origin'}))res.setHeader(k,v);
   if(req.socket.remoteAddress!=='127.0.0.1'||req.headers.host!==`127.0.0.1:${server.address().port}`){respond(res,403,{error:'Direct loopback access only.'});return;}
   if(req.method==='GET'){
-   const content={'/':[html,'text/html'], '/remote-import.js':[js,'text/javascript'],'/remote-import.css':[css,'text/css'],'/context-onboarding.mjs':[await import('node:fs/promises').then(fs=>fs.readFile(new URL('../site/context-onboarding.mjs',import.meta.url),'utf8')),'text/javascript']};
+   const content={'/':[html,'text/html'], '/remote-import.js':[js,'text/javascript'],'/remote-import.css':[css,'text/css'],'/context-onboarding.mjs':[moduleSource,'text/javascript']};
    if(req.url==='/api/session'){respond(res,200,{token:session});return;}
    const match=content[req.url];if(!match){respond(res,404,{error:'Not found.'});return;}
    res.writeHead(200,{'Content-Type':match[1]+'; charset=utf-8'});res.end(match[0]);return;
