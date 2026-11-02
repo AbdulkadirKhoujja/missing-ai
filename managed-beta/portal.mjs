@@ -92,7 +92,7 @@ export function createApprovalPortal({store,issuer,clientId,authorizationUrl,tok
    const s=loginSession(req);if(!s||s.kind!=='manage'){reject(res);return;}
    const entries=store.list(s.tenant);
    const items=entries.map(n=>`<article class="note"><strong>${htmlEscape(n.conversation)}</strong><div>${htmlEscape(n.text.slice(0,500))}</div><form action="/account/delete" method="POST"><input type="hidden" name="csrf" value="${s.csrf}"><input type="hidden" name="note_id" value="${htmlEscape(n.id)}"><label class="confirm"><input required type="checkbox" name="approved" value="yes"> Delete this note</label><button type="submit">Delete selected note</button></form></article>`).join('');
-   const body=`<p>Your approved context is listed below. You can export all notes or permanently delete selected notes. Deleting a note does not delete the AI provider's separate conversation record.</p><section><h2>${entries.length} saved note(s)</h2>${items||'<p>No saved notes in this account.</p>'}</section><section><a href="/account/export">Download my approved notes (unencrypted JSONL)</a><p class="caution">Downloads are not encrypted; protect the file on your device.</p></section><section><h2>Delete all context</h2><form method="POST" action="/account/delete-all"><input type="hidden" name="csrf" value="${s.csrf}"><label for="phrase">To remove all saved notes, type DELETE ALL MY MISSING AI CONTEXT</label><input id="phrase" name="phrase" required><label class="confirm"><input required type="checkbox" name="approved" value="yes"> I understand this permanently deletes my Missing AI notes.</label><button type="submit">Delete all my context</button></form></section>`;
+   const body=`<p>Your approved context is listed below. You can export all notes or permanently delete selected notes. Deleting a note does not delete the AI provider's separate conversation record.</p><section><h2>${entries.length} saved note(s)</h2>${items||'<p>No saved notes in this account.</p>'}</section><section><a href="/account/export">Download my approved notes (unencrypted JSONL)</a><p class="caution">Downloads are not encrypted; protect the file on your device.</p></section><section><h2>Delete all context</h2><form method="POST" action="/account/delete-all"><input type="hidden" name="csrf" value="${s.csrf}"><label for="phrase">To remove all saved notes, type DELETE ALL MY MISSING AI CONTEXT</label><input id="phrase" name="phrase" required><label class="confirm"><input required type="checkbox" name="approved" value="yes"> I understand this removes notes from active Missing AI storage; backup retention may apply.</label><button type="submit">Delete all my context</button></form></section>`;
    msg(res,200,'Manage Missing AI context',body);return;
   }
   if(path==='/account/export'&&req.method==='GET'){
@@ -107,11 +107,11 @@ export function createApprovalPortal({store,issuer,clientId,authorizationUrl,tok
     if(path==='/account/delete'){
      const id=form.get('note_id');if(typeof id!=='string'||!/^[0-9a-f-]{36}$/.test(id))throw Error('Invalid note');
      const n=store.delete(s.tenant,id);if(!n)throw Error('Not found');
-     msg(res,200,'Note deleted','<p>The selected Missing AI context note has been deleted.</p><p><a href="/account/manage">Return to my notes</a></p>');return;
+     msg(res,200,'Note deleted','<p>The selected Missing AI context note has been removed from active storage.</p><p><a href="/account/manage">Return to my notes</a></p>');return;
     }
     if(form.get('phrase')!=='DELETE ALL MY MISSING AI CONTEXT')throw Error('Missing full deletion confirmation');
     const n=store.deleteAll(s.tenant);sessions.delete(s.id);
-    msg(res,200,'Context deleted',`<p>Deleted ${n} saved note(s) and cancelled pending drafts for this account.</p>`);return;
+    msg(res,200,'Context deleted',`<p>Removed ${n} note(s) from active storage and cancelled pending drafts. Encrypted backups, if any, follow the published retention policy.</p>`);return;
    }catch{reject(res);return;}
   }
   respond(res,404,'Not found');
