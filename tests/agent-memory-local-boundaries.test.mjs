@@ -12,4 +12,5 @@ test("synthetic two-agent local folders retain separate attributed histories",as
   assert.equal(result.remote_storage,false);
   // OS-owned folders are not authorization or cross-tenant security.
   assert.equal(result.authenticated_tenant_isolation,false);
+  assert.match(result.limitation,/not a security boundary between processes running under the same OS account/i);
 });
