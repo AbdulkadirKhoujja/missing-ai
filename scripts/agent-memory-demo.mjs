@@ -43,6 +43,28 @@ export async function runDemo(){
     assert.match(match.id,/^event:/);
     assert.match(match.quote,/Project Orion staging CI passed/);
 
+    // A genuinely new Node process, rather than another in-process reader,
+    // must recover the same event ID from the owner-approved local file.
+    const moduleUrl=pathToFileURL(join(repoRoot,"private-history/context-mcp.mjs")).href;
+    const coldSource=`import {createHistoryStore,dispatchHistoryRpc} from ${JSON.stringify(moduleUrl)};
+const s=createHistoryStore(process.env.MISSING_AI_HISTORY_DIR);
+const reply=await dispatchHistoryRpc(s,{jsonrpc:"2.0",id:1,method:"tools/call",
+  params:{name:"missing_ai_search_history",arguments:{
+    query:"Project Orion staging CI rollout checklist",max_results:5
+  }}});
+if(reply?.result?.isError)process.exitCode=1;
+else process.stdout.write(reply.result.content[0].text);`;
+    const cold=spawnSync(process.execPath,["--input-type=module","--eval",coldSource],{
+      cwd:repoRoot,env:{...process.env,MISSING_AI_HISTORY_DIR:folder},
+      encoding:"utf8",timeout:10000,maxBuffer:128*1024
+    });
+    assert.equal(cold.status,0,"new agent process could not reload approved local memory");
+    const coldResult=JSON.parse(cold.stdout);
+    const coldMatch=coldResult.findings.find(f=>f.role==="event"&&f.conversation===event.conversation);
+    assert.ok(coldMatch,"new process must retrieve the persisted event");
+    assert.equal(coldMatch.id,match.id,"stable event identity must survive a process restart");
+    assert.match(coldMatch.quote,/Project Orion staging CI passed/);
+
     const review=decode(await dispatchHistoryRpc(store,request(
       "missing_ai_review_answer_history",{
         ai_answer:"We need to redo the Project Orion staging CI rollout checklist from scratch."
@@ -77,6 +99,8 @@ export async function runDemo(){
     return {
       example:"synthetic-local-agent-memory",
       persisted_event_reloaded:true,
+      new_process_recall:true,
+      source_id_stable_after_restart:true,
       incremental_append_detected:true,
       post_append_history_messages:refreshed.message_count,
       appended_event_source_attributed:true,
