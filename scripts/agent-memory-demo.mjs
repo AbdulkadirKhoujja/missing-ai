@@ -51,16 +51,42 @@ export async function runDemo(){
     assert.ok(review.findings.some(f=>f.kind==="possible_repeated_work"),
       "a proposed repeated-work claim should be flagged for review");
 
+    // A second explicit local event is appended *after* the reader has
+    // already populated its cache. The SAME reader must see it on its next
+    // tool call; no service restart, account sync or network is involved.
+    const laterEvent={
+      conversation:"Beacon delivery review",
+      text:"Beacon delivery review notes were explicitly recorded after the first history lookup. This is an attributed agent claim, not verified delivery."
+    };
+    const later=spawnSync(process.execPath,["private-history/record-event.mjs"],{
+      cwd:repoRoot,env:{...process.env,MISSING_AI_HISTORY_DIR:folder},
+      input:JSON.stringify(laterEvent),encoding:"utf8",timeout:10000
+    });
+    assert.equal(later.status,0,"second opted-in memory event could not be recorded");
+    const refreshed=decode(await dispatchHistoryRpc(store,request("missing_ai_history_status")));
+    assert.equal(refreshed.message_count,2,"already-initialized reader must see the appended event");
+    assert.equal(refreshed.remote_storage,false);
+    const laterSearch=decode(await dispatchHistoryRpc(store,request(
+      "missing_ai_search_history",{query:"Beacon delivery review notes"}
+    )));
+    const laterMatch=laterSearch.findings.find(f=>f.role==="event"&&f.conversation===laterEvent.conversation);
+    assert.ok(laterMatch,"freshly appended event must be discoverable without reinitialization");
+    assert.match(laterMatch.id,/^event:/);
+    assert.match(laterMatch.quote,/Beacon delivery review notes/);
+
     return {
       example:"synthetic-local-agent-memory",
       persisted_event_reloaded:true,
+      incremental_append_detected:true,
+      post_append_history_messages:refreshed.message_count,
+      appended_event_source_attributed:true,
       source_types:status.source_types,
       history_messages:status.message_count,
       source_attributed:true,
       repeated_work_candidates:review.summary.potential_overlooks,
       remote_storage:status.remote_storage,
       verified_implementation:false,
-      limitations:"Lexical retrieval of an agent-recorded claim; not independent proof, multi-user memory, remote sync or provider history access."
+      limitations:"Opt-in local file reload and lexical retrieval of attributed agent claims only; not independent proof, authenticated multi-user memory, remote sync or provider history access."
     };
   }finally{
     await rm(folder,{recursive:true,force:true});
