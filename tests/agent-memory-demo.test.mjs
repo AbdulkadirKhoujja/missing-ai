@@ -18,3 +18,14 @@ test("synthetic opt-in agent memory reloads, attributes and checks repeated work
   assert.equal(report.remote_storage,false);
   assert.equal(report.verified_implementation,false);
 });
+
+test("synthetic memory receipt explicitly disclaims unsupported production guarantees",async()=>{
+  const report=await runDemo();
+  assert.equal(report.remote_storage,false);
+  assert.equal(report.verified_implementation,false);
+  assert.match(report.limitations,/opt-in local file reload/i);
+  assert.match(report.limitations,/not independent proof/i);
+  assert.match(report.limitations,/not.*authenticated multi-user memory/i);
+  assert.match(report.limitations,/not.*remote sync/i);
+  assert.match(report.limitations,/not.*provider history access/i);
+});
