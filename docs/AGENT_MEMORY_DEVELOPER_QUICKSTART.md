@@ -11,9 +11,9 @@ node scripts/agent-memory-local-boundaries.mjs
 node --test tests/agent-memory-local-boundaries.test.mjs
 ```
 
-The example creates a temporary owner-local folder, records **one synthetic, intentionally supplied** event using `private-history/record-event.mjs`, starts a new reader object over the saved file, retrieves it through `missing_ai_search_history`, and checks a proposed repeated-work answer through `missing_ai_review_answer_history`. It asserts that the event has an attributable source ID and that `remote_storage` is false. The test and example remove the temporary directory on exit. Neither calls a third-party endpoint, connects to a provider, reads a real chat export, writes a production history index or creates an account.
+The example creates a temporary owner-local folder, records **one synthetic, intentionally supplied** event using `private-history/record-event.mjs`, starts a new reader object over the saved file, retrieves it through `missing_ai_search_history`, and checks a proposed repeated-work answer through `missing_ai_review_answer_history`. It then **explicitly appends a second synthetic event** and verifies that the *same, already-initialized reader* detects that new event on its next tool call, with a source-attributed quote and updated message count. The test and example remove the temporary directory on exit. Neither calls a third-party endpoint, connects to a provider, reads a real chat export, writes a production history index or creates an account.
 
-An expected JSON receipt has `persisted_event_reloaded: true`, `source_attributed: true`, `source_types: ["agent-events"]` and `verified_implementation: false`. These are **local functional assertions using a synthetic event**, not evidence of accurate factual memory or complete agent integration.
+An expected JSON receipt has `persisted_event_reloaded: true`, `incremental_append_detected: true`, `post_append_history_messages: 2`, `source_attributed: true`, `source_types: ["agent-events"]` and `verified_implementation: false`. These are **local functional assertions using a synthetic event**, not evidence of accurate factual memory or complete agent integration.
 
 ## Local agent-context separation (synthetic only)
 
