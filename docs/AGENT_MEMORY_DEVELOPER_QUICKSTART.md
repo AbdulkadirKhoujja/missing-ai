@@ -15,6 +15,8 @@ The example creates a temporary owner-local folder, records **one synthetic, int
 
 An expected JSON receipt has `persisted_event_reloaded: true`, `new_process_recall: true`, `source_id_stable_after_restart: true`, `incremental_append_detected: true`, `post_append_history_messages: 2`, `source_attributed: true`, `source_types: ["agent-events"]` and `verified_implementation: false`. These are **local functional assertions using a synthetic event**, not evidence of accurate factual memory or complete agent integration.
 
+The bounded append/provenance invariant is that `history_messages` remains `1` in the original receipt, while `post_append_history_messages` is exactly `history_messages + 1`; both the original and appended event remain source-attributed, and the source type remains `agent-events`. A fresh process must also report the original event's ID as stable. This is a narrow restart/append regression check, not proof that unrelated or unauthorized data would be excluded in a hosted system.
+
 ## Local agent-context separation (synthetic only)
 
 The second example records one fictional event per **independently configured local directory**, then opens two new private-history readers. Both readers retrieve their own attributed event and return no unrelated event for the other project's unique query. The test checks both directions and removes the temporary folders. This demonstrates **file separation under an explicitly selected directory**; it does **not** provide tenant identities, access control, confidential cross-process isolation or hosted multi-agent authorization. Another process with the same OS user's filesystem permissions can still read both directories.
