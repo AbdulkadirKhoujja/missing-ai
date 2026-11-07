@@ -26,14 +26,15 @@ export async function runLocalBoundariesDemo(){
   const root=await mkdtemp(join(tmpdir(),"missing-ai-agent-boundaries-"));
   try{
     const alpha=join(root,"agent-alpha"),beta=join(root,"agent-beta");
+    const sharedMarker="shared audit checkpoint";
     await Promise.all([mkdir(alpha,{mode:0o700}),mkdir(beta,{mode:0o700})]);
     appendSynthetic(alpha,{
       conversation:"Atlas build cache rotation",
-      text:"Atlas build cache rotation plan was reviewed. Agent Alpha recorded this claim; implementation is not independently verified."
+      text:`Atlas build cache rotation plan was reviewed. Agent Alpha recorded this claim; implementation is not independently verified. ${sharedMarker}`
     });
     appendSynthetic(beta,{
       conversation:"Beacon customer routing",
-      text:"Beacon customer message routing was checked. Agent Beta recorded this claim; implementation is not independently verified."
+      text:`Beacon customer message routing was checked. Agent Beta recorded this claim; implementation is not independently verified. ${sharedMarker}`
     });
     // New reader instances intentionally load the persisted file in each
     // independently configured directory; no shared global history store.
@@ -51,11 +52,13 @@ export async function runLocalBoundariesDemo(){
     const search=(store,query)=>dispatchHistoryRpc(store,rpc(
       "missing_ai_search_history",{query,max_results:5}
     )).then(read);
-    const [aOwn,aOther,bOwn,bOther]=await Promise.all([
+    const [aOwn,aOther,bOwn,bOther,aShared,bShared]=await Promise.all([
       search(a,"Atlas build cache rotation"),
       search(a,"Beacon customer message routing"),
       search(b,"Beacon customer message routing"),
-      search(b,"Atlas build cache rotation")
+      search(b,"Atlas build cache rotation"),
+      search(a,sharedMarker),
+      search(b,sharedMarker)
     ]);
     assert.equal(aOwn.findings.length,1);
     assert.equal(bOwn.findings.length,1);
@@ -65,6 +68,18 @@ export async function runLocalBoundariesDemo(){
     assert.match(bOwn.findings[0].quote,/Beacon customer message routing/);
     assert.equal(aOther.findings.length,0,"Alpha must not retrieve the unrelated Beta folder");
     assert.equal(bOther.findings.length,0,"Beta must not retrieve the unrelated Alpha folder");
+    for(const [result,conversation,otherConversation] of [
+      [aShared,"Atlas build cache rotation","Beacon customer routing"],
+      [bShared,"Beacon customer routing","Atlas build cache rotation"]
+    ]){
+      assert.equal(result.findings.length,1,"Shared marker must resolve to exactly one local event");
+      const [finding]=result.findings;
+      assert.match(finding.id,/^event:/);
+      assert.equal(finding.role,"event");
+      assert.equal(finding.conversation,conversation);
+      assert.match(finding.quote,/shared audit checkpoint/);
+      assert.notEqual(finding.conversation,otherConversation);
+    }
     return {
       example:"synthetic-local-folder-boundaries",
       folders:2,events_per_folder:1,
