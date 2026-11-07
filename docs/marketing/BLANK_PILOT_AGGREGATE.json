@@ -1,0 +1,29 @@
+{
+  "schema": "missing-ai-pilot-aggregate-v1",
+  "status": "BLANK_TEMPLATE_NO_PARTICIPANTS",
+  "protocol_revision": "2026-10-29",
+  "site_release_sha": null,
+  "session_day_utc": null,
+  "cohort": "small_voluntary_synthetic_only",
+  "privacy": "No participant IDs, raw prompts, contact details, IPs, quotes or session-by-session time records.",
+  "counts": {
+    "invited": null,
+    "consented": null,
+    "completed": null,
+    "exercise1_attempted": null,
+    "exercise1_identified_receipt_contradiction": null,
+    "exercise2_attempted": null,
+    "exercise2_distinguished_claim_from_implementation": null,
+    "exercise3_attempted": null,
+    "exercise3_recognised_paraphrase_false_alarm": null,
+    "users_reporting_useful_next_action": null,
+    "users_asked_about_future_use": null,
+    "users_who_might_reuse": null
+  },
+  "limitations": [
+    "All counts are blank; do not convert null to zero or claim any participant outcomes.",
+    "Keep numerator denominators explicit and record incomplete sessions.",
+    "No behavioural/user success claim until actual consented observations exist.",
+    "Voluntary feedback alone cannot prove semantic accuracy."
+  ]
+}
