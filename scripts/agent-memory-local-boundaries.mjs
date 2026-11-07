@@ -80,10 +80,18 @@ export async function runLocalBoundariesDemo(){
       assert.match(finding.quote,/shared audit checkpoint/);
       assert.notEqual(finding.conversation,otherConversation);
     }
+    const sourceIds={
+      alpha:{unique_phrase:aOwn.findings[0].id,shared_checkpoint:aShared.findings[0].id},
+      beta:{unique_phrase:bOwn.findings[0].id,shared_checkpoint:bShared.findings[0].id}
+    };
+    assert.equal(sourceIds.alpha.unique_phrase,sourceIds.alpha.shared_checkpoint);
+    assert.equal(sourceIds.beta.unique_phrase,sourceIds.beta.shared_checkpoint);
+    assert.notEqual(sourceIds.alpha.unique_phrase,sourceIds.beta.unique_phrase);
     return {
       example:"synthetic-local-folder-boundaries",
       folders:2,events_per_folder:1,
       own_source_attribution:true,
+      source_ids:sourceIds,
       unrelated_cross_folder_retrievals:0,
       remote_storage:false,
       authenticated_tenant_isolation:false,
