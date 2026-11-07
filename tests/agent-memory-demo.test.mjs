@@ -29,3 +29,16 @@ test("synthetic memory receipt explicitly disclaims unsupported production guara
   assert.match(report.limitations,/not.*remote sync/i);
   assert.match(report.limitations,/not.*provider history access/i);
 });
+
+test("synthetic append keeps the original provenance receipt bounded",async()=>{
+  const report=await runDemo();
+  assert.equal(report.history_messages,1,
+    "the pre-append receipt must describe only the first synthetic event");
+  assert.equal(report.post_append_history_messages,report.history_messages+1,
+    "the appended receipt must add exactly one event");
+  assert.equal(report.source_attributed,true);
+  assert.equal(report.appended_event_source_attributed,true);
+  assert.deepEqual(report.source_types,["agent-events"]);
+  assert.equal(report.source_id_stable_after_restart,true,
+    "the original event provenance must survive a fresh process");
+});
