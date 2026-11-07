@@ -1,0 +1,971 @@
+{
+  "schema": "missing-ai-extended-review-v1",
+  "role": "human_reviewer",
+  "participant_id": "REPLACE_WITH_PRIVATE_REVIEWER_CODE",
+  "independent_attestation": false,
+  "reviewed_at_utc": "",
+  "source_snapshot_sha": "",
+  "instructions": "Review the blind pack independently, WITHOUT other reviewer/host labels. Work on answer-claim coverage, NOT implementation. Choose a single judgment. For claimed_covered or contradicted quote the exact relevant answer span and its zero-based start. This template is intentionally unfilled and MUST NOT be treated as a completed review or gold.",
+  "judgments": [
+    {
+      "case_id": "EV2-001",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-002",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-003",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-004",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-005",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-006",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-007",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-008",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-009",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-010",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-011",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-012",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-013",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-014",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-015",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-016",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-017",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-018",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-019",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-020",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-021",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-022",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-023",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-024",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-025",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-026",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-027",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-028",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-029",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-030",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-031",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-032",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-033",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-034",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-035",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-036",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-037",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-038",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-039",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-040",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-041",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-042",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-043",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-044",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-045",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-046",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-047",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-048",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-049",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-050",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-051",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-052",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-053",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-054",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-055",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-056",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-057",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-058",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-059",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-060",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-061",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-062",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-063",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-064",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-065",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-066",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-067",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-068",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-069",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-070",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-071",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-072",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-073",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-074",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-075",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-076",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-077",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-078",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-079",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-080",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-081",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-082",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-083",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-084",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-085",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-086",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-087",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-088",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-089",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-090",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-091",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-092",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-093",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-094",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-095",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-096",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-097",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-098",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-099",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-100",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-101",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-102",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-103",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-104",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-105",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-106",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-107",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-108",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-109",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-110",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-111",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-112",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-113",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-114",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-115",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-116",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-117",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-118",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-119",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-120",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-121",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-122",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-123",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-124",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-125",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-126",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-127",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-128",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-129",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-130",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-131",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-132",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-133",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-134",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-135",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-136",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-137",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-138",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-139",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-140",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-141",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-142",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-143",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-144",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-145",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-146",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-147",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-148",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-149",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-150",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-151",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-152",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-153",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-154",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-155",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-156",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-157",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-158",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-159",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    },
+    {
+      "case_id": "EV2-160",
+      "judgment": null,
+      "reason": "",
+      "evidence": []
+    }
+  ]
+}

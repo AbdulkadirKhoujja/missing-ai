@@ -1,0 +1,1135 @@
+{
+  "schema": "missing-ai-extended-blind-cases-v1",
+  "status": "AUTHOR_SYNTHETIC_UNADJUDICATED",
+  "disclosure": "Public development/reviewer candidate pack, not a sealed holdout or validated gold. Case texts were constructed in 4 variants per 40 requirement prompts; variants are not statistically independent.",
+  "release_gates": "At least two genuinely independent human reviewers, recorded disagreement resolution, and separate untouched holdout before reporting performance.",
+  "model_instruction": "Judge what the AI answer claims about the source instruction. Do not infer working implementation, legal status or factual truth. Return one judgment and evidence per case, independently without seeing another reviewer or host labels.",
+  "counts": {
+    "cases": 160,
+    "unique_requirement_prompts": 40,
+    "domains": 8,
+    "variants_per_prompt": 4
+  },
+  "cases": [
+    {
+      "id": "EV2-001",
+      "domain": "study",
+      "source_text": "- Must cover every marking criterion in the project outline.",
+      "ai_output": "I skipped two of the marking criteria in the outline.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-002",
+      "domain": "security",
+      "source_text": "- Must never print API tokens in diagnostic logs.",
+      "ai_output": "The application redacts bearer credentials from all debug messages.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-003",
+      "domain": "security",
+      "source_text": "- Must reject webhooks with invalid signatures.",
+      "ai_output": "Events whose signatures fail verification are discarded without processing.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-004",
+      "domain": "study",
+      "source_text": "- Must explain why a selected research method is appropriate.",
+      "ai_output": "I added a project timeline table.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-005",
+      "domain": "communication",
+      "source_text": "- Must include the meeting date and location in the invitation.",
+      "ai_output": "The invitation includes all practical details.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-006",
+      "domain": "study",
+      "source_text": "- Must provide a bibliography with publication years.",
+      "ai_output": "The bibliography omits every publication year.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-007",
+      "domain": "business",
+      "source_text": "- Must explain how requests outside the agreed scope are handled.",
+      "ai_output": "Extra work is accepted without any change-control step.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-008",
+      "domain": "accessibility",
+      "source_text": "- Must publish an accessibility statement before public beta.",
+      "ai_output": "The beta launched without an accessibility statement.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-009",
+      "domain": "communication",
+      "source_text": "- Must end the email by asking the recipient to reply.",
+      "ai_output": "I shortened the subject line.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-010",
+      "domain": "everyday",
+      "source_text": "- Must include an emergency contact in the travel plan.",
+      "ai_output": "The travel plan has no emergency contact details.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-011",
+      "domain": "accessibility",
+      "source_text": "- Must make all form fields discoverable to screen-reader users.",
+      "ai_output": "The form is accessible to everyone.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-012",
+      "domain": "accessibility",
+      "source_text": "- Must keep visible focus indication on interactive controls.",
+      "ai_output": "Buttons and links retain a clear focus ring during keyboard navigation.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-013",
+      "domain": "business",
+      "source_text": "- Must include a named owner for each project milestone.",
+      "ai_output": "Project responsibilities are organised.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-014",
+      "domain": "accessibility",
+      "source_text": "- Must publish an accessibility statement before public beta.",
+      "ai_output": "The accessibility notice was available before the beta opened.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-015",
+      "domain": "communication",
+      "source_text": "- Must keep the announcement under one hundred words.",
+      "ai_output": "The notice uses a bold heading.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-016",
+      "domain": "security",
+      "source_text": "- Must limit repeated authentication attempts.",
+      "ai_output": "After too many failed sign-ins the account is temporarily throttled.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-017",
+      "domain": "communication",
+      "source_text": "- Must end the email by asking the recipient to reply.",
+      "ai_output": "The email closes without requesting a response.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-018",
+      "domain": "security",
+      "source_text": "- Must never print API tokens in diagnostic logs.",
+      "ai_output": "Our logging practices are secure.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-019",
+      "domain": "software",
+      "source_text": "- Must validate webhook signatures before granting paid access.",
+      "ai_output": "Paid access is granted before the webhook signature is checked.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-020",
+      "domain": "study",
+      "source_text": "- Must cite at least three independently published sources.",
+      "ai_output": "The references contain three unrelated publishers' original reports.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-021",
+      "domain": "security",
+      "source_text": "- Must require approval before deleting organisation records.",
+      "ai_output": "Administrative actions are controlled.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-022",
+      "domain": "security",
+      "source_text": "- Must require approval before deleting organisation records.",
+      "ai_output": "The records page has a new search field.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-023",
+      "domain": "business",
+      "source_text": "- Must identify the main delivery risks and mitigations.",
+      "ai_output": "The risk section has been considered.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-024",
+      "domain": "research",
+      "source_text": "- Must link each numerical claim to its underlying dataset.",
+      "ai_output": "Every statistic contains a hyperlink to the primary data table.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-025",
+      "domain": "everyday",
+      "source_text": "- Must exclude shellfish from every meal in the plan.",
+      "ai_output": "The menu avoids shrimp, prawns and other crustaceans in all dishes.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-026",
+      "domain": "research",
+      "source_text": "- Must identify the publication date of the policy being analysed.",
+      "ai_output": "The analysis uses the policy but leaves out its date.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-027",
+      "domain": "security",
+      "source_text": "- Must block requests to loopback addresses in the URL fetcher.",
+      "ai_output": "Network access is protected by safeguards.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-028",
+      "domain": "everyday",
+      "source_text": "- Must avoid appointments after six in the evening.",
+      "ai_output": "Every appointment starts and ends before 6 pm.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-029",
+      "domain": "study",
+      "source_text": "- Must include an original reflection on project limitations.",
+      "ai_output": "The title slide has a new illustration.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-030",
+      "domain": "study",
+      "source_text": "- Must provide a bibliography with publication years.",
+      "ai_output": "Each reference lists its publishing year beside the author.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-031",
+      "domain": "accessibility",
+      "source_text": "- Must publish an accessibility statement before public beta.",
+      "ai_output": "The accessibility statement is planned.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-032",
+      "domain": "study",
+      "source_text": "- Must include an original reflection on project limitations.",
+      "ai_output": "A separate reflection discusses constraints and what I would change.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-033",
+      "domain": "everyday",
+      "source_text": "- Must reserve thirty minutes for a walking break.",
+      "ai_output": "The schedule blocks a half-hour outdoor walk between appointments.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-034",
+      "domain": "study",
+      "source_text": "- Must explain why a selected research method is appropriate.",
+      "ai_output": "The project lists the method without any justification.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-035",
+      "domain": "everyday",
+      "source_text": "- Must exclude shellfish from every meal in the plan.",
+      "ai_output": "One meal includes prawns despite the shellfish restriction.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-036",
+      "domain": "study",
+      "source_text": "- Must cite at least three independently published sources.",
+      "ai_output": "I included enough research to support my argument.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-037",
+      "domain": "communication",
+      "source_text": "- Must keep the announcement under one hundred words.",
+      "ai_output": "The announcement contains one hundred and forty words.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-038",
+      "domain": "research",
+      "source_text": "- Must identify the publication date of the policy being analysed.",
+      "ai_output": "The analysis records the policy issue date and version.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-039",
+      "domain": "business",
+      "source_text": "- Must give the client a clear approval checkpoint before delivery.",
+      "ai_output": "The handover procedure is professional.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-040",
+      "domain": "security",
+      "source_text": "- Must limit repeated authentication attempts.",
+      "ai_output": "A login can be retried without any restriction.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-041",
+      "domain": "communication",
+      "source_text": "- Must include the meeting date and location in the invitation.",
+      "ai_output": "The invitation states the day and the venue address.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-042",
+      "domain": "software",
+      "source_text": "- Must reject duplicate reservations for a workshop slot.",
+      "ai_output": "I improved the workshop page layout and added tags.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-043",
+      "domain": "communication",
+      "source_text": "- Must keep the announcement under one hundred words.",
+      "ai_output": "I made the announcement concise.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-044",
+      "domain": "study",
+      "source_text": "- Must explain why a selected research method is appropriate.",
+      "ai_output": "The methods section justifies choosing interviews for this question.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-045",
+      "domain": "communication",
+      "source_text": "- Must include a working link to the cited source.",
+      "ai_output": "The message contains a direct URL to the original document.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-046",
+      "domain": "accessibility",
+      "source_text": "- Must publish an accessibility statement before public beta.",
+      "ai_output": "The team updated the marketing home page.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-047",
+      "domain": "security",
+      "source_text": "- Must require approval before deleting organisation records.",
+      "ai_output": "Deletion waits for an explicit administrator confirmation step.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-048",
+      "domain": "everyday",
+      "source_text": "- Must include an emergency contact in the travel plan.",
+      "ai_output": "The travel notes list a phone contact for emergencies.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-049",
+      "domain": "communication",
+      "source_text": "- Must keep the announcement under one hundred words.",
+      "ai_output": "The final announcement contains eighty-six words.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-050",
+      "domain": "communication",
+      "source_text": "- Must include the meeting date and location in the invitation.",
+      "ai_output": "I added a friendly opening sentence.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-051",
+      "domain": "study",
+      "source_text": "- Must cover every marking criterion in the project outline.",
+      "ai_output": "I changed the cover page colours and title font.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-052",
+      "domain": "software",
+      "source_text": "- Must let customers cancel a confirmed booking.",
+      "ai_output": "Customers can withdraw their confirmed reservations from their account dashboard.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-053",
+      "domain": "accessibility",
+      "source_text": "- Must test the service with participants using assistive technologies.",
+      "ai_output": "Accessibility testing has been thorough.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-054",
+      "domain": "study",
+      "source_text": "- Must provide a bibliography with publication years.",
+      "ai_output": "References have been tidied up.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-055",
+      "domain": "everyday",
+      "source_text": "- Must keep the itinerary below the stated spending limit.",
+      "ai_output": "The route includes an art museum.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-056",
+      "domain": "business",
+      "source_text": "- Must give the client a clear approval checkpoint before delivery.",
+      "ai_output": "Delivery occurs without requesting client approval.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-057",
+      "domain": "research",
+      "source_text": "- Must disclose limitations in the sample selection.",
+      "ai_output": "The survey chart uses new categories.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-058",
+      "domain": "communication",
+      "source_text": "- Must end the email by asking the recipient to reply.",
+      "ai_output": "The last sentence invites the reader to get back with their availability.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-059",
+      "domain": "security",
+      "source_text": "- Must reject webhooks with invalid signatures.",
+      "ai_output": "The webhook handler accepts events with invalid signatures.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-060",
+      "domain": "software",
+      "source_text": "- Must expire unpaid seat holds after thirty minutes.",
+      "ai_output": "A booking confirmation modal now animates.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-061",
+      "domain": "software",
+      "source_text": "- Must reject duplicate reservations for a workshop slot.",
+      "ai_output": "The same workshop seat can currently be reserved by multiple people.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-062",
+      "domain": "software",
+      "source_text": "- Must reject duplicate reservations for a workshop slot.",
+      "ai_output": "Booking reliability has been enhanced.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-063",
+      "domain": "communication",
+      "source_text": "- Must include a working link to the cited source.",
+      "ai_output": "The source is properly referenced.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-064",
+      "domain": "study",
+      "source_text": "- Must cover every marking criterion in the project outline.",
+      "ai_output": "The outline follows each item in the course grading rubric.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-065",
+      "domain": "accessibility",
+      "source_text": "- Must test the service with participants using assistive technologies.",
+      "ai_output": "Automated lint checks completed successfully.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-066",
+      "domain": "everyday",
+      "source_text": "- Must reserve thirty minutes for a walking break.",
+      "ai_output": "The calendar has been colour coded.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-067",
+      "domain": "study",
+      "source_text": "- Must include an original reflection on project limitations.",
+      "ai_output": "There is no reflection on the project's limitations.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-068",
+      "domain": "research",
+      "source_text": "- Must distinguish observed correlation from proven causation.",
+      "ai_output": "I updated the labels on three figures.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-069",
+      "domain": "software",
+      "source_text": "- Must let customers cancel a confirmed booking.",
+      "ai_output": "Booking tools have been refined.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-070",
+      "domain": "security",
+      "source_text": "- Must reject webhooks with invalid signatures.",
+      "ai_output": "Webhook validation has been strengthened.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-071",
+      "domain": "accessibility",
+      "source_text": "- Must allow keyboard users to close the dialog with Escape.",
+      "ai_output": "The modal ignores the Escape key and requires a mouse click.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-072",
+      "domain": "everyday",
+      "source_text": "- Must reserve thirty minutes for a walking break.",
+      "ai_output": "The timetable leaves no walking break at all.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-073",
+      "domain": "security",
+      "source_text": "- Must never print API tokens in diagnostic logs.",
+      "ai_output": "Debug logging writes raw authentication tokens.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-074",
+      "domain": "business",
+      "source_text": "- Must explain how requests outside the agreed scope are handled.",
+      "ai_output": "The process sends out-of-scope requests for a separate estimate and approval.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-075",
+      "domain": "software",
+      "source_text": "- Must preserve leading zeroes when exporting customer identifiers.",
+      "ai_output": "The export writes customer IDs as text so 00123 remains 00123.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-076",
+      "domain": "everyday",
+      "source_text": "- Must keep the itinerary below the stated spending limit.",
+      "ai_output": "The itinerary total is higher than the spending limit.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-077",
+      "domain": "business",
+      "source_text": "- Must include a named owner for each project milestone.",
+      "ai_output": "Each milestone has one accountable person recorded alongside it.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-078",
+      "domain": "software",
+      "source_text": "- Must preserve leading zeroes when exporting customer identifiers.",
+      "ai_output": "A CSV download link is now present.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-079",
+      "domain": "software",
+      "source_text": "- Must validate webhook signatures before granting paid access.",
+      "ai_output": "Checkout now displays a colourful receipt page.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-080",
+      "domain": "software",
+      "source_text": "- Must expire unpaid seat holds after thirty minutes.",
+      "ai_output": "Unpaid reservations are released automatically after half an hour.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-081",
+      "domain": "business",
+      "source_text": "- Must state the fee and payment schedule in the proposal.",
+      "ai_output": "I rewrote the executive summary.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-082",
+      "domain": "business",
+      "source_text": "- Must explain how requests outside the agreed scope are handled.",
+      "ai_output": "The project now has a shared calendar.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-083",
+      "domain": "research",
+      "source_text": "- Must identify the publication date of the policy being analysed.",
+      "ai_output": "The report has a new contents page.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-084",
+      "domain": "security",
+      "source_text": "- Must require approval before deleting organisation records.",
+      "ai_output": "Any user can erase the organisation's records immediately.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-085",
+      "domain": "business",
+      "source_text": "- Must state the fee and payment schedule in the proposal.",
+      "ai_output": "The proposal contains no fee or payment timeline.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-086",
+      "domain": "accessibility",
+      "source_text": "- Must keep visible focus indication on interactive controls.",
+      "ai_output": "The interactive controls follow accessibility guidance.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-087",
+      "domain": "everyday",
+      "source_text": "- Must avoid appointments after six in the evening.",
+      "ai_output": "I rearranged the morning meetings.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-088",
+      "domain": "accessibility",
+      "source_text": "- Must make all form fields discoverable to screen-reader users.",
+      "ai_output": "I made the form corners rounder.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-089",
+      "domain": "software",
+      "source_text": "- Must validate webhook signatures before granting paid access.",
+      "ai_output": "We check the event signature with the signing secret before any purchase unlocks.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-090",
+      "domain": "business",
+      "source_text": "- Must state the fee and payment schedule in the proposal.",
+      "ai_output": "Commercial terms have been addressed.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-091",
+      "domain": "everyday",
+      "source_text": "- Must exclude shellfish from every meal in the plan.",
+      "ai_output": "The plan includes five vegetarian breakfasts.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-092",
+      "domain": "business",
+      "source_text": "- Must explain how requests outside the agreed scope are handled.",
+      "ai_output": "We have a sensible process for changes.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-093",
+      "domain": "everyday",
+      "source_text": "- Must keep the itinerary below the stated spending limit.",
+      "ai_output": "The itinerary is designed to be affordable.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-094",
+      "domain": "business",
+      "source_text": "- Must give the client a clear approval checkpoint before delivery.",
+      "ai_output": "The plan pauses at a formal client sign-off before handover.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-095",
+      "domain": "everyday",
+      "source_text": "- Must exclude shellfish from every meal in the plan.",
+      "ai_output": "The menu should suit the stated dietary needs.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-096",
+      "domain": "communication",
+      "source_text": "- Must avoid promising an unconfirmed delivery date.",
+      "ai_output": "The timescale is described responsibly.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-097",
+      "domain": "research",
+      "source_text": "- Must distinguish observed correlation from proven causation.",
+      "ai_output": "The interpretation is scientifically robust.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-098",
+      "domain": "software",
+      "source_text": "- Must validate webhook signatures before granting paid access.",
+      "ai_output": "The payment integration is production ready.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-099",
+      "domain": "research",
+      "source_text": "- Must separate confirmed findings from speculative possibilities.",
+      "ai_output": "The report uses separate sections for observed results and hypotheses.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-100",
+      "domain": "everyday",
+      "source_text": "- Must include an emergency contact in the travel plan.",
+      "ai_output": "The trip safety information is covered.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-101",
+      "domain": "communication",
+      "source_text": "- Must end the email by asking the recipient to reply.",
+      "ai_output": "The closing is polite and professional.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-102",
+      "domain": "business",
+      "source_text": "- Must identify the main delivery risks and mitigations.",
+      "ai_output": "I inserted an overview of the project team.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-103",
+      "domain": "communication",
+      "source_text": "- Must include the meeting date and location in the invitation.",
+      "ai_output": "The invitation has neither a date nor a location.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-104",
+      "domain": "accessibility",
+      "source_text": "- Must test the service with participants using assistive technologies.",
+      "ai_output": "Research sessions included volunteers who actually used assistive technologies.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-105",
+      "domain": "research",
+      "source_text": "- Must distinguish observed correlation from proven causation.",
+      "ai_output": "The paper presents a correlation as proof that one event causes the other.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-106",
+      "domain": "accessibility",
+      "source_text": "- Must keep visible focus indication on interactive controls.",
+      "ai_output": "The button colours have been updated.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-107",
+      "domain": "security",
+      "source_text": "- Must limit repeated authentication attempts.",
+      "ai_output": "The login process is hardened.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-108",
+      "domain": "study",
+      "source_text": "- Must cite at least three independently published sources.",
+      "ai_output": "I relied on one source and provided no other references.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-109",
+      "domain": "study",
+      "source_text": "- Must cover every marking criterion in the project outline.",
+      "ai_output": "The submission should score well against the rubric.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-110",
+      "domain": "communication",
+      "source_text": "- Must avoid promising an unconfirmed delivery date.",
+      "ai_output": "The email clearly marks the delivery timing as tentative pending approval.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-111",
+      "domain": "communication",
+      "source_text": "- Must avoid promising an unconfirmed delivery date.",
+      "ai_output": "I updated the client's job title.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-112",
+      "domain": "communication",
+      "source_text": "- Must avoid promising an unconfirmed delivery date.",
+      "ai_output": "The email guarantees Friday delivery even though nobody approved the date.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-113",
+      "domain": "everyday",
+      "source_text": "- Must avoid appointments after six in the evening.",
+      "ai_output": "I placed one appointment at 7 pm.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-114",
+      "domain": "accessibility",
+      "source_text": "- Must make all form fields discoverable to screen-reader users.",
+      "ai_output": "Every input has an accessible label that assistive technology announces.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-115",
+      "domain": "research",
+      "source_text": "- Must link each numerical claim to its underlying dataset.",
+      "ai_output": "I improved the paragraph spacing.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-116",
+      "domain": "everyday",
+      "source_text": "- Must reserve thirty minutes for a walking break.",
+      "ai_output": "There is plenty of time to relax.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-117",
+      "domain": "business",
+      "source_text": "- Must include a named owner for each project milestone.",
+      "ai_output": "I published a Gantt chart for the project.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-118",
+      "domain": "study",
+      "source_text": "- Must cite at least three independently published sources.",
+      "ai_output": "The essay introduction is now shorter.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-119",
+      "domain": "accessibility",
+      "source_text": "- Must allow keyboard users to close the dialog with Escape.",
+      "ai_output": "Keyboard access has been improved.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-120",
+      "domain": "research",
+      "source_text": "- Must separate confirmed findings from speculative possibilities.",
+      "ai_output": "The report presents speculation as established findings.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-121",
+      "domain": "everyday",
+      "source_text": "- Must avoid appointments after six in the evening.",
+      "ai_output": "The schedule respects your availability.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-122",
+      "domain": "security",
+      "source_text": "- Must never print API tokens in diagnostic logs.",
+      "ai_output": "I reduced the log rotation interval.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-123",
+      "domain": "business",
+      "source_text": "- Must include a named owner for each project milestone.",
+      "ai_output": "The project milestones have no assigned owners.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-124",
+      "domain": "research",
+      "source_text": "- Must disclose limitations in the sample selection.",
+      "ai_output": "Sampling limitations were taken into account.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-125",
+      "domain": "accessibility",
+      "source_text": "- Must make all form fields discoverable to screen-reader users.",
+      "ai_output": "The form inputs have no accessible labels.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-126",
+      "domain": "accessibility",
+      "source_text": "- Must allow keyboard users to close the dialog with Escape.",
+      "ai_output": "Pressing Esc dismisses the open modal without a mouse.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-127",
+      "domain": "software",
+      "source_text": "- Must let customers cancel a confirmed booking.",
+      "ai_output": "I added an upcoming sessions calendar.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-128",
+      "domain": "everyday",
+      "source_text": "- Must keep the itinerary below the stated spending limit.",
+      "ai_output": "The total cost of the proposed itinerary is under the agreed budget.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-129",
+      "domain": "research",
+      "source_text": "- Must identify the publication date of the policy being analysed.",
+      "ai_output": "I checked that the policy is current.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-130",
+      "domain": "research",
+      "source_text": "- Must separate confirmed findings from speculative possibilities.",
+      "ai_output": "The evidence is presented carefully.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-131",
+      "domain": "business",
+      "source_text": "- Must identify the main delivery risks and mitigations.",
+      "ai_output": "The proposal does not mention any delivery risks.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-132",
+      "domain": "communication",
+      "source_text": "- Must include a working link to the cited source.",
+      "ai_output": "The message names the source but contains no hyperlink.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-133",
+      "domain": "security",
+      "source_text": "- Must block requests to loopback addresses in the URL fetcher.",
+      "ai_output": "The service now has a smaller JSON response.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-134",
+      "domain": "research",
+      "source_text": "- Must disclose limitations in the sample selection.",
+      "ai_output": "The report does not explain how the sample was selected.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-135",
+      "domain": "security",
+      "source_text": "- Must limit repeated authentication attempts.",
+      "ai_output": "I added profile avatar uploads.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-136",
+      "domain": "security",
+      "source_text": "- Must block requests to loopback addresses in the URL fetcher.",
+      "ai_output": "The URL fetcher permits requests to the loopback interface.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-137",
+      "domain": "accessibility",
+      "source_text": "- Must allow keyboard users to close the dialog with Escape.",
+      "ai_output": "The dialog has a new shadow.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-138",
+      "domain": "research",
+      "source_text": "- Must disclose limitations in the sample selection.",
+      "ai_output": "The study describes selection bias and the sample's restricted scope.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-139",
+      "domain": "software",
+      "source_text": "- Must preserve leading zeroes when exporting customer identifiers.",
+      "ai_output": "The export changes customer identifier 00123 into 123.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-140",
+      "domain": "study",
+      "source_text": "- Must provide a bibliography with publication years.",
+      "ai_output": "I checked the document's word count.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-141",
+      "domain": "study",
+      "source_text": "- Must explain why a selected research method is appropriate.",
+      "ai_output": "The methodology is described in detail.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-142",
+      "domain": "software",
+      "source_text": "- Must expire unpaid seat holds after thirty minutes.",
+      "ai_output": "Unpaid holds never expire, even after checkout is abandoned.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-143",
+      "domain": "software",
+      "source_text": "- Must reject duplicate reservations for a workshop slot.",
+      "ai_output": "A database uniqueness constraint prevents a second booking for the same workshop seat.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-144",
+      "domain": "accessibility",
+      "source_text": "- Must test the service with participants using assistive technologies.",
+      "ai_output": "No assistive-technology users participated in service testing.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-145",
+      "domain": "business",
+      "source_text": "- Must state the fee and payment schedule in the proposal.",
+      "ai_output": "The proposal specifies the quoted price and instalment dates.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-146",
+      "domain": "research",
+      "source_text": "- Must link each numerical claim to its underlying dataset.",
+      "ai_output": "The statistics appear without dataset links.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-147",
+      "domain": "software",
+      "source_text": "- Must expire unpaid seat holds after thirty minutes.",
+      "ai_output": "Reservation handling is complete.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-148",
+      "domain": "research",
+      "source_text": "- Must separate confirmed findings from speculative possibilities.",
+      "ai_output": "The abstract is shorter now.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-149",
+      "domain": "security",
+      "source_text": "- Must block requests to loopback addresses in the URL fetcher.",
+      "ai_output": "The fetch policy denies connections to 127.0.0.1 and other local interfaces.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-150",
+      "domain": "communication",
+      "source_text": "- Must include a working link to the cited source.",
+      "ai_output": "I added a short summary of the evidence.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-151",
+      "domain": "research",
+      "source_text": "- Must link each numerical claim to its underlying dataset.",
+      "ai_output": "All research figures have been reviewed.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-152",
+      "domain": "software",
+      "source_text": "- Must preserve leading zeroes when exporting customer identifiers.",
+      "ai_output": "The export has been checked for formatting issues.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-153",
+      "domain": "everyday",
+      "source_text": "- Must include an emergency contact in the travel plan.",
+      "ai_output": "The map contains public transport stops.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-154",
+      "domain": "software",
+      "source_text": "- Must let customers cancel a confirmed booking.",
+      "ai_output": "Customers cannot cancel confirmed bookings.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-155",
+      "domain": "study",
+      "source_text": "- Must include an original reflection on project limitations.",
+      "ai_output": "The conclusion discusses my work.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-156",
+      "domain": "accessibility",
+      "source_text": "- Must keep visible focus indication on interactive controls.",
+      "ai_output": "All focus outlines have been removed from buttons and links.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-157",
+      "domain": "business",
+      "source_text": "- Must identify the main delivery risks and mitigations.",
+      "ai_output": "The delivery plan pairs its major risks with reduction measures.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-158",
+      "domain": "research",
+      "source_text": "- Must distinguish observed correlation from proven causation.",
+      "ai_output": "The paper treats the observed relationship as association, not proof of cause.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-159",
+      "domain": "business",
+      "source_text": "- Must give the client a clear approval checkpoint before delivery.",
+      "ai_output": "The plan includes a launch countdown.",
+      "source_type": "authored_fictional"
+    },
+    {
+      "id": "EV2-160",
+      "domain": "security",
+      "source_text": "- Must reject webhooks with invalid signatures.",
+      "ai_output": "The monitoring dashboard now has a chart.",
+      "source_type": "authored_fictional"
+    }
+  ]
+}
