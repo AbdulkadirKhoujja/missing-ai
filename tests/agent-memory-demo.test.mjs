@@ -9,6 +9,12 @@ test("synthetic opt-in agent memory reloads, attributes and checks repeated work
   assert.equal(report.new_process_recall,true);
   assert.equal(report.source_id_stable_after_restart,true);
   assert.equal(report.incremental_append_detected,true);
+  assert.equal(report.post_append_original_source_identity.same_reader_after_append,
+    report.post_append_original_source_identity.pre_append);
+  assert.equal(report.post_append_original_source_identity.same_reader_after_append,
+    report.post_append_original_source_identity.fresh_process);
+  assert.notEqual(report.post_append_original_source_identity.same_reader_after_append,
+    report.post_append_original_source_identity.appended_beacon);
   assert.equal(report.post_append_history_messages,2);
   assert.equal(report.appended_event_source_attributed,true);
   assert.deepEqual(report.source_types,["agent-events"]);
@@ -26,6 +32,9 @@ test("synthetic memory receipt explicitly disclaims unsupported production guara
   assert.match(report.limitations,/opt-in local file reload/i);
   assert.match(report.limitations,/not independent proof/i);
   assert.match(report.limitations,/not.*authenticated multi-user memory/i);
+  assert.match(report.limitations,/source IDs do not prove independent factual accuracy/i);
+  assert.match(report.limitations,/authenticated user\/agent isolation/i);
+  assert.match(report.limitations,/corrections or deletion/i);
   assert.match(report.limitations,/not.*remote sync/i);
   assert.match(report.limitations,/not.*provider history access/i);
 });
@@ -41,4 +50,11 @@ test("synthetic append keeps the original provenance receipt bounded",async()=>{
   assert.deepEqual(report.source_types,["agent-events"]);
   assert.equal(report.source_id_stable_after_restart,true,
     "the original event provenance must survive a fresh process");
+  const receipt=report.post_append_original_source_identity;
+  assert.equal(receipt.same_reader_after_append,receipt.pre_append,
+    "the same reader must retain the original Orion source ID after append");
+  assert.equal(receipt.same_reader_after_append,receipt.fresh_process,
+    "the post-append Orion source ID must match the fresh-process source ID");
+  assert.notEqual(receipt.same_reader_after_append,receipt.appended_beacon,
+    "Beacon must have a different source ID");
 });

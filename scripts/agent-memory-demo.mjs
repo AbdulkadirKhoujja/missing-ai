@@ -96,12 +96,35 @@ else process.stdout.write(reply.result.content[0].text);`;
     assert.match(laterMatch.id,/^event:/);
     assert.match(laterMatch.quote,/Beacon delivery review notes/);
 
+    // Refreshing the SAME reader must preserve the original Orion source ID
+    // while keeping it distinct from the newly appended Beacon event. This is
+    // a local identity check only, not proof of factual accuracy or isolation.
+    const postAppendSearch=decode(await dispatchHistoryRpc(store,request(
+      "missing_ai_search_history",{query:"Project Orion staging CI rollout checklist"}
+    )));
+    const postAppendMatch=postAppendSearch.findings.find(
+      f=>f.role==="event"&&f.conversation===event.conversation
+    );
+    assert.ok(postAppendMatch,"the same reader must still retrieve the original Orion event");
+    assert.equal(postAppendMatch.id,match.id,
+      "the same reader must retain the original Orion source ID after append");
+    assert.equal(postAppendMatch.id,coldMatch.id,
+      "the post-append Orion source ID must match the fresh-process source ID");
+    assert.notEqual(postAppendMatch.id,laterMatch.id,
+      "the appended Beacon event must have a distinct source ID");
+
     return {
       example:"synthetic-local-agent-memory",
       persisted_event_reloaded:true,
       new_process_recall:true,
       source_id_stable_after_restart:true,
       incremental_append_detected:true,
+      post_append_original_source_identity:{
+        pre_append:match.id,
+        fresh_process:coldMatch.id,
+        same_reader_after_append:postAppendMatch.id,
+        appended_beacon:laterMatch.id
+      },
       post_append_history_messages:refreshed.message_count,
       appended_event_source_attributed:true,
       source_types:status.source_types,
@@ -110,7 +133,7 @@ else process.stdout.write(reply.result.content[0].text);`;
       repeated_work_candidates:review.summary.potential_overlooks,
       remote_storage:status.remote_storage,
       verified_implementation:false,
-      limitations:"Opt-in local file reload and lexical retrieval of attributed agent claims only; not independent proof, authenticated multi-user memory, remote sync or provider history access."
+      limitations:"Opt-in local file reload and lexical retrieval of attributed agent claims only; not independent proof or authenticated multi-user memory; source IDs do not prove independent factual accuracy, authenticated user/agent isolation, corrections or deletion; not remote sync or provider history access."
     };
   }finally{
     await rm(folder,{recursive:true,force:true});
