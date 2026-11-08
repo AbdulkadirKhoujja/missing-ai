@@ -87,11 +87,42 @@ export async function runLocalBoundariesDemo(){
     assert.equal(sourceIds.alpha.unique_phrase,sourceIds.alpha.shared_checkpoint);
     assert.equal(sourceIds.beta.unique_phrase,sourceIds.beta.shared_checkpoint);
     assert.notEqual(sourceIds.alpha.unique_phrase,sourceIds.beta.unique_phrase);
+    // Reopen one reader per already-populated folder only after the initial
+    // queries. This checks local-file reload behavior, not authentication or
+    // tenant isolation.
+    const [aReopened,bReopened]=[createHistoryStore(alpha),createHistoryStore(beta)];
+    const [aReopenedShared,bReopenedShared,aReopenedOther,bReopenedOther]=await Promise.all([
+      search(aReopened,sharedMarker),
+      search(bReopened,sharedMarker),
+      search(aReopened,"Beacon customer message routing"),
+      search(bReopened,"Atlas build cache rotation")
+    ]);
+    assert.equal(aReopenedShared.findings.length,1);
+    assert.equal(bReopenedShared.findings.length,1);
+    const reopenedSourceIds={
+      alpha:aReopenedShared.findings[0].id,
+      beta:bReopenedShared.findings[0].id
+    };
+    assert.equal(reopenedSourceIds.alpha,sourceIds.alpha.shared_checkpoint);
+    assert.equal(reopenedSourceIds.beta,sourceIds.beta.shared_checkpoint);
+    assert.notEqual(reopenedSourceIds.alpha,reopenedSourceIds.beta);
+    assert.equal(aReopenedOther.findings.length,0,
+      "Reopened Alpha must not retrieve the unrelated Beta folder after refresh");
+    assert.equal(bReopenedOther.findings.length,0,
+      "Reopened Beta must not retrieve the unrelated Alpha folder after refresh");
+    const receiptKeys={
+      alpha_reopened_local_reader:"synthetic-local-reader:alpha:reopened",
+      beta_reopened_local_reader:"synthetic-local-reader:beta:reopened",
+      alpha_stable_folder_source:"synthetic-local-source:alpha",
+      beta_stable_folder_source:"synthetic-local-source:beta"
+    };
     return {
       example:"synthetic-local-folder-boundaries",
       folders:2,events_per_folder:1,
       own_source_attribution:true,
       source_ids:sourceIds,
+      reopened_reader_source_ids:reopenedSourceIds,
+      receipt_keys:receiptKeys,
       unrelated_cross_folder_retrievals:0,
       remote_storage:false,
       authenticated_tenant_isolation:false,
