@@ -64,7 +64,7 @@ function checkEvidence(answer,quotes,label){
 }
 function render(groups,summary,sources){
  const lines=["# Missing AI — consolidated source review","",
-  "**Verification scope:** requirement IDs and exact answer quotations checked. Semantic classifications, duplicate equivalence, legal status and actual implementations NOT independently verified.","",
+  "**Verification scope:** EXTRACTED candidate requirement IDs and exact answer quotations checked. Source extraction completeness, semantic classifications, duplicate equivalence, legal status and actual implementations NOT independently verified.","",
   "**Source pages:** "+sources.map(s=>s.source_url?"["+s.source_id+"]("+urlMd(s.source_url)+")":s.source_id+" (pasted text)").join(", "),
   "",
   "**Extracted candidates:** "+summary.candidate_requirements+" · **Consolidated groups:** "+summary.groups+" · **Host-proposed duplicate merges:** "+summary.duplicate_references_collapsed,
@@ -132,8 +132,8 @@ export function validateBundleReview(sources,aiOutput,groups){
  for(const label of JUDGMENTS)summary[label]=actionable.filter(g=>g.judgment===label).length;
  return {protocol:"bundle-review-v1",review_mode:"host_model_assisted",summary,groups:result,
   report_markdown:render(result,summary,prepared),
-  validation:{all_source_requirements_accounted_for:true,all_answer_quotes_exact:true,
+  validation:{all_source_requirements_accounted_for:true,source_extraction_completeness_verified:false,all_answer_quotes_exact:true,
    semantic_classifications_verified:false,groupings_independently_verified:false,
    source_content_independently_refetched:false,implementation_verified:false},
-  limitations:"Source completeness and exact answer quotations are checked. Duplicate meaning, obligation strength, legal status, semantic accuracy and implementation are NOT verified."};
+  limitations:"Only the IDs of EXTRACTED candidate requirements and exact answer quotation offsets are checked. Missing obligations in original sources may remain undetected; source extraction completeness, duplicate meaning, obligation strength, legal status, semantic accuracy and implementation are NOT independently verified."};
 }
