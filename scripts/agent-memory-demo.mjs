@@ -14,6 +14,7 @@ function decode(response){
   assert.equal(response?.result?.isError,false,"private MCP returned a bounded error");
   return JSON.parse(response.result.content[0].text);
 }
+const sourceIds=search=>search.findings.filter(f=>typeof f.id==="string").map(f=>f.id);
 export async function runDemo(){
   const folder=await mkdtemp(join(tmpdir(),"missing-ai-agent-memory-demo-"));
   try{
@@ -42,6 +43,15 @@ export async function runDemo(){
     assert.ok(match,"the approved event must be retrieved with source attribution");
     assert.match(match.id,/^event:/);
     assert.match(match.quote,/Project Orion staging CI passed/);
+
+    const negativeQuery="Quartz nebula ledger identifier absent from this fixture";
+    const negativeSearch=decode(await dispatchHistoryRpc(store,request(
+      "missing_ai_search_history",{query:negativeQuery}
+    )));
+    assert.equal(negativeSearch.findings.filter(f=>f.role==="event").length,0,
+      "an absent query must not fabricate an event finding");
+    assert.deepEqual(sourceIds(negativeSearch),[],
+      "an absent query must not fabricate a source ID");
 
     // A genuinely new Node process, rather than another in-process reader,
     // must recover the same event ID from the owner-approved local file.
@@ -113,6 +123,37 @@ else process.stdout.write(reply.result.content[0].text);`;
     assert.notEqual(postAppendMatch.id,laterMatch.id,
       "the appended Beacon event must have a distinct source ID");
 
+    const retrievalFixture=[
+      {
+        query:"Project Orion staging CI rollout checklist",
+        expected_source_ids:[match.id],
+        actual_source_ids:sourceIds(postAppendSearch)
+      },
+      {
+        query:"Beacon delivery review notes",
+        expected_source_ids:[laterMatch.id],
+        actual_source_ids:sourceIds(laterSearch)
+      },
+      {
+        query:negativeQuery,
+        expected_source_ids:[],
+        actual_source_ids:sourceIds(negativeSearch)
+      }
+    ];
+    const positiveFixtures=retrievalFixture.slice(0,2);
+    const trueHits=positiveFixtures.reduce((count,fixture)=>count+
+      fixture.expected_source_ids.filter(id=>fixture.actual_source_ids.includes(id)).length,0);
+    const trueHitDenominator=positiveFixtures.reduce((count,fixture)=>
+      count+fixture.expected_source_ids.length,0);
+    const negativeFixtures=retrievalFixture.slice(2);
+    const falseRecalls=negativeFixtures.reduce((count,fixture)=>
+      count+fixture.actual_source_ids.length,0);
+    const falseRecallDenominator=negativeFixtures.length;
+    assert.equal(trueHits,2,"both positive fixture source IDs must be retrieved");
+    assert.equal(trueHitDenominator,2);
+    assert.equal(falseRecalls,0,"the negative fixture must have no recalled source IDs");
+    assert.equal(falseRecallDenominator,1);
+
     return {
       example:"synthetic-local-agent-memory",
       persisted_event_reloaded:true,
@@ -127,6 +168,13 @@ else process.stdout.write(reply.result.content[0].text);`;
       },
       post_append_history_messages:refreshed.message_count,
       appended_event_source_attributed:true,
+      retrieval_fixture:retrievalFixture,
+      retrieval_metrics:{
+        true_hits:trueHits,
+        true_hit_denominator:trueHitDenominator,
+        false_recalls:falseRecalls,
+        false_recall_denominator:falseRecallDenominator
+      },
       source_types:status.source_types,
       history_messages:status.message_count,
       source_attributed:true,
