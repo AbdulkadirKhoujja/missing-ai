@@ -1,0 +1,379 @@
+{
+  "schema": "missing-ai-six-use-case-live-smoke-part-v1",
+  "group": "B",
+  "observed_at_utc": "2026-10-29T18:45:11.619Z",
+  "live_mcp_deployment_sha": "NOT_ESTABLISHED",
+  "repo_main_sha_for_context": "7ca259161e0ffef48a4f4fff547a133e218eea44",
+  "comparison_type": "two independently distinct engines: host-assisted connected MCP and check_missing lexical tool; tool schema not independent ground truth",
+  "human_ground_truth": "NONE",
+  "limitations": [
+    "Proposed semantic labels authored by ChatGPT and not independently scored.",
+    "A successful validator checks only extracted IDs and exact quote offsets, not original-source completeness or meaning.",
+    "Project-authored fixtures are not a representative sample or a sealed holdout."
+  ],
+  "rows": [
+    {
+      "id": "E01",
+      "category": "Education & learning",
+      "fixture": {
+        "source_text": "- Include at least three citations in the essay.",
+        "ai_output": "The essay contains two citations.",
+        "synthetic_explicit_bullets": 1
+      },
+      "author_proposed_judgment": "contradicted",
+      "reason": "The answer explicitly claims only two citations, fewer than the minimum of three.",
+      "prepare": {
+        "status": "success",
+        "protocol": "evidence-review-v1",
+        "count": 1,
+        "requirements": [
+          {
+            "id": "R01",
+            "text": "Include at least three citations in the essay.",
+            "line": 1
+          }
+        ]
+      },
+      "validate": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "claimed_covered": 0,
+          "contradicted": 1,
+          "not_clearly_mentioned": 0,
+          "cannot_determine": 0
+        },
+        "validation": {
+          "all_requirement_ids_present": true,
+          "all_supplied_quotes_exact": true,
+          "semantic_accuracy_verified": false,
+          "implementation_verified": false
+        },
+        "evidence": [
+          {
+            "quote": "The essay contains two citations.",
+            "start": 0,
+            "end": 33,
+            "verified_in_answer": true
+          }
+        ]
+      },
+      "lexical": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "text_found": 0,
+          "likely_mentioned": 0,
+          "needs_review": 1
+        },
+        "findings": [
+          {
+            "id": "R01",
+            "text": "Include at least three citations in the essay.",
+            "line": 1,
+            "status": "needs_review",
+            "coverage": 50,
+            "matched_terms": [
+              "citations",
+              "essay"
+            ],
+            "unmatched_terms": [
+              "least",
+              "three"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "E02",
+      "category": "Education & learning",
+      "fixture": {
+        "source_text": "- Explain why interviews are appropriate for the research.",
+        "ai_output": "Interviews were selected because open-ended responses reveal participants' reasoning.",
+        "synthetic_explicit_bullets": 1
+      },
+      "author_proposed_judgment": "claimed_covered",
+      "reason": "The answer provides a stated rationale for using interviews, not a verified research method assessment.",
+      "prepare": {
+        "status": "success",
+        "protocol": "evidence-review-v1",
+        "count": 0,
+        "requirements": []
+      },
+      "validate": {
+        "status": "not_attempted_extraction_incomplete"
+      },
+      "lexical": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "text_found": 0,
+          "likely_mentioned": 0,
+          "needs_review": 1
+        },
+        "findings": [
+          {
+            "id": "R01",
+            "text": "Explain why interviews are appropriate for the research.",
+            "line": 1,
+            "status": "needs_review",
+            "coverage": 20,
+            "matched_terms": [
+              "interviews"
+            ],
+            "unmatched_terms": [
+              "explain",
+              "why",
+              "appropriate",
+              "research"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "B01",
+      "category": "Business deliverables",
+      "fixture": {
+        "source_text": "- Assign an owner to every project milestone.",
+        "ai_output": "Milestone dates are listed, but no owners have been assigned.",
+        "synthetic_explicit_bullets": 1
+      },
+      "author_proposed_judgment": "contradicted",
+      "reason": "The answer expressly says no owners were assigned to the milestones.",
+      "prepare": {
+        "status": "success",
+        "protocol": "evidence-review-v1",
+        "count": 0,
+        "requirements": []
+      },
+      "validate": {
+        "status": "not_attempted_extraction_incomplete"
+      },
+      "lexical": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "text_found": 0,
+          "likely_mentioned": 0,
+          "needs_review": 1
+        },
+        "findings": [
+          {
+            "id": "R01",
+            "text": "Assign an owner to every project milestone.",
+            "line": 1,
+            "status": "needs_review",
+            "coverage": 20,
+            "matched_terms": [
+              "milestone"
+            ],
+            "unmatched_terms": [
+              "assign",
+              "owner",
+              "every",
+              "project"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "B02",
+      "category": "Business deliverables",
+      "fixture": {
+        "source_text": "- Explain how out-of-scope requests require approval.",
+        "ai_output": "Requests beyond the agreed scope need a fresh estimate and written client sign-off.",
+        "synthetic_explicit_bullets": 1
+      },
+      "author_proposed_judgment": "claimed_covered",
+      "reason": "The answer describes sign-off for out-of-scope work, without verifying actual process operation.",
+      "prepare": {
+        "status": "success",
+        "protocol": "evidence-review-v1",
+        "count": 1,
+        "requirements": [
+          {
+            "id": "R01",
+            "text": "Explain how out-of-scope requests require approval.",
+            "line": 1
+          }
+        ]
+      },
+      "validate": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "claimed_covered": 1,
+          "contradicted": 0,
+          "not_clearly_mentioned": 0,
+          "cannot_determine": 0
+        },
+        "validation": {
+          "all_requirement_ids_present": true,
+          "all_supplied_quotes_exact": true,
+          "semantic_accuracy_verified": false,
+          "implementation_verified": false
+        },
+        "evidence": [
+          {
+            "quote": "Requests beyond the agreed scope need a fresh estimate and written client sign-off.",
+            "start": 0,
+            "end": 83,
+            "verified_in_answer": true
+          }
+        ]
+      },
+      "lexical": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "text_found": 0,
+          "likely_mentioned": 0,
+          "needs_review": 1
+        },
+        "findings": [
+          {
+            "id": "R01",
+            "text": "Explain how out-of-scope requests require approval.",
+            "line": 1,
+            "status": "needs_review",
+            "coverage": 33,
+            "matched_terms": [
+              "scope",
+              "requests"
+            ],
+            "unmatched_terms": [
+              "explain",
+              "how",
+              "out",
+              "approval"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "C01",
+      "category": "Coding & technical",
+      "fixture": {
+        "source_text": "- Issue payment receipts for completed payments.",
+        "ai_output": "Payment receipts have not been implemented.",
+        "synthetic_explicit_bullets": 1
+      },
+      "author_proposed_judgment": "contradicted",
+      "reason": "The answer denies receipt implementation, but this test first checks whether the extractor even captures the imperative.",
+      "prepare": {
+        "status": "success",
+        "protocol": "evidence-review-v1",
+        "count": 0,
+        "requirements": []
+      },
+      "validate": {
+        "status": "not_attempted_extraction_incomplete"
+      },
+      "lexical": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "text_found": 0,
+          "likely_mentioned": 0,
+          "needs_review": 1
+        },
+        "findings": [
+          {
+            "id": "R01",
+            "text": "Issue payment receipts for completed payments.",
+            "line": 1,
+            "status": "needs_review",
+            "coverage": 40,
+            "matched_terms": [
+              "payment",
+              "receipts"
+            ],
+            "unmatched_terms": [
+              "issue",
+              "completed",
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "C02",
+      "category": "Coding & technical",
+      "fixture": {
+        "source_text": "- Reject webhook events with invalid signatures.",
+        "ai_output": "Events with invalid signatures are discarded without processing.",
+        "synthetic_explicit_bullets": 1
+      },
+      "author_proposed_judgment": "claimed_covered",
+      "reason": "The answer claims invalid webhook events are discarded, but no handler code was executed.",
+      "prepare": {
+        "status": "success",
+        "protocol": "evidence-review-v1",
+        "count": 1,
+        "requirements": [
+          {
+            "id": "R01",
+            "text": "Reject webhook events with invalid signatures.",
+            "line": 1
+          }
+        ]
+      },
+      "validate": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "claimed_covered": 1,
+          "contradicted": 0,
+          "not_clearly_mentioned": 0,
+          "cannot_determine": 0
+        },
+        "validation": {
+          "all_requirement_ids_present": true,
+          "all_supplied_quotes_exact": true,
+          "semantic_accuracy_verified": false,
+          "implementation_verified": false
+        },
+        "evidence": [
+          {
+            "quote": "Events with invalid signatures are discarded without processing.",
+            "start": 0,
+            "end": 64,
+            "verified_in_answer": true
+          }
+        ]
+      },
+      "lexical": {
+        "status": "success",
+        "summary": {
+          "requirements": 1,
+          "text_found": 0,
+          "likely_mentioned": 0,
+          "needs_review": 1
+        },
+        "findings": [
+          {
+            "id": "R01",
+            "text": "Reject webhook events with invalid signatures.",
+            "line": 1,
+            "status": "needs_review",
+            "coverage": 60,
+            "matched_terms": [
+              "events",
+              "invalid",
+              "signatures"
+            ],
+            "unmatched_terms": [
+              "reject",
+              "webhook"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
