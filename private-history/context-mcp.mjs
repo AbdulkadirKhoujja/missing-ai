@@ -50,7 +50,7 @@ export function createHistoryStore(dir){
   const [exportFile,eventFile]=await Promise.all([sourceInfo(dir,"conversations.json",HISTORY_LIMITS.maxFileBytes),sourceInfo(dir,"agent-events.jsonl",MAX_EVENTS)]);
   const next=[exportFile?.signature||"-",eventFile?.signature||"-"].join("|");
   if(next===signature&&cache)return cache;
-  let messages=[],sources=[];
+  let messages=[],sources=[],duplicateIds=0;
   if(exportFile){
    const parsed=JSON.parse(await safeRead(exportFile,HISTORY_LIMITS.maxFileBytes));
    messages=importChatGPTExport(parsed).messages;
@@ -62,12 +62,12 @@ export function createHistoryStore(dir){
    const seen=new Set(messages.map(m=>m.id));
    for(let i=0;i<lines.length;i++){
     const m=cleanEvent(JSON.parse(lines[i]),i+1);
-    if(!seen.has(m.id)){messages.push(m);seen.add(m.id);}
+    if(!seen.has(m.id)){messages.push(m);seen.add(m.id);}else duplicateIds++;
    }
    sources.push("agent-events");
   }
   if(messages.length>HISTORY_LIMITS.maxMessages||messages.reduce((n,m)=>n+m.text.length,0)>HISTORY_LIMITS.maxCharacters)throw Error("Combined history exceeds local safety limits.");
-  cache={messages,status:{source_types:sources,message_count:messages.length,refresh:"on every tool call when source files change",remote_storage:false}};
+  cache={messages,status:{source_types:sources,message_count:messages.length,duplicate_ids_ignored:duplicateIds,refresh:"on every tool call when source files change",remote_storage:false}};
   signature=next;
   return cache;
  }};
