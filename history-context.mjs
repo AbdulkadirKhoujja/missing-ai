@@ -42,6 +42,48 @@ function prior(text){
  const done=/\b(?:fixed|resolved|repaired|completed|implemented|deployed|configured|enabled|verified|working|successful|done)\b/i.test(s);
  return {access:access&&!neg,done:done&&!neg};
 }
+// Correction links (issue #73). A flagged earlier record is only ever marked as superseded when the link is attributable:
+//  - "explicit_reference": a later-dated record says "supersedes <id>" / "corrects <id>" / "correction to <id>" naming that exact record ID; or
+//  - "declared_correction_unique_match": a later-dated record in the SAME conversation starts with "Correction:" or "Retraction:", is not
+//    itself a completion/access claim, contains every matched term of the earlier record, and that earlier record is its ONLY such candidate.
+// Shared keywords plus a negation, a missing/invalid/earlier date, an unknown ID or more than one candidate link nothing: both records stay
+// as they were. Nothing is removed or rewritten, and no link asserts which statement is true.
+const DECLARED_CORRECTION=/^\s*(?:correction|retraction)\s*[:\u2013\u2014-]/i;
+const CORRECTION_REFERENCE=/\b(?:supersedes|corrects|correction (?:to|of|for))\s*:?\s+([^\s,;()]{1,170})/gi;
+const when=d=>{const t=typeof d==="string"?Date.parse(d):NaN;return Number.isFinite(t)?t:null;};
+function linkCorrections(history,hits){
+ const flagged=new Map();
+ for(const h of hits)if(h.kind!=="related_history"&&typeof h.id==="string"&&when(h.date)!==null&&!flagged.has(h.id))flagged.set(h.id,h);
+ if(!flagged.size)return;
+ const candidates=new Map();
+ const propose=(old,m,basis)=>{
+  const at=when(m.date);
+  if(m.id===old.id||at===null||at<=when(old.date))return;
+  const best=candidates.get(old.id);
+  if(!best||at>best.at||(at===best.at&&basis==="explicit_reference"&&best.basis!==basis))candidates.set(old.id,{m,at,basis});
+ };
+ for(const m of history){
+  if(!m||typeof m.text!=="string"||typeof m.conversation!=="string"||typeof m.id!=="string")continue;
+  let refs=0;
+  for(const found of m.text.matchAll(CORRECTION_REFERENCE)){
+   if(++refs>8)break;
+   const old=flagged.get(found[1].replace(/[.!?:'"\]]+$/,""));
+   if(old)propose(old,m,"explicit_reference");
+  }
+  if(!DECLARED_CORRECTION.test(m.text)||when(m.date)===null)continue;
+  const p=prior(m.text);if(p.done||p.access)continue;
+  const own=new Set(words(m.conversation+" "+m.text));
+  const targets=[...flagged.values()].filter(f=>f.id!==m.id&&f.conversation===m.conversation&&when(f.date)<when(m.date)&&f.matched_terms.length>=2&&f.matched_terms.every(t=>own.has(t)));
+  if(targets.length===1)propose(targets[0],m,"declared_correction_unique_match");
+ }
+ for(const [oldId,{m,basis}] of candidates){
+  const old=flagged.get(oldId);
+  let correction=hits.find(h=>h.id===m.id);
+  if(!correction){correction={id:m.id,conversation:m.conversation,role:m.role,date:m.date,quote:quote(m.text,[]),matched_terms:[],score:0,kind:"related_history"};hits.push(correction);}
+  old.kind="related_history";old.superseded_by=m.id;old.supersession_basis=basis;
+  correction.supersedes=[...(correction.supersedes||[]),oldId];
+ }
+}
 export function reviewContext(history,answer,{maxResults=8}={}){
  if(!Array.isArray(history))throw Error("History must be an array.");
  if(typeof answer!=="string"||!answer.trim()||answer.length>15000)throw Error("Paste an AI answer of 1–15,000 characters.");
@@ -58,7 +100,13 @@ export function reviewContext(history,answer,{maxResults=8}={}){
   const repeat=repeats&&p.done&&matched.length>=2;
   hits.push({id:m.id,conversation:m.conversation,role:m.role,date:m.date,quote:quote(m.text,matched),matched_terms:matched.slice(0,12),score,kind:access?"possible_access_recheck":repeat?"possible_repeated_work":"related_history"});
  }
+ linkCorrections(history,hits);
  hits.sort((a,b)=>Number(b.kind!=="related_history")-Number(a.kind!=="related_history")||b.score-a.score||String(b.date).localeCompare(String(a.date)));
+ // A linked correction is always listed directly above the record it supersedes, so a tight limit cannot show only the older claim.
+ for(const old of hits.filter(h=>h.superseded_by)){
+  const at=hits.indexOf(old),from=hits.findIndex(h=>h.id===old.superseded_by);
+  if(from>at){const [moved]=hits.splice(from,1);hits.splice(at,0,moved);}
+ }
  const findings=hits.slice(0,Math.max(1,Math.min(20,Number(maxResults)||8)));
- return {engine:"context-lexical-v1",status:"review_required",history_messages:history.length,findings,summary:{potential_overlooks:findings.filter(f=>f.kind!=="related_history").length,related:findings.filter(f=>f.kind==="related_history").length},limitations:"Keyword-based candidates only. Historical conversation claims do not prove past actions or current access. Review original quotes and independently verify state. Semantic omissions may be missed."};
+ return {engine:"context-lexical-v1",status:"review_required",history_messages:history.length,findings,omitted_findings:hits.length-findings.length,summary:{potential_overlooks:findings.filter(f=>f.kind!=="related_history").length,related:findings.filter(f=>f.kind==="related_history").length,superseded:findings.filter(f=>f.superseded_by).length},limitations:"Keyword-based candidates only. Historical conversation claims do not prove past actions or current access. A superseded_by link records that a later note declared itself a correction of an earlier one; it does not establish which statement is true. Review original quotes and independently verify state. Semantic omissions may be missed."};
 }
