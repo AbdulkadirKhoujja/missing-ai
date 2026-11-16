@@ -16,6 +16,24 @@ The script starts the service on a loopback port inside its own process, runs th
 
 The receipt always contains `live_chatgpt_client_verified: false` and `live_claude_client_verified: false`. The "host judgments" are a fixed script standing in for a model. The script does not contact the hosted beta.
 
+## Check your own endpoint before connecting it
+
+If you host the service yourself, this runs the same scripted requests against your endpoint for both browser origins and prints one JSON receipt of named checks:
+
+```bash
+node examples/check-mcp-endpoint.mjs https://your-host.example/mcp
+```
+
+Without a URL it checks an in-process loopback copy, which shows what a passing receipt looks like:
+
+```bash
+node examples/check-mcp-endpoint.mjs
+```
+
+It checks: an `https://` URL on port 443; the CORS preflight; `initialize`, the `initialized` notification and the six-tool list; one review of the invented booking example; refusal of a fabricated quotation; refusal of a look-alike origin; and that both origins received identical results. Exit status is 0 when every check passes, 1 when any fails and 2 when the URL is refused. Plain `http://` is accepted only for loopback addresses, and URLs containing credentials are refused.
+
+Only the invented booking example is sent, and only to the URL you give. One run makes about a dozen requests, which count toward the service's hourly per-address limit. A passing receipt still contains `live_chatgpt_client_verified: false` and `live_claude_client_verified: false`: the requests come from your machine, not from either product, and the check says nothing about the endpoint's security. It has been run only against the local reference service in `tests/mcp-endpoint-preflight.test.mjs`, not against the hosted beta.
+
 ## Matrix
 
 "Synthetic test" means `tests/two-provider-mcp-parity.test.mjs` against a local server. "Not verified" means no evidence is recorded in this repository by that test; older acceptance notes elsewhere in `docs/` are dated observations, not current proof.
