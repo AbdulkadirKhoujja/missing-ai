@@ -13,14 +13,18 @@ function reportError(target,error){target.textContent=error instanceof Error?err
 function node(tag,text,className){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e;}
 function showReport(report){
  results.replaceChildren();
- results.append(node("h3",report.summary.potential_overlooks+" possible overlook(s); "+report.summary.related+" related excerpt(s)"));
+ const corrected=report.summary.superseded||0;
+ results.append(node("h3",report.summary.potential_overlooks+" possible overlook(s); "+report.summary.related+" related excerpt(s)"+(corrected?"; "+corrected+" with a later declared correction":"")));
  results.append(node("p",report.limitations,"history-result-note"));
  if(!report.findings.length){results.append(node("p","No matching earlier messages were found in this imported selection. This does not establish that relevant history does not exist."));return;}
  for(const f of report.findings){
   const item=node("article",undefined,"history-finding");
-  const label=f.kind==="possible_access_recheck"?"Possible repeated access request":f.kind==="possible_repeated_work"?"Possible repeated work":"Related earlier message";
+  const corrects=Array.isArray(f.supersedes)?f.supersedes.length:0;
+  const label=f.superseded_by?"Earlier statement with a later declared correction":corrects?"Declared correction of an earlier statement":f.kind==="possible_access_recheck"?"Possible repeated access request":f.kind==="possible_repeated_work"?"Possible repeated work":"Related earlier message";
   item.append(node("h3",label),node("small",f.conversation+" · "+(f.role==="note"?"manual note":f.role)+" · "+(f.date?new Date(f.date).toLocaleDateString():"date unavailable")));
   item.append(node("blockquote",f.quote));
+  if(f.superseded_by)item.append(node("p","A later note, listed above, declares itself a correction of this statement ("+(f.supersession_basis==="explicit_reference"?"it names this record":"same conversation, marked as a correction")+"). Read both: the link does not establish which statement is true.","history-correction"));
+  else if(corrects)item.append(node("p","This note declares itself a correction of "+corrects+" earlier statement"+(corrects===1?"":"s")+" in your history. It is a declared link only and does not establish which statement is true.","history-correction"));
   item.append(node("small","Matched terms: "+(f.matched_terms.join(", ")||"none")+". Earlier statement; verify against current evidence."));
   results.append(item);
  }

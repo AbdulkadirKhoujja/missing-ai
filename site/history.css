@@ -25,6 +25,7 @@
 .history-finding h3{font-size:16px;margin:5px 0 12px}
 .history-finding blockquote{margin:10px 0;padding:10px 13px;border-left:3px solid #8edab6;background:#1b2c37;white-space:pre-wrap;word-break:break-word;line-height:1.6}
 .history-finding small,.history-result-note{color:#bbcbe3;font-size:13px;line-height:1.6}
+.history-finding .history-correction{margin:10px 0;padding:8px 12px;border:1px solid #c9a94f;border-radius:8px;color:#f5e6b3;font-size:13px;line-height:1.6}
 .history-fineprint{max-width:920px;margin-top:44px}
 .history-fineprint h2{font-size:20px}
 .history-fineprint a{color:#aff7d0}
