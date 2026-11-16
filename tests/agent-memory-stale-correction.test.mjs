@@ -2,10 +2,9 @@
 // identifiers in owner-local agent events (issue #73: correction/supersession,
 // conflict detection, stable identifiers and timestamps).
 //
-// Passing tests pin what the existing read-only tools already guarantee.
-// Tests marked `todo` are EXECUTABLE descriptions of known gaps: they run on
-// every CI build, currently fail, and are reported as TODO without failing the
-// suite. They are not implemented behaviour and must not be cited as such.
+// Every test here is required to pass. The last three began as `todo`
+// descriptions of known gaps and were made required once the correction-link
+// and duplicate-ID changes landed (see docs/AGENT_MEMORY_CORRECTIONS.md).
 // Fixtures are fictional; no storage, schema, auth or MCP code is changed here.
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -89,33 +88,41 @@ test("results for the same files are identical across fresh readers",async()=>{
   });
 });
 
-// ---- Known gaps (issue #73). Executable, currently failing, reported as TODO. ----
+// ---- Formerly known gaps (issue #73). These ran as `todo` until the attributable
+// correction-link design was merged; they are now ordinary required tests. ----
 
-test("KNOWN GAP: an older 'fixed' claim is not counted as an overlook once a later correction exists",{todo:"issue #73 correction/supersession is not implemented"},async()=>{
+test("an older 'fixed' claim is not counted as an overlook once a later declared correction exists",async()=>{
   await withEvents([claim,correction],async folder=>{
     const review=await ok(folder,"missing_ai_review_answer_history",{ai_answer:ANSWER});
     const stale=review.findings.find(f=>f.id==="event:"+claim.id);
     assert.notEqual(stale?.kind,"possible_repeated_work",
       "redoing work that a later note says was reverted is not repeated work");
     assert.equal(review.summary.potential_overlooks,0);
+    assert.equal(stale.superseded_by,"event:"+correction.id,"the older claim stays visible and names the note that corrected it");
+    assert.equal(review.status,"review_required","a correction link is not a verdict on which note is true");
   });
 });
 
-test("KNOWN GAP: a single-result review does not show only the superseded claim",{todo:"issue #73 correction/supersession is not implemented"},async()=>{
+test("a single-result review shows the correction, not only the superseded claim, and discloses the cut",async()=>{
   await withEvents([claim,correction],async folder=>{
     const review=await ok(folder,"missing_ai_review_answer_history",{ai_answer:ANSWER,max_results:1});
     assert.equal(review.findings.length,1);
     assert.equal(review.findings[0].id,"event:"+correction.id,
       "with room for one finding, the newer correction must not be hidden behind the stale claim");
+    assert.equal(review.omitted_findings,1,"the older claim that did not fit must be counted, not silently dropped");
   });
 });
 
-test("KNOWN GAP: a second record reusing an existing identifier is not silently discarded",{todo:"issue #73 conflict detection for duplicate identifiers is not implemented"},async()=>{
+test("a second record reusing an existing identifier is reported, and the first record is the one kept",async()=>{
   const reused={...correction,id:claim.id};
   await withEvents([claim,reused],async folder=>{
-    const {isError,text}=await call(folder,"missing_ai_history_status");
-    const silentlyDropped=isError===false&&JSON.parse(text).message_count===1;
-    assert.equal(silentlyDropped,false,
-      "two different records sharing one ID must be reported or both kept, never reduced to one without notice");
+    const status=await ok(folder,"missing_ai_history_status");
+    assert.equal(status.message_count,1);
+    assert.equal(status.duplicate_ids_ignored,1,
+      "two different records sharing one ID must never be reduced to one without notice");
+    const found=await ok(folder,"missing_ai_search_history",{query:QUERY});
+    assert.equal(found.findings.length,1);
+    assert.equal(found.findings[0].date,claim.date,"the first record for the ID is kept");
+    assert.doesNotMatch(found.findings[0].quote,/reverted/,"the ignored record's text is not served under the first record's ID");
   });
 });
