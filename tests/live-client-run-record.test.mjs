@@ -55,12 +55,14 @@ test("a blank record exists for each documented client and is never a pass",()=>
  assert.throws(()=>blankRunRecord("gemini"),/chatgpt, claude/);
 });
 
-test("only a record with all three steps passed is reported as verified",()=>{
+test("only a record with all three steps passed is reported as self-reported complete",()=>{
  for(const client of CLIENTS){
   const result=check(filled(client));
   assert.deepEqual(result.errors,[]);
-  assert.equal(result.status,"verified");
+  assert.equal(result.status,"self_reported_complete");
   assert.equal(result.ok,true);
+  assert.equal(result.evidence_level,"self_reported");
+  assert.equal(result.independently_verified,false);
   assert.deepEqual(result.summary,{client,observed_at:"2026-11-17T09:30:00Z",steps:{connector_added:"pass",tools_listed:"pass",review_completed:"pass"},service_commit_recorded:true});
  }
  const partial=check(filled("claude",r=>{r.steps.review_completed={result:"not_run",note:""};}));
@@ -100,7 +102,7 @@ test("a passed tool listing must name exactly the six tools",()=>{
  rejects(r=>{r.tools_seen=[...EXPECTED_TOOLS.slice(0,5),EXPECTED_TOOLS[0]];},/tools_seen is not exactly/);
  rejects(r=>{r.tools_seen="check_missing";},/tools_seen must be a list/);
  const reordered=check(filled("claude",r=>{r.tools_seen=[...EXPECTED_TOOLS].reverse();}));
- assert.equal(reordered.status,"verified");
+ assert.equal(reordered.status,"self_reported_complete");
 });
 
 test("a started run needs a time, a public https endpoint and a note of what was kept",()=>{
@@ -119,6 +121,17 @@ test("a started run needs a time, a public https endpoint and a note of what was
  rejects(r=>{r.client_surface="";},/client_surface is required/);
  rejects(r=>{r.service_commit="0123abc";},/40-character commit/);
  assert.equal(check(filled("chatgpt",r=>{r.service_commit=null;})).summary.service_commit_recorded,false);
+});
+
+test("no result ever claims independent verification, even for an invented record",()=>{
+ // filled() is itself invented: nobody ran it, yet it is well formed.
+ const results=[check(filled("chatgpt")),check(filled("claude")),check(blankRunRecord("claude")),check(null),check(filled("claude",r=>{r.verdict="verified";}))];
+ for(const result of results){
+  assert.equal(result.independently_verified,false);
+  assert.equal(result.evidence_level,"self_reported");
+  assert.notEqual(result.status,"verified");
+ }
+ assert.deepEqual(results.map(r=>r.status),["self_reported_complete","self_reported_complete","incomplete","invalid","invalid"]);
 });
 
 test("records with private-looking or oversized content are refused",()=>{
@@ -151,6 +164,7 @@ test("the documented commands run as written with the documented exit codes",()=
    const printed=JSON.parse(unfilled.stdout);
    assert.equal(printed.status,"incomplete");
    assert.equal(printed.note,FORMAT_CHECK_NOTE);
+   assert.equal(printed.independently_verified,false);
    assert.match(printed.note,/does not show that the run happened/);
   }
   const bad=join(dir,"bad.json");

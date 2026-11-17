@@ -62,14 +62,17 @@ function collectStrings(value,out=[]){
  return out;
 }
 
-// Returns {ok, status, errors, summary}. status is "invalid" when the record
-// is malformed, otherwise "verified" (all three steps pass), "failed" (any
-// step failed) or "incomplete" (a step was not run and none failed).
-// The status is derived from the steps; a record cannot declare it.
+// Returns {ok, status, evidence_level, independently_verified, errors, summary}.
+// status is "invalid" when the record is malformed, otherwise
+// "self_reported_complete" (the record says all three steps passed), "failed"
+// (any step failed) or "incomplete" (a step was not run and none failed).
+// The status is derived from the steps; a record cannot declare it. Every
+// result is self-reported: a well-formed but invented record passes too, so
+// independently_verified is always false and no status means "verified".
 export function validateRunRecord(record,{now=new Date()}={}){
  const errors=[];
  const fail=message=>{errors.push(message);};
- if(!isObject(record))return {ok:false,status:"invalid",errors:["The record must be a JSON object."],summary:null};
+ if(!isObject(record))return {ok:false,status:"invalid",evidence_level:"self_reported",independently_verified:false,errors:["The record must be a JSON object."],summary:null};
 
  for(const key of Object.keys(record))if(!TOP_LEVEL.includes(key))fail("Unknown field: "+String(key).slice(0,60)+". A record cannot add its own fields (for example a verdict).");
  for(const key of TOP_LEVEL)if(!(key in record))fail("Missing field: "+key);
@@ -144,10 +147,12 @@ export function validateRunRecord(record,{now=new Date()}={}){
  if(collectStrings(record).some(text=>EMAIL.test(text)))fail("The record contains an email address: remove personal data");
 
  const values=STEPS.map(step=>results[step]);
- const status=errors.length?"invalid":values.includes("fail")?"failed":values.every(v=>v==="pass")?"verified":"incomplete";
+ const status=errors.length?"invalid":values.includes("fail")?"failed":values.every(v=>v==="pass")?"self_reported_complete":"incomplete";
  return {
-  ok:status==="verified",
+  ok:status==="self_reported_complete",
   status,
+  evidence_level:"self_reported",
+  independently_verified:false,
   errors,
   summary:errors.length?null:{
    client:record.client,

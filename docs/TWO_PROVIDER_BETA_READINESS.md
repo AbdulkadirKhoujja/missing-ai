@@ -50,7 +50,7 @@ node examples/live-client-run-record.mjs chatgpt-run.json
 
 Each of the three steps (`connector_added`, `tools_listed`, `review_completed`) is `pass`, `fail` or `not_run`. The check exits 0 only when the record is well formed and all three passed; a blank, unfinished, failed or malformed record exits 1. It refuses records that add their own fields, skip an earlier step, list a different tool set, name a loopback endpoint, or contain an email address.
 
-This is a format check of a hand-written note. It cannot tell whether the run happened and is not proof. No such record is stored in this repository yet, so the row stays "Not verified".
+The result's `status` is `self_reported_complete`, `failed`, `incomplete` or `invalid`, and every result carries `evidence_level: "self_reported"` and `independently_verified: false`. There is deliberately no `verified` status: a well-formed but invented record passes the same check. This is a format check of a hand-written note. It cannot tell whether the run happened and is not proof. No such record is stored in this repository yet, so the row stays "Not verified".
 
 ## Matrix
 
