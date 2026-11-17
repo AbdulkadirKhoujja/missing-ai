@@ -34,6 +34,24 @@ It checks: an `https://` URL on port 443; the CORS preflight; `initialize`, the 
 
 Only the invented booking example is sent, and only to the URL you give. One run makes about a dozen requests, which count toward the service's hourly per-address limit. A passing receipt still contains `live_chatgpt_client_verified: false` and `live_claude_client_verified: false`: the requests come from your machine, not from either product, and the check says nothing about the endpoint's security. It has been run only against the local reference service in `tests/mcp-endpoint-preflight.test.mjs`, not against the hosted beta.
 
+## Record a manual live-client run
+
+The "live client connects" row below can only be filled by a person using ChatGPT or Claude. To write that observation down in one fixed shape:
+
+```bash
+node examples/live-client-run-record.mjs --blank chatgpt > chatgpt-run.json
+```
+
+Use `claude` for the other client. Do the run by hand with invented example data only, fill the file in, then check it:
+
+```bash
+node examples/live-client-run-record.mjs chatgpt-run.json
+```
+
+Each of the three steps (`connector_added`, `tools_listed`, `review_completed`) is `pass`, `fail` or `not_run`. The check exits 0 only when the record is well formed and all three passed; a blank, unfinished, failed or malformed record exits 1. It refuses records that add their own fields, skip an earlier step, list a different tool set, name a loopback endpoint, or contain an email address.
+
+This is a format check of a hand-written note. It cannot tell whether the run happened and is not proof. No such record is stored in this repository yet, so the row stays "Not verified".
+
 ## Matrix
 
 "Synthetic test" means `tests/two-provider-mcp-parity.test.mjs` against a local server. "Not verified" means no evidence is recorded in this repository by that test; older acceptance notes elsewhere in `docs/` are dated observations, not current proof.
