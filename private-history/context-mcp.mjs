@@ -61,7 +61,8 @@ export function createHistoryStore(dir){
    if(lines.length>2000)throw Error("Authorized event file exceeds 2,000 records.");
    const seen=new Set(messages.map(m=>m.id));
    for(let i=0;i<lines.length;i++){
-    const m=cleanEvent(JSON.parse(lines[i]),i+1);
+    let raw;try{raw=JSON.parse(lines[i]);}catch{throw Error("Event line "+(i+1)+" is not valid JSON.");}
+    const m=cleanEvent(raw,i+1);
     if(!seen.has(m.id)){messages.push(m);seen.add(m.id);}else duplicateIds++;
    }
    sources.push("agent-events");

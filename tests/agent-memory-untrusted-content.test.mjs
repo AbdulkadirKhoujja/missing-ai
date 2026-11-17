@@ -167,12 +167,35 @@ test("stdio replies stay one line per request when a record contains protocol-sh
  }finally{await rm(root,{recursive:true,force:true});}
 });
 
-// Known gap, not a passing claim: a line that is not valid JSON is rejected, but the error text returned to the
-// local client quotes the first few characters of that line. Changing the reader is REVIEW-class (issue #73).
-test("a malformed record line is rejected without quoting any stored text",{todo:"reader error currently echoes a short prefix of the malformed line; fix needs maintainer-approved reader change"},async()=>{
- await withEvents([event("ok1",BENIGN),"QUARRYMARKER plain text that is not JSON"],async store=>{
+// Issue #86 item 4 (approved for a draft PR on 2026-11-17): a line that is not valid JSON is rejected with its
+// line number and a generic cause only. No part of the stored line, and no local path, reaches the client.
+const malformedReply=async lines=>{
+ let text,folder;
+ await withEvents(lines,async(store,file)=>{
+  folder=file.slice(0,file.lastIndexOf("agent-events.jsonl"));
   const reply=await dispatchHistoryRpc(store,rpc("missing_ai_history_status"));
   assert.equal(reply.result.isError,true);
-  assert.equal(/QUARRY/i.test(reply.result.content[0].text),false);
+  text=reply.result.content[0].text;
  });
+ return {text,folder};
+};
+test("a malformed record line is rejected without quoting any stored text",async()=>{
+ const {text,folder}=await malformedReply([event("ok1",BENIGN),"QUARRYMARKER plain text that is not JSON"]);
+ assert.equal(text,"Event line 2 is not valid JSON.");
+ assert.equal(/QUARRY/i.test(text),false);
+ assert.equal(text.includes(folder),false);
+});
+test("malformed-line errors stay generic for injection text, control characters, truncation and later lines",async()=>{
+ const cases=[
+  [[INJECTION],1],
+  [[event("ok1",BENIGN),event("ok2",BENIGN),"\u0007\u001b[31mBELLMARK\r\nfake: line"],3],
+  [['{"id":"cut","text":"TRUNCMARK unfinished'],1],
+  [[event("ok1",BENIGN),"{"+"PADMARK".repeat(400)],2],
+ ];
+ for(const [lines,n] of cases){
+  const {text,folder}=await malformedReply(lines);
+  assert.equal(text,"Event line "+n+" is not valid JSON.");
+  assert.equal(/MARK|SYSTEM|OVERRIDE|harbor|\u0007|\u001b/i.test(text),false);
+  assert.equal(text.includes(folder),false);
+ }
 });
