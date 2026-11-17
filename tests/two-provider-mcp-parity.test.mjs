@@ -144,9 +144,9 @@ test("the documented command runs as written and prints the same receipt",()=>{
  assert.match(doc,/Not verified/);
 });
 
-// Known gaps, recorded honestly. Both touch server/index.mjs (MCP tool
-// definitions and request handling), which is REVIEW-class, so neither is
-// changed here.
+// Known gap, recorded honestly: tool annotations touch the MCP tool
+// definitions (REVIEW-class). The parse-error gap was closed under issue #86
+// item 2 (maintainer-approved) and is now a required test below.
 test("known gap: tools declare no MCP annotations (readOnlyHint, openWorldHint)",{todo:"REVIEW-class tool-definition change; needs maintainer approval"},async()=>{
  await withLocalService(async url=>{
   const tools=(await createRpc(url,HOST_PROFILES[0].origin)("tools/list")).body.result.tools;
@@ -154,11 +154,25 @@ test("known gap: tools declare no MCP annotations (readOnlyHint, openWorldHint)"
  });
 });
 
-test("known gap: malformed JSON is answered without a JSON-RPC parse error (-32700)",{todo:"REVIEW-class server change; needs maintainer approval"},async()=>{
+test("malformed JSON on /mcp is answered with a JSON-RPC parse error (-32700) and id null",async()=>{
  await withLocalService(async url=>{
-  const r=await fetch(url,{method:"POST",headers:{"content-type":"application/json",origin:HOST_PROFILES[1].origin},body:"{not json"});
-  const body=await r.json();
-  assert.equal(body.jsonrpc,"2.0");
-  assert.equal(body.error.code,-32700);
+  for(const profile of HOST_PROFILES){
+   for(const raw of ["{not json","",'{"jsonrpc":"2.0","id":1,"method":"tools/list"','[{"jsonrpc":"2.0",']){
+    const r=await fetch(url,{method:"POST",headers:{"content-type":"application/json",origin:profile.origin},body:raw});
+    assert.equal(r.status,400,profile.host+" "+JSON.stringify(raw));
+    assert.deepEqual(await r.json(),{jsonrpc:"2.0",id:null,error:{code:-32700,message:"Parse error."}},profile.host+" "+JSON.stringify(raw));
+   }
+  }
+ });
+});
+
+test("malformed JSON on /api/check and /api/fetch keeps the plain error shape",async()=>{
+ await withLocalService(async url=>{
+  const base=url.replace(/\/mcp$/,"");
+  for(const path of ["/api/check","/api/fetch"]){
+   const r=await fetch(base+path,{method:"POST",headers:{"content-type":"application/json",origin:HOST_PROFILES[0].origin},body:"{not json"});
+   assert.equal(r.status,400,path);
+   assert.deepEqual(await r.json(),{error:"Invalid JSON."},path);
+  }
  });
 });
