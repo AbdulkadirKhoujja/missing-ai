@@ -101,6 +101,14 @@ test("imperative alternatives inside an active choice stay in one choice group",
  assert.deepEqual(separated.map(x=>x.kind),["choice_group","list_item"]);
 });
 
+test.todo("known ambiguity: a mixed-spacing list (two tight options, blank line, third option) splits the third option out",()=>{
+ // Same layout as the required "alternatives stay a single obligation" case, where the trailing bullet IS a
+ // separate requirement. The extractor surfaces it as a candidate the host can mark context_only, rather than
+ // silently absorbing a possible obligation.
+ const list=extractReviewRequirements("You must choose one of:\n- Contact the account owner\n- Email support\n\n- Ask support for help");
+ assert.deepEqual(list.map(x=>x.kind),["choice_group"]);
+});
+
 test.todo("known ambiguity: a requirement placed directly after a choice list with no blank line is absorbed into the choice",()=>{
  const list=extractReviewRequirements("You must choose one of:\n- Contact the account owner\n- Email support\n- You must also log every request");
  assert.deepEqual(list.map(x=>x.kind),["choice_group","directive"]);
