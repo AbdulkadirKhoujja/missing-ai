@@ -1,0 +1,138 @@
+// Synthetic demonstration of separate *local folders* for two agent contexts.
+// These folders are NOT security/authenticated multi-tenant namespaces.
+import assert from "node:assert/strict";
+import {mkdtemp,mkdir,rm} from "node:fs/promises";
+import {tmpdir} from "node:os";
+import {join,resolve} from "node:path";
+import {spawnSync} from "node:child_process";
+import {fileURLToPath,pathToFileURL} from "node:url";
+import {createHistoryStore,dispatchHistoryRpc} from "../private-history/context-mcp.mjs";
+
+const repoRoot=fileURLToPath(new URL("../",import.meta.url));
+const rpc=(name,args={})=>({jsonrpc:"2.0",id:1,method:"tools/call",params:{name,arguments:args}});
+function read(result){
+  assert.equal(result?.result?.isError,false,"private-history tool failed");
+  return JSON.parse(result.result.content[0].text);
+}
+function appendSynthetic(dir,event){
+  // Explicitly initiated CLI writes; never a model-controlled MCP write tool.
+  const result=spawnSync(process.execPath,["private-history/record-event.mjs"],{
+    cwd:repoRoot,env:{...process.env,MISSING_AI_HISTORY_DIR:dir},
+    input:JSON.stringify(event),encoding:"utf8",timeout:10000
+  });
+  assert.equal(result.status,0,"synthetic local note recording failed");
+}
+export async function runLocalBoundariesDemo(){
+  const root=await mkdtemp(join(tmpdir(),"missing-ai-agent-boundaries-"));
+  try{
+    const alpha=join(root,"agent-alpha"),beta=join(root,"agent-beta");
+    const sharedMarker="shared audit checkpoint";
+    await Promise.all([mkdir(alpha,{mode:0o700}),mkdir(beta,{mode:0o700})]);
+    appendSynthetic(alpha,{
+      conversation:"Atlas build cache rotation",
+      text:`Atlas build cache rotation plan was reviewed. Agent Alpha recorded this claim; implementation is not independently verified. ${sharedMarker}`
+    });
+    appendSynthetic(beta,{
+      conversation:"Beacon customer routing",
+      text:`Beacon customer message routing was checked. Agent Beta recorded this claim; implementation is not independently verified. ${sharedMarker}`
+    });
+    // New reader instances intentionally load the persisted file in each
+    // independently configured directory; no shared global history store.
+    const a=createHistoryStore(alpha),b=createHistoryStore(beta);
+    const [aStatus,bStatus]=await Promise.all([
+      dispatchHistoryRpc(a,rpc("missing_ai_history_status")),
+      dispatchHistoryRpc(b,rpc("missing_ai_history_status"))
+    ]);
+    for(const result of [aStatus,bStatus]){
+      const status=read(result);
+      assert.deepEqual(status.source_types,["agent-events"]);
+      assert.equal(status.message_count,1);
+      assert.equal(status.remote_storage,false);
+    }
+    const search=(store,query)=>dispatchHistoryRpc(store,rpc(
+      "missing_ai_search_history",{query,max_results:5}
+    )).then(read);
+    const [aOwn,aOther,bOwn,bOther,aShared,bShared]=await Promise.all([
+      search(a,"Atlas build cache rotation"),
+      search(a,"Beacon customer message routing"),
+      search(b,"Beacon customer message routing"),
+      search(b,"Atlas build cache rotation"),
+      search(a,sharedMarker),
+      search(b,sharedMarker)
+    ]);
+    assert.equal(aOwn.findings.length,1);
+    assert.equal(bOwn.findings.length,1);
+    assert.match(aOwn.findings[0].id,/^event:/);
+    assert.match(bOwn.findings[0].id,/^event:/);
+    assert.match(aOwn.findings[0].quote,/Atlas build cache rotation/);
+    assert.match(bOwn.findings[0].quote,/Beacon customer message routing/);
+    assert.equal(aOther.findings.length,0,"Alpha must not retrieve the unrelated Beta folder");
+    assert.equal(bOther.findings.length,0,"Beta must not retrieve the unrelated Alpha folder");
+    for(const [result,conversation,otherConversation] of [
+      [aShared,"Atlas build cache rotation","Beacon customer routing"],
+      [bShared,"Beacon customer routing","Atlas build cache rotation"]
+    ]){
+      assert.equal(result.findings.length,1,"Shared marker must resolve to exactly one local event");
+      const [finding]=result.findings;
+      assert.match(finding.id,/^event:/);
+      assert.equal(finding.role,"event");
+      assert.equal(finding.conversation,conversation);
+      assert.match(finding.quote,/shared audit checkpoint/);
+      assert.notEqual(finding.conversation,otherConversation);
+    }
+    const sourceIds={
+      alpha:{unique_phrase:aOwn.findings[0].id,shared_checkpoint:aShared.findings[0].id},
+      beta:{unique_phrase:bOwn.findings[0].id,shared_checkpoint:bShared.findings[0].id}
+    };
+    assert.equal(sourceIds.alpha.unique_phrase,sourceIds.alpha.shared_checkpoint);
+    assert.equal(sourceIds.beta.unique_phrase,sourceIds.beta.shared_checkpoint);
+    assert.notEqual(sourceIds.alpha.unique_phrase,sourceIds.beta.unique_phrase);
+    // Reopen one reader per already-populated folder only after the initial
+    // queries. This checks local-file reload behavior, not authentication or
+    // tenant isolation.
+    const [aReopened,bReopened]=[createHistoryStore(alpha),createHistoryStore(beta)];
+    const [aReopenedShared,bReopenedShared,aReopenedOther,bReopenedOther]=await Promise.all([
+      search(aReopened,sharedMarker),
+      search(bReopened,sharedMarker),
+      search(aReopened,"Beacon customer message routing"),
+      search(bReopened,"Atlas build cache rotation")
+    ]);
+    assert.equal(aReopenedShared.findings.length,1);
+    assert.equal(bReopenedShared.findings.length,1);
+    const reopenedSourceIds={
+      alpha:aReopenedShared.findings[0].id,
+      beta:bReopenedShared.findings[0].id
+    };
+    assert.equal(reopenedSourceIds.alpha,sourceIds.alpha.shared_checkpoint);
+    assert.equal(reopenedSourceIds.beta,sourceIds.beta.shared_checkpoint);
+    assert.notEqual(reopenedSourceIds.alpha,reopenedSourceIds.beta);
+    assert.equal(aReopenedOther.findings.length,0,
+      "Reopened Alpha must not retrieve the unrelated Beta folder after refresh");
+    assert.equal(bReopenedOther.findings.length,0,
+      "Reopened Beta must not retrieve the unrelated Alpha folder after refresh");
+    const receiptKeys={
+      alpha_reopened_local_reader:"synthetic-local-reader:alpha:reopened",
+      beta_reopened_local_reader:"synthetic-local-reader:beta:reopened",
+      alpha_stable_folder_source:"synthetic-local-source:alpha",
+      beta_stable_folder_source:"synthetic-local-source:beta"
+    };
+    return {
+      example:"synthetic-local-folder-boundaries",
+      folders:2,events_per_folder:1,
+      own_source_attribution:true,
+      source_ids:sourceIds,
+      reopened_reader_source_ids:reopenedSourceIds,
+      receipt_keys:receiptKeys,
+      unrelated_cross_folder_retrievals:0,
+      remote_storage:false,
+      authenticated_tenant_isolation:false,
+      limitation:"Separate explicitly configured local folders only; not a security boundary between processes running under the same OS account."
+    };
+  }finally{
+    await rm(root,{recursive:true,force:true});
+  }
+}
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){
+  try{process.stdout.write(JSON.stringify(await runLocalBoundariesDemo())+"\n");}
+  catch{process.stderr.write("Synthetic local-folder demo failed.\n");process.exitCode=1;}
+}

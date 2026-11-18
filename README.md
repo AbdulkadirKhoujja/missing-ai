@@ -42,6 +42,12 @@ The public site provides [canonical metadata, a sitemap](https://abdulkadirkhouj
 
 The semantic review may classify the first two as **claimed covered** and receipts as **contradicted**, citing exact answer wording. That does **not** mean the webhooks or cancellation flow have been tested. The web checker may produce different, less sophisticated lexical candidates.
 
+## Agent-memory developer preview (local only)
+
+Missing AI also has an **opt-in, local private-history companion** that can remember approved agent events and retrieve attributed excerpts. It is not automatic ChatGPT/Claude history sync, a hosted multi-user memory database, or independent proof that a remembered claim is true.
+
+For a zero-credential synthetic demonstration, run `node scripts/agent-memory-demo.mjs` (Node.js 22+) and read the [agent-memory developer quickstart](docs/AGENT_MEMORY_DEVELOPER_QUICKSTART.md). The example uses a temporary private folder and removes it after the run. Agent-memory development is tracked in [issue #73](https://github.com/AbdulkadirKhoujja/missing-ai/issues/73); full storage, consent, deletion and provider integrations require separate privacy/security review.
+
 ## What works now
 
 - Public, mobile-responsive browser checker with no login, local comparison, source line references and copyable findings.
