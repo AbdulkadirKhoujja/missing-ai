@@ -1,0 +1,773 @@
+{
+  "schema": "missing-ai-six-use-case-60-development-v1",
+  "status": "AUTHORED_SYNTHETIC_NOT_INDEPENDENT_OR_HELD_OUT",
+  "created_utc": "2026-10-29",
+  "study_goal": "Compare requirement capture on sixty distinct one-line instruction exemplars across six common AI jobs; negative controls are contextual non-directives. Does not score semantic accuracy.",
+  "extraction_expectations": "Each positive line is author-written as one overt imperative, not a human-verified requirement from a real public document.",
+  "cases": [
+    {
+      "id": "DEV-001",
+      "category": "writing",
+      "source_text": "- Ask the recipient to confirm the meeting agenda.",
+      "ai_output": "Could you confirm the proposed agenda?",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-002",
+      "category": "writing",
+      "source_text": "- State the return deadline in the customer reply.",
+      "ai_output": "Thanks for your enquiry about the order.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-003",
+      "category": "writing",
+      "source_text": "- Keep the email subject line below 60 characters.",
+      "ai_output": "Subject: Project update and next steps",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-004",
+      "category": "writing",
+      "source_text": "- Provide two alternative appointment times.",
+      "ai_output": "We can meet on Monday at 10:00.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-005",
+      "category": "writing",
+      "source_text": "- Include the order reference number in the follow-up email.",
+      "ai_output": "Your order reference is AB-42.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-006",
+      "category": "writing",
+      "source_text": "- Explain the reason for a delivery delay.",
+      "ai_output": "The parcel arrived later than expected.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-007",
+      "category": "writing",
+      "source_text": "- Summarise the three agreed actions in the closing paragraph.",
+      "ai_output": "Thanks for a helpful conversation today.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-008",
+      "category": "writing",
+      "source_text": "- Acknowledge the original complaint before giving advice.",
+      "ai_output": "I understand that your item arrived damaged.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-009",
+      "category": "writing",
+      "source_text": "- Distinguish confirmed dates from tentative dates.",
+      "ai_output": "Friday is confirmed, while Monday is provisional.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-010",
+      "category": "writing",
+      "source_text": "- Sign the message with the customer service team name.",
+      "ai_output": "Regards, Customer Service Team",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-011",
+      "category": "research",
+      "source_text": "- Cite the underlying primary dataset for each numerical claim.",
+      "ai_output": "The sample contains 480 records.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-012",
+      "category": "research",
+      "source_text": "- Explain the limitations of the online survey sample.",
+      "ai_output": "This survey may under-represent people without internet access.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-013",
+      "category": "research",
+      "source_text": "- Distinguish correlation from causation.",
+      "ai_output": "Both values rose together; that does not prove one caused the other.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-014",
+      "category": "research",
+      "source_text": "- Provide the publication date of the selected source.",
+      "ai_output": "The paper was released in May 2023.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-015",
+      "category": "research",
+      "source_text": "- Identify the sample size of the study.",
+      "ai_output": "The methods section reports 120 participants.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-016",
+      "category": "research",
+      "source_text": "- Compare findings from the two supplied studies.",
+      "ai_output": "Study A reported an increase; Study B reported no significant change.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-017",
+      "category": "research",
+      "source_text": "- List supporting evidence from each selected public page.",
+      "ai_output": "Evidence from page one appears below.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-018",
+      "category": "research",
+      "source_text": "- Define the scope and population covered by the report.",
+      "ai_output": "The findings concern adults in one city.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-019",
+      "category": "research",
+      "source_text": "- Quote the exact policy clause with its source reference.",
+      "ai_output": "The answer gives a broad summary of the policy.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-020",
+      "category": "research",
+      "source_text": "- Note any contradictory findings in the supplied research.",
+      "ai_output": "A second study found the opposite trend.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-021",
+      "category": "planning",
+      "source_text": "- Calculate the combined price of all itinerary activities.",
+      "ai_output": "The three activities cost £12, £9 and £16, totalling £37.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-022",
+      "category": "planning",
+      "source_text": "- Avoid scheduling visits after 18:00.",
+      "ai_output": "The final stop begins at 19:30.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-023",
+      "category": "planning",
+      "source_text": "- Schedule a thirty-minute rest break between activities.",
+      "ai_output": "The plan includes a break from 14:00 to 14:30.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-024",
+      "category": "planning",
+      "source_text": "- Include wheelchair access information for every venue.",
+      "ai_output": "The first venue has step-free access.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-025",
+      "category": "planning",
+      "source_text": "- Assign travel time between consecutive stops.",
+      "ai_output": "The trip from the museum to the gallery takes 20 minutes.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-026",
+      "category": "planning",
+      "source_text": "- Prioritise the two must-see attractions.",
+      "ai_output": "The first two stops are the named priority attractions.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-027",
+      "category": "planning",
+      "source_text": "- Exclude shellfish from every proposed meal.",
+      "ai_output": "The lunch recommendation contains prawns.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-028",
+      "category": "planning",
+      "source_text": "- Provide an indoor alternative if rain is forecast.",
+      "ai_output": "An indoor museum replaces the park in wet weather.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-029",
+      "category": "planning",
+      "source_text": "- Keep the itinerary to exactly three activities.",
+      "ai_output": "The proposal includes four sightseeing stops.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-030",
+      "category": "planning",
+      "source_text": "- Distinguish optional activities from fixed commitments.",
+      "ai_output": "The market visit is optional; the appointment is fixed.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-031",
+      "category": "education",
+      "source_text": "- Explain the hypothesis and how it will be tested.",
+      "ai_output": "The project tests whether study time predicts quiz scores.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-032",
+      "category": "education",
+      "source_text": "- Cite at least two sources in the discussion.",
+      "ai_output": "One article is referenced in the discussion.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-033",
+      "category": "education",
+      "source_text": "- Define the dependent variable in the experiment.",
+      "ai_output": "The dependent variable is reaction time.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-034",
+      "category": "education",
+      "source_text": "- Compare the advantages of two research methods.",
+      "ai_output": "Interviews reveal motives, while surveys cover larger samples.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-035",
+      "category": "education",
+      "source_text": "- Include every listed assessment criterion in the outline.",
+      "ai_output": "The outline leaves out the reflection criterion.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-036",
+      "category": "education",
+      "source_text": "- Show the arithmetic used to reach the result.",
+      "ai_output": "The answer states that 12 plus 15 equals 27.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-037",
+      "category": "education",
+      "source_text": "- Distinguish factual claims from personal opinions.",
+      "ai_output": "The essay separates evidence from personal interpretation.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-038",
+      "category": "education",
+      "source_text": "- Provide a bibliography with publication years.",
+      "ai_output": "The references list author names but omit dates.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-039",
+      "category": "education",
+      "source_text": "- State the total word count of the submission.",
+      "ai_output": "The report contains 1,270 words.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-040",
+      "category": "education",
+      "source_text": "- Mention two limitations of the project.",
+      "ai_output": "Only a small sample is available, and responses are self-reported.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-041",
+      "category": "business",
+      "source_text": "- Assign a responsible owner to every milestone.",
+      "ai_output": "Each milestone has an accountable project owner.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-042",
+      "category": "business",
+      "source_text": "- List the delivery milestones in chronological order.",
+      "ai_output": "The timeline shows the launch stage before the planning stage.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-043",
+      "category": "business",
+      "source_text": "- Provide a cost estimate for each project phase.",
+      "ai_output": "The proposal contains one total figure only.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-044",
+      "category": "business",
+      "source_text": "- Document the main project risks and their mitigations.",
+      "ai_output": "The plan links supplier delays with a backup vendor.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-045",
+      "category": "business",
+      "source_text": "- Explain the procedure for escalating delivery blockers.",
+      "ai_output": "Critical issues are raised with the delivery lead.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-046",
+      "category": "business",
+      "source_text": "- Ask the client for approval before final handover.",
+      "ai_output": "Please approve the handover checklist before release.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-047",
+      "category": "business",
+      "source_text": "- Include an explicit change-control approval step.",
+      "ai_output": "Out-of-scope requests move straight into delivery.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-048",
+      "category": "business",
+      "source_text": "- Distinguish in-scope tasks from excluded work.",
+      "ai_output": "The proposal lists included services and exclusions separately.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-049",
+      "category": "business",
+      "source_text": "- Record decisions made at each steering meeting.",
+      "ai_output": "The minutes include a decisions log.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-050",
+      "category": "business",
+      "source_text": "- Summarise dependencies between teams.",
+      "ai_output": "Engineering waits for design sign-off before implementation.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-051",
+      "category": "coding",
+      "source_text": "- Issue payment receipts after successful transactions.",
+      "ai_output": "Payment receipts are not implemented.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-052",
+      "category": "coding",
+      "source_text": "- Reject webhook requests with invalid signatures.",
+      "ai_output": "Requests with invalid signatures are discarded.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-053",
+      "category": "coding",
+      "source_text": "- Validate the required JSON fields before saving.",
+      "ai_output": "The API writes each record without validating the fields.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-054",
+      "category": "coding",
+      "source_text": "- Implement cancellation of confirmed bookings.",
+      "ai_output": "Users can cancel confirmed reservations in their dashboard.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-055",
+      "category": "coding",
+      "source_text": "- Log failed payment events without exposing credentials.",
+      "ai_output": "The handler logs failed charges with redacted identifiers.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-056",
+      "category": "coding",
+      "source_text": "- Protect profile data with an access-control check.",
+      "ai_output": "Any visitor can open other users' profiles.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-057",
+      "category": "coding",
+      "source_text": "- Document the API request and response schemas.",
+      "ai_output": "The README includes the API endpoint path only.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-058",
+      "category": "coding",
+      "source_text": "- Ensure retrying the webhook does not create duplicate bookings.",
+      "ai_output": "Repeated webhook deliveries share the same idempotency key.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-059",
+      "category": "coding",
+      "source_text": "- Test webhook replay protection with a repeated event.",
+      "ai_output": "The test suite exercises a replayed webhook event.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    },
+    {
+      "id": "DEV-060",
+      "category": "coding",
+      "source_text": "- Assign an administrator role to the approved staff users.",
+      "ai_output": "Staff access is granted through an administrator permission group.",
+      "oracle": {
+        "type": "fixture_explicit_imperative_line",
+        "expected_source_candidate_count": 1
+      },
+      "label_status": "UNADJUDICATED"
+    }
+  ],
+  "negative_context_lines": [
+    {
+      "id": "NEG-001",
+      "source_text": "The ask from the sponsor was recorded for background.",
+      "oracle": {
+        "type": "authored_contextual_sentence",
+        "expected_source_candidate_count": 0
+      }
+    },
+    {
+      "id": "NEG-002",
+      "source_text": "- The ask concerns an earlier research question.",
+      "oracle": {
+        "type": "authored_contextual_sentence",
+        "expected_source_candidate_count": 0
+      }
+    },
+    {
+      "id": "NEG-003",
+      "source_text": "- The issue number is printed in the header.",
+      "oracle": {
+        "type": "authored_contextual_sentence",
+        "expected_source_candidate_count": 0
+      }
+    },
+    {
+      "id": "NEG-004",
+      "source_text": "- Issue tracker contains archived tickets.",
+      "oracle": {
+        "type": "authored_contextual_sentence",
+        "expected_source_candidate_count": 0
+      }
+    },
+    {
+      "id": "NEG-005",
+      "source_text": "- The explanation is available in the appendix.",
+      "oracle": {
+        "type": "authored_contextual_sentence",
+        "expected_source_candidate_count": 0
+      }
+    },
+    {
+      "id": "NEG-006",
+      "source_text": "- Asking for clarification may help students.",
+      "oracle": {
+        "type": "authored_contextual_sentence",
+        "expected_source_candidate_count": 0
+      }
+    },
+    {
+      "id": "NEG-007",
+      "source_text": "- A comparison between two studies follows.",
+      "oracle": {
+        "type": "authored_contextual_sentence",
+        "expected_source_candidate_count": 0
+      }
+    },
+    {
+      "id": "NEG-008",
+      "source_text": "- Assignment deadlines are posted elsewhere.",
+      "oracle": {
+        "type": "authored_contextual_sentence",
+        "expected_source_candidate_count": 0
+      }
+    },
+    {
+      "id": "NEG-009",
+      "source_text": "- Examples are provided for explanatory purposes.",
+      "oracle": {
+        "type": "authored_contextual_sentence",
+        "expected_source_candidate_count": 0
+      }
+    },
+    {
+      "id": "NEG-010",
+      "source_text": "- The reader may wish to explore these examples.",
+      "oracle": {
+        "type": "authored_contextual_sentence",
+        "expected_source_candidate_count": 0
+      }
+    },
+    {
+      "id": "NEG-011",
+      "source_text": "- The checklist overview was updated yesterday.",
+      "oracle": {
+        "type": "authored_contextual_sentence",
+        "expected_source_candidate_count": 0
+      }
+    },
+    {
+      "id": "NEG-012",
+      "source_text": "- Historical issue reports document old defects.",
+      "oracle": {
+        "type": "authored_contextual_sentence",
+        "expected_source_candidate_count": 0
+      }
+    }
+  ],
+  "limitations": [
+    "Fixtures are not a random sample and may be memorized or overfitted.",
+    "Some natural-language imperatives are ambiguous; one-line expected candidate count is a construction assumption, not population ground truth.",
+    "AI answer interpretations are deliberately NOT labelled or scored here.",
+    "Do not treat this as a fresh blind holdout; all cases are public and constructed by the project."
+  ]
+}
