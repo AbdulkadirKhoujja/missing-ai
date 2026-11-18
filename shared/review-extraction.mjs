@@ -3,7 +3,11 @@
 // The host must still review contextual/conditional requirements and omissions.
 const normalize=s=>String(s||"").normalize("NFKC").toLowerCase().replace(/[^\p{L}\p{N}]+/gu," ").trim();
 const directive=/\b(?:must|shall|required|requires?|need(?:s)? to|should|have to)\b/i;
-const imperative=/^(?:include|check|test|verify|validate|provide|allow|support|prevent|publish|ensure|make sure|run|avoid|keep|retain|remove|delete|use|fix|review|start|implement|record|log|restrict|reject|document|compare|send|create|export|ignore)\b/i;
+const imperative=/^(?:include|check|test|verify|validate|provide|allow|support|prevent|publish|ensure|make sure|run|avoid|keep|retain|remove|delete|use|fix|review|start|implement|record|log|restrict|reject|document|compare|send|create|export|ignore|ask|distinguish|explain|assign)\b/i;
+// "Issue" is also a common noun ("issue number", "issue tracker");
+// recognise only explicit document/payment issuance actions here, not every "Issue ..." bullet.
+const issuanceImperative=/^issue\s+(?:(?:a|an|the|all|each|every)\s+)?(?:(?:payment|training|completion|customer|tax|credit)\s+)?(?:receipts?|refunds?|invoices?|certificates?|permits?|notices?|statements?|credit\s+notes?)\b(?!\s+(?:are|is|was|were|have|has|had|will|can|may)\b)/i;
+const isImperative=text=>imperative.test(text)||issuanceImperative.test(text);
 const footers=/^(?:further reading|related guides|useful resources|additional resources|updates to this page|change history|changelog|references|about this page)$/i;
 const bullet=/^\s*(?:[-*•]\s+|\d{1,3}[.)]\s+|\[[ xX]\]\s*)/;
 const choice=/\b(?:either|one of|any one of|at least one of)\s*:?\s*$/i;
@@ -28,7 +32,7 @@ export function extractReviewRequirements(source){
  };
  for(let i=0;i<lines.length&&out.length<80;i++){
   let raw=lines[i].trim().replace(/^#{1,6}\s+/,"");
-  if(!raw)continue;
+  if(!raw){if(groupChoice)groupChoice.gap=true;continue;}
   if(footers.test(raw)){flushChoice();break;}
   let isBullet=bullet.test(raw);
   if(/^(?:[-*•]|\[[ xX]\])$/.test(raw)){
@@ -42,9 +46,12 @@ export function extractReviewRequirements(source){
   }
   if(isBullet){
    const content=raw.replace(bullet,"").trim();
-   if(groupChoice&&groupChoice.variants.length>0&&(directive.test(content)||imperative.test(content)))flushChoice();
-   if(groupChoice){if(content)groupChoice.variants.push(content);continue;}
-   if(directive.test(content)||imperative.test(content)||listPolicy==="mandatory"){
+   // An imperative or modal bullet is itself a plausible alternative ("- Ask support for help"),
+   // so it ends an active choice only on structural evidence: at least two alternatives already
+   // listed tightly, then a blank line. Loose lists (blank lines between options) stay one choice.
+   if(groupChoice&&groupChoice.gap&&!groupChoice.loose&&groupChoice.variants.length>=2&&(directive.test(content)||isImperative(content)))flushChoice();
+   if(groupChoice){if(content){if(groupChoice.gap&&groupChoice.variants.length)groupChoice.loose=true;groupChoice.variants.push(content);groupChoice.gap=false;}continue;}
+   if(directive.test(content)||isImperative(content)||listPolicy==="mandatory"){
     push(content,i+1,"list_item");
    }
    continue;
@@ -65,7 +72,7 @@ export function extractReviewRequirements(source){
    }
    continue;
   }
-  if(directive.test(raw)||imperative.test(raw))push(raw,i+1);
+  if(directive.test(raw)||isImperative(raw))push(raw,i+1);
  }
  flushChoice();
  return out;
