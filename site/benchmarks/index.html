@@ -7,6 +7,88 @@
 <header class="topbar"><a class="brand" href="../" aria-label="Missing AI home"><span class="brandmark">M<span class="dot">•</span></span><span>missing<span class="accent">ai</span></span></a><nav><a href="../#checker">Free checker</a><a href="../guides/">Guides</a><a href="https://github.com/AbdulkadirKhoujja/missing-ai/actions" rel="noopener noreferrer">CI evidence</a></nav></header>
 <main class="guide-main"><nav aria-label="Breadcrumb" class="guide-breadcrumb"><a href="../">Missing AI</a> / Benchmarks</nav><p class="mini-title">OPEN RESEARCH · SYNTHETIC FIXTURES</p><h1>Published results, with clear limits.</h1>
 <p class="guide-lead">Missing AI shares reproducible checks of its wording-based checker, including false alarms and missed omissions. The current fixtures are <strong>author-labelled synthetic examples—not independently verified real-world accuracy</strong>.</p>
+<section class="benchmark-results" id="six-use-case-smoke" aria-labelledby="six-use-case-heading">
+<p class="mini-title">FIRST TWELVE ACTUALLY EXECUTED CASES · 29 OCTOBER 2026</p><h2 id="six-use-case-heading">Six everyday use cases — including failures</h2>
+<p>These are <strong>12 distinct, author-written fictional cases</strong>: two each for writing, research, planning, learning, business and coding. Each case was submitted through the <strong>live connected Missing AI <code>prepare_review</code> and <code>check_missing</code> tools</strong>. When preparation found one requirement, a proposed host judgment was also sent to <code>validate_review</code>. The live MCP service's deployed source revision could not be independently established. The observed repository main SHA was <code>7ca259161e0f</code>; this is <strong>not</strong> proof that the service ran that exact commit.</p>
+<div class="benchmark-table-wrap" role="region" aria-label="Summary of twelve observed smoke cases" tabindex="0">
+<table class="benchmark-table"><caption>Observed mechanical results, not semantic accuracy or real-world implementation</caption><thead><tr><th scope="col">Original fictional imperative lines</th><th scope="col">Extracted candidates</th><th scope="col">Missed by extractor</th><th scope="col">Review submissions accepted</th><th scope="col">Lexical review flags</th></tr></thead>
+<tbody><tr><td>12</td><td>7</td><td>5</td><td>7</td><td>12</td></tr></tbody></table></div>
+<p><strong>What failed:</strong> the extractor missed instructions starting with “Ask”, “Distinguish”, “Explain”, “Assign”, and “Issue” in this specific test set. The simple wording checker flagged all twelve cases as needing review, including five which the host <em>provisionally</em> classified as covered through alternative wording. These are candidate false alarms, <strong>not independently verified errors</strong>.</p>
+<p><strong>What passed mechanically:</strong> seven extracted requirement IDs were submitted successfully; five supplied nonempty answer quotations passed exact offset checks. The validator neither scored semantic correctness nor proved that the original source had been fully extracted. Cases with zero extracted requirements were <em>not</em> passed to the validator.</p>
+<p><strong>Raw observations:</strong> <a href="https://github.com/AbdulkadirKhoujja/missing-ai/blob/research/six-use-case-live-smoke-20261029/benchmark/use-cases-v1/observed-part-a.json">Writing, research and planning (JSON)</a> and <a href="https://github.com/AbdulkadirKhoujja/missing-ai/blob/research/six-use-case-live-smoke-20261029/benchmark/use-cases-v1/observed-part-b.json">Education, business and coding (JSON)</a>. These records capture actual response fields and declared limitations. A later CI test checks stored-record consistency; it does not rerun the remote MCP.</p><h3>Writing &amp; editing</h3><details><summary><strong>W01</strong> — not clearly mentioned</summary>
+  <p><strong>Original instruction:</strong> <code>- Include the meeting date and location in the invitation.</code></p>
+  <p><strong>AI answer:</strong> <code>The invitation says the meeting is on Tuesday at 10 am.</code></p>
+  <p><strong>Observed extraction:</strong> 1 of 1 explicit synthetic imperative line. <strong>Validation:</strong> Extracted · quote/ID checks completed. <strong>Lexical-v1:</strong> needs_review.</p>
+  <p><strong>Host-proposed interpretation:</strong> not clearly mentioned. The answer mentions a meeting time but does not state a location; the combined requirement is only partially addressed.</p>
+  <p><strong>Evidence boundary:</strong> The host proposed a classification without a direct answer quote; the MCP checked the extracted requirement ID, NOT the classification.</p></details>
+<details><summary><strong>W02</strong> — Missed source obligation</summary>
+  <p><strong>Original instruction:</strong> <code>- Ask the recipient to reply to the email.</code></p>
+  <p><strong>AI answer:</strong> <code>Please get back to me by Friday.</code></p>
+  <p><strong>Observed extraction:</strong> 0 of 1 explicit synthetic imperative line. <strong>Validation:</strong> Not extracted — no semantic validation possible. <strong>Lexical-v1:</strong> needs_review.</p>
+  <p><strong>Host-proposed interpretation:</strong> claimed covered. The answer requests a reply in different words without demonstrating an actual sent email.</p>
+  <p><strong>Evidence boundary:</strong> The connected review preparation omitted this explicit fictional imperative; the semantic validator was not called for it.</p></details>
+<h3>Research &amp; information</h3><details><summary><strong>R01</strong> — not clearly mentioned</summary>
+  <p><strong>Original instruction:</strong> <code>- Provide the publication year and source link for the report.</code></p>
+  <p><strong>AI answer:</strong> <code>The report was published in 2024.</code></p>
+  <p><strong>Observed extraction:</strong> 1 of 1 explicit synthetic imperative line. <strong>Validation:</strong> Extracted · quote/ID checks completed. <strong>Lexical-v1:</strong> needs_review.</p>
+  <p><strong>Host-proposed interpretation:</strong> not clearly mentioned. The answer gives a year but contains no source link required by the combined instruction.</p>
+  <p><strong>Evidence boundary:</strong> The host proposed a classification without a direct answer quote; the MCP checked the extracted requirement ID, NOT the classification.</p></details>
+<details><summary><strong>R02</strong> — Missed source obligation</summary>
+  <p><strong>Original instruction:</strong> <code>- Distinguish correlation from proven causation in the summary.</code></p>
+  <p><strong>AI answer:</strong> <code>The variables move together, but this does not prove that one causes the other.</code></p>
+  <p><strong>Observed extraction:</strong> 0 of 1 explicit synthetic imperative line. <strong>Validation:</strong> Not extracted — no semantic validation possible. <strong>Lexical-v1:</strong> needs_review.</p>
+  <p><strong>Host-proposed interpretation:</strong> claimed covered. The answer explicitly differentiates observed association from causal proof; the claim itself was not independently verified.</p>
+  <p><strong>Evidence boundary:</strong> The connected review preparation omitted this explicit fictional imperative; the semantic validator was not called for it.</p></details>
+<h3>Advice &amp; planning</h3><details><summary><strong>P01</strong> — contradicted</summary>
+  <p><strong>Original instruction:</strong> <code>- Keep the total itinerary cost below £50.</code></p>
+  <p><strong>AI answer:</strong> <code>Museum £30 and dinner £25. The total is £55.</code></p>
+  <p><strong>Observed extraction:</strong> 1 of 1 explicit synthetic imperative line. <strong>Validation:</strong> Extracted · quote/ID checks completed. <strong>Lexical-v1:</strong> needs_review.</p>
+  <p><strong>Host-proposed interpretation:</strong> contradicted. The answer states a total exceeding the strict fictional £50 budget.</p>
+  <p><strong>Evidence boundary:</strong> The host proposed a classification; the MCP validator verified its supplied quotation and requirement ID, NOT the classification.</p></details>
+<details><summary><strong>P02</strong> — contradicted</summary>
+  <p><strong>Original instruction:</strong> <code>- Avoid appointments after 18:00.</code></p>
+  <p><strong>AI answer:</strong> <code>The dentist appointment is at 19:00.</code></p>
+  <p><strong>Observed extraction:</strong> 1 of 1 explicit synthetic imperative line. <strong>Validation:</strong> Extracted · quote/ID checks completed. <strong>Lexical-v1:</strong> needs_review.</p>
+  <p><strong>Host-proposed interpretation:</strong> contradicted. A 19:00 appointment violates the fictional no-appointments-after-18:00 constraint.</p>
+  <p><strong>Evidence boundary:</strong> The host proposed a classification; the MCP validator verified its supplied quotation and requirement ID, NOT the classification.</p></details>
+<h3>Education &amp; learning</h3><details><summary><strong>E01</strong> — contradicted</summary>
+  <p><strong>Original instruction:</strong> <code>- Include at least three citations in the essay.</code></p>
+  <p><strong>AI answer:</strong> <code>The essay contains two citations.</code></p>
+  <p><strong>Observed extraction:</strong> 1 of 1 explicit synthetic imperative line. <strong>Validation:</strong> Extracted · quote/ID checks completed. <strong>Lexical-v1:</strong> needs_review.</p>
+  <p><strong>Host-proposed interpretation:</strong> contradicted. The answer explicitly claims only two citations, fewer than the minimum of three.</p>
+  <p><strong>Evidence boundary:</strong> The host proposed a classification; the MCP validator verified its supplied quotation and requirement ID, NOT the classification.</p></details>
+<details><summary><strong>E02</strong> — Missed source obligation</summary>
+  <p><strong>Original instruction:</strong> <code>- Explain why interviews are appropriate for the research.</code></p>
+  <p><strong>AI answer:</strong> <code>Interviews were selected because open-ended responses reveal participants' reasoning.</code></p>
+  <p><strong>Observed extraction:</strong> 0 of 1 explicit synthetic imperative line. <strong>Validation:</strong> Not extracted — no semantic validation possible. <strong>Lexical-v1:</strong> needs_review.</p>
+  <p><strong>Host-proposed interpretation:</strong> claimed covered. The answer provides a stated rationale for using interviews, not a verified research method assessment.</p>
+  <p><strong>Evidence boundary:</strong> The connected review preparation omitted this explicit fictional imperative; the semantic validator was not called for it.</p></details>
+<h3>Business deliverables</h3><details><summary><strong>B01</strong> — Missed source obligation</summary>
+  <p><strong>Original instruction:</strong> <code>- Assign an owner to every project milestone.</code></p>
+  <p><strong>AI answer:</strong> <code>Milestone dates are listed, but no owners have been assigned.</code></p>
+  <p><strong>Observed extraction:</strong> 0 of 1 explicit synthetic imperative line. <strong>Validation:</strong> Not extracted — no semantic validation possible. <strong>Lexical-v1:</strong> needs_review.</p>
+  <p><strong>Host-proposed interpretation:</strong> contradicted. The answer expressly says no owners were assigned to the milestones.</p>
+  <p><strong>Evidence boundary:</strong> The connected review preparation omitted this explicit fictional imperative; the semantic validator was not called for it.</p></details>
+<details><summary><strong>B02</strong> — claimed covered</summary>
+  <p><strong>Original instruction:</strong> <code>- Explain how out-of-scope requests require approval.</code></p>
+  <p><strong>AI answer:</strong> <code>Requests beyond the agreed scope need a fresh estimate and written client sign-off.</code></p>
+  <p><strong>Observed extraction:</strong> 1 of 1 explicit synthetic imperative line. <strong>Validation:</strong> Extracted · quote/ID checks completed. <strong>Lexical-v1:</strong> needs_review.</p>
+  <p><strong>Host-proposed interpretation:</strong> claimed covered. The answer describes sign-off for out-of-scope work, without verifying actual process operation.</p>
+  <p><strong>Evidence boundary:</strong> The host proposed a classification; the MCP validator verified its supplied quotation and requirement ID, NOT the classification.</p></details>
+<h3>Coding &amp; technical</h3><details><summary><strong>C01</strong> — Missed source obligation</summary>
+  <p><strong>Original instruction:</strong> <code>- Issue payment receipts for completed payments.</code></p>
+  <p><strong>AI answer:</strong> <code>Payment receipts have not been implemented.</code></p>
+  <p><strong>Observed extraction:</strong> 0 of 1 explicit synthetic imperative line. <strong>Validation:</strong> Not extracted — no semantic validation possible. <strong>Lexical-v1:</strong> needs_review.</p>
+  <p><strong>Host-proposed interpretation:</strong> contradicted. The answer denies receipt implementation, but this test first checks whether the extractor even captures the imperative.</p>
+  <p><strong>Evidence boundary:</strong> The connected review preparation omitted this explicit fictional imperative; the semantic validator was not called for it.</p></details>
+<details><summary><strong>C02</strong> — claimed covered</summary>
+  <p><strong>Original instruction:</strong> <code>- Reject webhook events with invalid signatures.</code></p>
+  <p><strong>AI answer:</strong> <code>Events with invalid signatures are discarded without processing.</code></p>
+  <p><strong>Observed extraction:</strong> 1 of 1 explicit synthetic imperative line. <strong>Validation:</strong> Extracted · quote/ID checks completed. <strong>Lexical-v1:</strong> needs_review.</p>
+  <p><strong>Host-proposed interpretation:</strong> claimed covered. The answer claims invalid webhook events are discarded, but no handler code was executed.</p>
+  <p><strong>Evidence boundary:</strong> The host proposed a classification; the MCP validator verified its supplied quotation and requirement ID, NOT the classification.</p></details>
+<p><strong>Limitations:</strong> all inputs were fictional, selected and written by the project. These are diagnostic demonstrations, not random or sealed held-out evaluations; they do not establish accuracy, legality, fact-checking ability, model superiority or implementation. The actual GitHub Pages deployment has not been changed by this draft PR, and the experimental review-extractor fix remains separately awaiting review.</p>
+</section>
 <section class="benchmark-results" aria-labelledby="live-benchmark-heading"><h2 id="live-benchmark-heading">Latest published synthetic results</h2>
 <p><strong>Author-labelled synthetic scenarios only.</strong> Recall means the percentage of fictional omissions flagged for review; false-alarm rate means the percentage of fictional covered items unnecessarily flagged. These are <strong>not</strong> representative product accuracy rates.</p>
 <p id="benchmark-status" role="status" aria-live="polite">Loading the release-linked synthetic benchmark data. <a href="./synthetic-results.json">Raw JSON is available without JavaScript</a>.</p>
