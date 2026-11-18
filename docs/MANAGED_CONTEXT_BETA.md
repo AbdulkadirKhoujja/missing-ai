@@ -15,6 +15,23 @@ The self-hosted import flow has been verified end to end, but asking everyday Ch
 - `managed-beta/approval.mjs`: optional alternative short-lived RSA-signed, tenant/draft-bound approval proof verifier for non-browser tool writes. It cannot mint a proof; without independent verifier configuration, the save MCP tool is **not advertised at all**. The normal managed beta saves via the authenticated portal, not an AI-controlled flag.
 - `managed-beta/mcp.mjs`: stateless JSON-RPC MCP over POST `/mcp`, `/.well-known/oauth-protected-resource` discovery, scope-bearing per-tool security schemes and OAuth error challenges, with generic errors, no CORS wildcard, 48-KB requests and 60 calls/minute per authenticated tenant **per process**. Read/profile/status/search/list, prepare/cancel and audit are tenant-scoped. The alternative signed-proof save tool is exposed only when an independent signer is configured. Destructive deletion and export actions are restricted to the separately authenticated browser portal, not model-generated tool calls. Tool results include context only for that authenticated user.
 
+### Managed MCP tools
+
+The managed server's tools as defined in `managed-beta/mcp.mjs` (`MANAGED_TOOLS`). Every call needs a verified OAuth access token carrying the listed scope; results are limited to the authenticated tenant. This table describes the prototype only; it is not hosted or enabled.
+
+Tool | Scope | Effect | Exposure
+:--|:--|:--|:--
+`missing_ai_get_profile` | `context:read` | Read-only: stable opaque profile identifier for the account | Always listed
+`missing_ai_context_status` | `context:read` | Read-only: count of the user's saved notes | Always listed
+`missing_ai_search_context` | `context:read` | Read-only: lexical search of the user's approved notes (historical claims are not verified) | Always listed
+`missing_ai_list_context` | `context:read` | Read-only: titles and IDs of the user's notes | Always listed
+`missing_ai_context_audit` | `context:read` | Read-only: content-free import/deletion receipts | Always listed
+`missing_ai_prepare_context_import` | `context:write` | Stores a five-minute encrypted one-use draft and returns its exact notes; no lasting history change | Always listed
+`missing_ai_cancel_context_import` | `context:write` | Discards an uncommitted draft | Always listed
+`missing_ai_save_approved_context` | `context:write` | Commits a draft only with a signed approval proof from the separate portal | Listed only when an independent approval verifier is configured
+
+There is no MCP tool for export, deleting notes or wiping an account; those actions exist only in the separately authenticated browser portal.
+
 ## ChatGPT integration requirements
 
 Use an **established OAuth 2.1 identity provider**. Configure authorization-code + PKCE S256, consent screen, exact redirect URI, issuer identification, and `resource`-audienced short-lived access tokens. The provider must publish discovery metadata compatible with ChatGPT's CIMD or DCR flow. This repository intentionally **does not invent an OAuth issuer or include authentication credentials**. Production HTTPS, user signup, token revocation, account/session management and real host-side confirmation must be independently tested before anyone enables the new service.
