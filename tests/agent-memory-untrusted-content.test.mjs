@@ -199,3 +199,20 @@ test("malformed-line errors stay generic for injection text, control characters,
   assert.equal(text.includes(folder),false);
  }
 });
+test("malformed-line errors cite the physical line number when blank lines come before the bad record",async()=>{
+ const cases=[
+  [["","BLANKMARK not json"],2],
+  [[event("ok1",BENIGN),"","","GAPMARK not json"],4],
+ ];
+ for(const [lines,n] of cases){
+  const {text}=await malformedReply(lines);
+  assert.equal(text,"Event line "+n+" is not valid JSON.");
+  assert.equal(/MARK/.test(text),false);
+ }
+ // Blank lines are still skipped: a file with gaps but only valid records loads every record.
+ await withEvents(["",event("ok1",BENIGN),"",event("ok2",BENIGN)],async store=>{
+  const reply=await dispatchHistoryRpc(store,rpc("missing_ai_history_status"));
+  assert.equal(reply.result.isError,false);
+  assert.equal(JSON.parse(reply.result.content[0].text).message_count,2);
+ });
+});

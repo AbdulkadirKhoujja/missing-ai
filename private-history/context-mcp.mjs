@@ -57,12 +57,13 @@ export function createHistoryStore(dir){
    sources.push("chatgpt-export");
   }
   if(eventFile){
-   const lines=(await safeRead(eventFile,MAX_EVENTS)).split("\n").filter(Boolean);
+   // Blank lines are skipped, but errors cite the physical line number so the owner can find the record.
+   const lines=(await safeRead(eventFile,MAX_EVENTS)).split("\n").flatMap((text,i)=>text?[[i+1,text]]:[]);
    if(lines.length>2000)throw Error("Authorized event file exceeds 2,000 records.");
    const seen=new Set(messages.map(m=>m.id));
-   for(let i=0;i<lines.length;i++){
-    let raw;try{raw=JSON.parse(lines[i]);}catch{throw Error("Event line "+(i+1)+" is not valid JSON.");}
-    const m=cleanEvent(raw,i+1);
+   for(const [lineNumber,text] of lines){
+    let raw;try{raw=JSON.parse(text);}catch{throw Error("Event line "+lineNumber+" is not valid JSON.");}
+    const m=cleanEvent(raw,lineNumber);
     if(!seen.has(m.id)){messages.push(m);seen.add(m.id);}else duplicateIds++;
    }
    sources.push("agent-events");
