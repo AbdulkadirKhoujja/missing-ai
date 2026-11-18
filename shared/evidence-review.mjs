@@ -66,7 +66,7 @@ export function prepareEvidenceReview(sourceText,aiOutput,{source_url=null,linke
       "Do not manufacture evidence, file inspection, external tests or independent verification. Send one assessment per requirement to validate_review.",
       "Quote validation checks text positions only; it cannot verify your semantic judgment."
     ],
-    limitations:"This packet enables semantic reasoning by the host AI, not by Missing AI's server. It does not verify code, facts, compliance or the correctness of a host judgment."
+    limitations:"This packet enables semantic reasoning by the host AI, not by Missing AI's server. It does not verify code, facts, compliance or the correctness of a host judgment. Validation checks only the extracted requirement IDs and exact quotes; whether extraction captured every obligation in the original source is not independently verified."
   };
 }
 

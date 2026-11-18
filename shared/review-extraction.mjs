@@ -11,16 +11,23 @@ const isImperative=text=>imperative.test(text)||issuanceImperative.test(text);
 const footers=/^(?:further reading|related guides|useful resources|additional resources|updates to this page|change history|changelog|references|about this page)$/i;
 const bullet=/^\s*(?:[-*•]\s+|\d{1,3}[.)]\s+|\[[ xX]\]\s*)/;
 const choice=/\b(?:either|one of|any one of|at least one of)\s*:?\s*$/i;
+// A list intro without a modal still introduces obligations when it is an unambiguous command
+// ("Include:", "Support these browsers:") or a requirements heading. Verb-noun headings that are
+// usually descriptive ("Use cases:", "Test results:") deliberately do not qualify.
+const imperativeIntro=new RegExp("^(?:"+imperative.source.slice(4,-3)+")(?:\\s+(?:the\\s+following|following|these|this|all|each|every|both|at\\s+least)\\b[^:]*)?:$","i");
+const requirementHeading=/^(?:(?:functional\s+|non-functional\s+|minimum\s+|key\s+)?requirements|acceptance\s+criteria|deliverables|must[- ]haves?|mandatory(?:\s+items)?)\s*:$/i;
+// Items shorter than this are unreadable on their own ("- a logo"), so they carry their intro.
+const MIN_TEXT=12;
 
 export function extractReviewRequirements(source){
  if(typeof source!=="string"||!source.trim())return [];
  const lines=source.replace(/\r/g,"").split("\n");
  const out=[],seen=new Set();
- let listPolicy=null,groupChoice=null;
+ let listPolicy=null,listIntro="",groupChoice=null;
  const push=(text,line,kind="directive")=>{
   const clean=text.replace(/\s+/g," ").trim();
   const key=normalize(clean);
-  if(clean.length<12||clean.length>550||seen.has(key)||out.length>=80)return;
+  if(clean.length<MIN_TEXT||clean.length>550||seen.has(key)||out.length>=80)return;
   seen.add(key);
   out.push({id:"R"+String(out.length+1).padStart(2,"0"),text:clean,line,kind});
  };
@@ -52,20 +59,22 @@ export function extractReviewRequirements(source){
    if(groupChoice&&groupChoice.gap&&!groupChoice.loose&&groupChoice.variants.length>=2&&(directive.test(content)||isImperative(content)))flushChoice();
    if(groupChoice){if(content){if(groupChoice.gap&&groupChoice.variants.length)groupChoice.loose=true;groupChoice.variants.push(content);groupChoice.gap=false;}continue;}
    if(directive.test(content)||isImperative(content)||listPolicy==="mandatory"){
-    push(content,i+1,"list_item");
+    // Under a mandatory intro a short noun item is still an obligation; never drop it for length.
+    const text=listPolicy==="mandatory"&&content.replace(/\s+/g," ").trim().length<MIN_TEXT?listIntro+" "+content:content;
+    push(text,i+1,"list_item");
    }
    continue;
   }
   flushChoice();
-  listPolicy=null;
+  listPolicy=null;listIntro="";
   // Avoid declaring headings or descriptive resource links to be requirements.
   if(raw.endsWith(":")){
    if(choice.test(raw)&&directive.test(raw)){
     groupChoice={parent:raw,line:i+1,variants:[]};
     continue;
    }
-   if(directive.test(raw)){
-    listPolicy="mandatory";
+   if(directive.test(raw)||imperativeIntro.test(raw)||requirementHeading.test(raw)){
+    listPolicy="mandatory";listIntro=raw;
     // An independent instruction before an explanatory list remains actionable.
     const first=raw.split(/(?<=[.!?])\s+/)[0];
     if(first!==raw&&directive.test(first))push(first,i+1);

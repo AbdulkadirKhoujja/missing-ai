@@ -50,7 +50,7 @@ export function prepareBundleReview(sources,aiOutput){
    "Linked pages are NOT reviewed unless they appear in this packet's explicitly supplied sources.",
    "Validation checks reference completeness and quote authenticity, not semantic accuracy or legal correctness."
   ],
-  limitations:"Duplicate groupings, source obligation strength and semantic classifications are proposed by the host AI and not independently checked."};
+  limitations:"Duplicate groupings, source obligation strength and semantic classifications are proposed by the host AI and not independently checked. Validation checks only the extracted requirement refs and exact quotes; whether extraction captured every obligation in the original sources is not independently verified."};
 }
 function checkEvidence(answer,quotes,label){
  if(!Array.isArray(quotes)||quotes.length>3)throw new Error("Evidence for "+label+" must have 0-3 quotes.");
