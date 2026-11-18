@@ -52,7 +52,9 @@ export function createHistoryStore(dir){
   if(next===signature&&cache)return cache;
   let messages=[],sources=[],duplicateIds=0;
   if(exportFile){
-   const parsed=JSON.parse(await safeRead(exportFile,HISTORY_LIMITS.maxFileBytes));
+   // The raw JSON.parse message quotes the text near the failure, which may be private history; never return it.
+   const exportText=await safeRead(exportFile,HISTORY_LIMITS.maxFileBytes);
+   let parsed;try{parsed=JSON.parse(exportText);}catch{throw Error("conversations.json is not valid JSON.");}
    messages=importChatGPTExport(parsed).messages;
    sources.push("chatgpt-export");
   }
