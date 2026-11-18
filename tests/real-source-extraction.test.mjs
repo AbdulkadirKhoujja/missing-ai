@@ -87,9 +87,23 @@ test("imperative alternatives inside an active choice stay in one choice group",
   assert.equal(list[0].kind,"choice_group");
   assert.match(list[0].text,new RegExp(option));
  }
- // A blank line still ends the choice before a separate imperative requirement.
+ // Re-review finding: loose-list spacing and modal wording inside an option do not split the choice.
+ for(const src of [
+  "You must choose one of:\n- Contact the account owner\n\n- Ask support for help",
+  "You must choose one of:\n\n- Contact the account owner\n\n- Email support\n\n- Ask support for help",
+  "You must choose one of:\n- Contact the account owner\n- You must email support instead"
+ ]){
+  const list=extractReviewRequirements(src);
+  assert.deepEqual(list.map(x=>x.kind),["choice_group"],src);
+ }
+ // Structural end of a tight choice: two or more options, then a blank line, then a new requirement.
  const separated=extractReviewRequirements("You must choose one of:\n- Contact the account owner\n- Email support\n\n- Ask the customer to confirm the change");
  assert.deepEqual(separated.map(x=>x.kind),["choice_group","list_item"]);
+});
+
+test.todo("known ambiguity: a requirement placed directly after a choice list with no blank line is absorbed into the choice",()=>{
+ const list=extractReviewRequirements("You must choose one of:\n- Contact the account owner\n- Email support\n- You must also log every request");
+ assert.deepEqual(list.map(x=>x.kind),["choice_group","directive"]);
 });
 
 test("issuance nouns used as a sentence subject are not extracted",()=>{

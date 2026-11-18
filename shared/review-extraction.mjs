@@ -46,10 +46,11 @@ export function extractReviewRequirements(source){
   }
   if(isBullet){
    const content=raw.replace(bullet,"").trim();
-   // An imperative bullet is itself a plausible alternative ("- Ask support for help"),
-   // so it ends an active choice only after a blank line; explicit modal wording still ends it.
-   if(groupChoice&&groupChoice.variants.length>0&&(directive.test(content)||(groupChoice.gap&&isImperative(content))))flushChoice();
-   if(groupChoice){if(content){groupChoice.variants.push(content);groupChoice.gap=false;}continue;}
+   // An imperative or modal bullet is itself a plausible alternative ("- Ask support for help"),
+   // so it ends an active choice only on structural evidence: at least two alternatives already
+   // listed tightly, then a blank line. Loose lists (blank lines between options) stay one choice.
+   if(groupChoice&&groupChoice.gap&&!groupChoice.loose&&groupChoice.variants.length>=2&&(directive.test(content)||isImperative(content)))flushChoice();
+   if(groupChoice){if(content){if(groupChoice.gap&&groupChoice.variants.length)groupChoice.loose=true;groupChoice.variants.push(content);groupChoice.gap=false;}continue;}
    if(directive.test(content)||isImperative(content)||listPolicy==="mandatory"){
     push(content,i+1,"list_item");
    }
