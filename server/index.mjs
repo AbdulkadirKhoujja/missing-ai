@@ -10,7 +10,7 @@ const PORT=Number(process.env.PORT||3000);
 const allowed=new Set(["https://abdulkadirkhoujja.github.io","https://chatgpt.com","https://claude.ai","http://localhost:3000","http://127.0.0.1:3000",...String(process.env.ALLOWED_ORIGINS||"").split(",").map(s=>s.trim()).filter(Boolean)]);
 const rates=new Map();
 function json(res,status,value,headers={}){res.writeHead(status,{"content-type":"application/json; charset=utf-8","cache-control":"no-store",...headers});res.end(JSON.stringify(value));}
-function readBody(req){return new Promise((resolve,reject)=>{let bytes=0,parts=[];req.on("data",d=>{bytes+=d.length;if(bytes>100000){reject(new Error("Request too large."));req.destroy();return;}parts.push(d);});req.on("end",()=>{try{resolve(JSON.parse(Buffer.concat(parts).toString("utf8")))}catch{reject(new Error("Invalid JSON."));}});req.on("error",reject);});}
+function readBody(req){return new Promise((resolve,reject)=>{let bytes=0,parts=[];req.on("data",d=>{bytes+=d.length;if(bytes>100000){reject(new Error("Request too large."));req.destroy();return;}parts.push(d);});req.on("end",()=>{try{resolve(JSON.parse(Buffer.concat(parts).toString("utf8")))}catch{reject(Object.assign(new Error("Invalid JSON."),{parseError:true}));}});req.on("error",reject);});}
 // Only the loopback-bound Caddy upstream is trusted for client identity.
 // The Caddy vhost explicitly OVERRIDES X-Forwarded-For with {remote_host}.
 export function clientId(req) {
@@ -78,7 +78,13 @@ export function createHandler(){
    if(!["/api/check","/api/fetch","/mcp"].includes(path)){json(res,404,{error:"Not found."});return;}
    if(req.method!=="POST"){json(res,405,{error:"POST required."});return;}
    if(limited(req)){json(res,429,{error:"Rate limit reached. Try again later."});return;}
-   let body;try{body=await readBody(req);}catch(e){if(!res.destroyed)json(res,400,{error:e.message});return;}
+   let body;try{body=await readBody(req);}catch(e){
+     if(res.destroyed)return;
+     // JSON-RPC 2.0: a body that is not valid JSON gets a Parse error (-32700) with id null.
+     // Only /mcp speaks JSON-RPC; /api/check and /api/fetch keep their plain error shape.
+     if(path==="/mcp"&&e.parseError){json(res,400,mcpErr(null,-32700,"Parse error."));return;}
+     json(res,400,{error:e.message});return;
+   }
    try {
      if(path==="/api/fetch"){const v=await fetchPublicSource(body.url);json(res,200,{ok:true,...v});return;}
      if(path==="/api/check"){
