@@ -79,6 +79,28 @@ test("alternatives stay a single obligation",()=>{
  assert.match(list[0].text,/the app/);
 });
 
+test("imperative alternatives inside an active choice stay in one choice group",()=>{
+ // Review finding on #46: newly recognised verbs must not split a choice into separate obligations.
+ for(const option of ["Ask support for help","Send a support ticket","Issue a refund to the customer"]){
+  const list=extractReviewRequirements("You must choose one of:\n- Contact the account owner\n- "+option);
+  assert.equal(list.length,1,option);
+  assert.equal(list[0].kind,"choice_group");
+  assert.match(list[0].text,new RegExp(option));
+ }
+ // A blank line still ends the choice before a separate imperative requirement.
+ const separated=extractReviewRequirements("You must choose one of:\n- Contact the account owner\n- Email support\n\n- Ask the customer to confirm the change");
+ assert.deepEqual(separated.map(x=>x.kind),["choice_group","list_item"]);
+});
+
+test("issuance nouns used as a sentence subject are not extracted",()=>{
+ assert.deepEqual(extractReviewRequirements("- Issue receipts are stored in the archive.\n- Issue certificates were reprinted last year."),[]);
+ assert.equal(extractReviewRequirements("- Issue receipts for every completed order.").length,1);
+});
+
+test.todo("known false positive: a leading 'Ask' used as a noun ('Ask prices fell yesterday.') is still extracted",()=>{
+ assert.deepEqual(extractReviewRequirements("Ask prices fell yesterday."),[]);
+});
+
 test("document-issuance imperatives are extracted without 'must', but issue metadata stays contextual",()=>{
  const src=[
   "- Issue payment receipts for completed payments.",
